@@ -7,19 +7,19 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { BillComponent, DishComponent, FooterComponent } from '../../components';
 import { useCallback, useEffect, useState } from 'react';
 import { instance } from '../../axios/instanse';
-import { getRestaurant, selectRestaurant } from '../../store/slices/restaurant/restaurant.slice';
+import { getMenu, selectRestaurant } from '../../store/slices/menu/menu.slice';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
 
 export const CartPage = () => {
   const cartItems = useAppSelector(selectCartItems);
-  const { restaurant } = useAppSelector(selectRestaurant);
+  const { menu: restaurant } = useAppSelector(selectRestaurant);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [responseData, setResponseData] = useState<null | IBill>(null);
 
   useEffect(() => {
-    dispatch(getRestaurant('1'))
+    dispatch(getMenu({cafeId: '1'}))
   }, [dispatch]);
     
   const handleOrder = async () => {

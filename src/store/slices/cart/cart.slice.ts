@@ -27,7 +27,7 @@ export const cartSlice = createSlice({
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
     increaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish }>) => {
-      const item = state.cartItems?.find((item) => item.dish.name === action.payload.dish.name);
+      const item = state.cartItems?.find((item) => item.dish.id === action.payload.dish.id);
 
       if (item) {
         item.quantity = item.quantity + 1;
@@ -39,12 +39,12 @@ export const cartSlice = createSlice({
 
     },
     decreaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish }>) => {
-      const item = state.cartItems?.find((item) => item.dish.name === action.payload.dish.name);
+      const item = state.cartItems?.find((item) => item.dish.id === action.payload.dish.id);
 
       if (item) {
         if (item.quantity === 1) {
           state.cartItems =
-            state.cartItems?.filter((item) => item.dish.name !== action.payload.dish.name);
+            state.cartItems?.filter((item) => item.dish.id !== action.payload.dish.id);
         } else {
           item.quantity = item.quantity - 1;
         }

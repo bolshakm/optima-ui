@@ -5,15 +5,15 @@ import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
-import { selectRestaurant } from '../../store/slices/restaurant/restaurant.slice';
-import Person4Icon from '@mui/icons-material/Person4';
+import EmojiPeople from '@mui/icons-material/EmojiPeople';
 import { instance } from '../../axios/instanse';
 import { useState } from 'react';
+import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 
 export const HeaderComponent = () => {
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
-  const { restaurant } = useAppSelector(selectRestaurant);
+  const { cafe } = useAppSelector(selectCafe);
   const IsCartEmpty = cartItems.length === 0;
   const [isCallToWaiter, setIsCallTowaiter] = useState(false);
 
@@ -34,10 +34,10 @@ export const HeaderComponent = () => {
   return (
     <Paper sx={{ py: 1, px: 2 }}>
       <Grid container justifyContent='space-between' alignItems='center'>
-        <Typography variant='h5' fontWeight={900}>{restaurant?.name}</Typography>
+        <Typography variant='h5' fontWeight={900}>{cafe?.name}</Typography>
         <Box>
           <IconButton disabled={isCallToWaiter} onClick={handleCallTowaiter}>
-            <Person4Icon
+            <EmojiPeople
               color={isCallToWaiter ? 'success' : 'inherit'}
               sx={{ width: 35, height: 35 }}
             />

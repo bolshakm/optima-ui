@@ -1,7 +1,7 @@
 import { Box, Button, Grid } from '@mui/material';
 import { FooterComponent, HeaderComponent } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
-import { getRestaurant } from '../../store/slices/restaurant/restaurant.slice'
+import { getMenu } from '../../store/slices/menu/menu.slice'
 import { useEffect } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
@@ -14,7 +14,7 @@ export const MenuPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getRestaurant('1'))
+    dispatch(getMenu({cafeId: '1'}))
   }, [dispatch]);
 
   const handleNavigateToCart = () => {

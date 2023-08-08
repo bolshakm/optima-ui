@@ -6,12 +6,12 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { instance } from '../../axios/instanse';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectRestaurant } from '../../store/slices/restaurant/restaurant.slice';
+import { selectRestaurant } from '../../store/slices/menu/menu.slice';
 import { useState } from 'react';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
-  const { restaurant } = useAppSelector(selectRestaurant);
+  const { menu: restaurant } = useAppSelector(selectRestaurant);
   const [error, setError] = useState(false);
 
   const handleChoosePaymentMethod = async (key: string) => {

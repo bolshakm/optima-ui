@@ -4,35 +4,40 @@ import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
 import { API_KEYS } from '../../../common/constants';
 
-export interface IRestaurantState {
-  restaurant: IRestaurant | null;
+export interface IMenuState {
+  menu: IRestaurant | null;
   status: LoadingStatus;
 }
 
-const initialState: IRestaurantState = {
-  restaurant: null,
+const initialState: IMenuState = {
+  menu: null,
   status: LoadingStatus.idle
 };
 
-export const getRestaurant = createAsyncThunk('restaurant/getRestaurant', async (table: string = '1') => {
-  const { data } = await instance.get(`${API_KEYS.RESTAURANT}/${table}`);
+interface IGetMenuRequest {
+  cafeId?: string;
+  table?: string;
+}
+
+export const getMenu = createAsyncThunk('menu/getMenu', async ({cafeId = '1', table = '23'}: IGetMenuRequest) => {
+  const { data } = await instance.get(`${API_KEYS.MENU}/${cafeId}/${table}`);
 
   return data;
 });
 
-export const restaurantSlice = createSlice({
-  name: 'restaurant',
+export const menuSlice = createSlice({
+  name: 'menu',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getRestaurant.pending, (state) => {
+    builder.addCase(getMenu.pending, (state) => {
       state.status = LoadingStatus.loading;
     })
-    builder.addCase(getRestaurant.fulfilled, (state, action) => {
+    builder.addCase(getMenu.fulfilled, (state, action) => {
       state.status = LoadingStatus.success;
-      state.restaurant = action.payload;
+      state.menu = action.payload;
     })
-    builder.addCase(getRestaurant.rejected, (state) => {
+    builder.addCase(getMenu.rejected, (state) => {
       state.status = LoadingStatus.failed;
     })
   }
@@ -40,4 +45,4 @@ export const restaurantSlice = createSlice({
 
 export const selectRestaurant = (state: RootState) => state.restaurant;
 
-export default restaurantSlice.reducer;
+export default menuSlice.reducer;

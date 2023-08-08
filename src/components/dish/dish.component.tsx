@@ -12,7 +12,7 @@ interface IProps {
 
 export const DishComponent: React.FC<IProps> = memo(({ dish }) => {
   const cartItems = useAppSelector(selectCartItems);
-  const isDishAddedToCart = cartItems.some((item) => item.dish.name === dish.name);
+  const isDishAddedToCart = cartItems.some((item) => item.dish.id === dish.id);
 
   return (
     <Paper sx={{ py: 1, px: 1.5, backgroundColor: isDishAddedToCart ? COLORS.LIGHT_GRAY : COLORS.WHITE }}>
