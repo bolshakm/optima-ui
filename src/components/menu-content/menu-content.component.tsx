@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Grid } from '@mui/material';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectRestaurant } from '../../store/slices/restaurant/restaurant.slice';
+import { selectRestaurant } from '../../store/slices/menu/menu.slice';
 import { LoadingStatus } from '../../types';
 import { CategoryItemComponent, ErrorComponent } from '..';
 
 export const MenuContentComponent = () => {
-  const { restaurant, status } = useAppSelector(selectRestaurant);
+  const { menu: restaurant, status } = useAppSelector(selectRestaurant);
 
   if (status === LoadingStatus.failed) {
     return <ErrorComponent title='Problem with fetching data' />

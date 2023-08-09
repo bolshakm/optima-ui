@@ -5,20 +5,22 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { instance } from '../../axios/instanse';
-import { useAppSelector } from '../../store/app/hooks';
-import { selectRestaurant } from '../../store/slices/restaurant/restaurant.slice';
 import { useState } from 'react';
+import { MOCK } from '../../common/mockData';
+import { useAppDispatch } from '../../store/app/hooks';
+import { removeBill } from '../../store/slices/cart/cart.slice';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
-  const { restaurant } = useAppSelector(selectRestaurant);
   const [error, setError] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleChoosePaymentMethod = async (key: string) => {
     setError(false);
-    const res = await instance.get(`${API_KEYS.BILL}/${restaurant?.tableNumber}?type=${key}`);
+    const res = await instance.get(`${API_KEYS.BILL}/${MOCK.cafeNum}/${MOCK.tableNum}/?type=${key}`);
 
     if (res.status === 200) {
+      dispatch(removeBill());
       navigate(ROUTER_KEYS.SUCCESS_BILL);
     } else {
       setError(true);
