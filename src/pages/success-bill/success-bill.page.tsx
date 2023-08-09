@@ -2,9 +2,20 @@ import { Grid, Paper, Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useEffect } from 'react';
 
 export const SuccessBillPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      navigate(ROUTER_KEYS.MENU)
+    }, 4000);
+
+    return () => {
+      clearTimeout(timerId);
+    }
+  }, [navigate])
 
   return (
     <Grid container sx={{ height: '100%', minHeight: 'calc(100vh - 16px)', flexDirection: 'column' }}>

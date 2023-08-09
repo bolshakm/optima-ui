@@ -8,14 +8,18 @@ import { selectCartItems } from '../../store/slices/cart/cart.slice';
 
 interface IProps {
   dish: IDish;
+  readonly?: boolean;
+  count?: number;
 }
 
-export const DishComponent: React.FC<IProps> = memo(({ dish }) => {
+export const DishComponent: React.FC<IProps> = memo(({ dish, readonly = false, count }) => {
   const cartItems = useAppSelector(selectCartItems);
   const isDishAddedToCart = cartItems.some((item) => item.dish.id === dish.id);
 
+  const color = isDishAddedToCart || readonly ? COLORS.LIGHT_GRAY : COLORS.WHITE;
+
   return (
-    <Paper sx={{ py: 1, px: 1.5, backgroundColor: isDishAddedToCart ? COLORS.LIGHT_GRAY : COLORS.WHITE }}>
+    <Paper sx={{ py: 1, px: 1.5, backgroundColor: color }}>
       <Grid container justifyContent='space-between' alignItems='center' spacing={1}>
         <Grid item xs={7}>
           <Grid container flexDirection='column'>
@@ -25,9 +29,13 @@ export const DishComponent: React.FC<IProps> = memo(({ dish }) => {
           </Grid>
         </Grid>
         <Grid item xs={5}>
-          <Grid container justifyContent='flex-end'>
+          {readonly ? (
+            <Grid container justifyContent='flex-end'>
+              <Typography variant='h6' sx={{ color: COLORS.ORANGE }}>x{count}</Typography>
+            </Grid>
+          ) : (<Grid container justifyContent='flex-end'>
             <CounterComponent dish={dish} />
-          </Grid>
+          </Grid>)}
         </Grid>
       </Grid>
     </Paper>

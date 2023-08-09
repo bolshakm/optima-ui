@@ -12,13 +12,13 @@ export const FooterComponent = () => {
   return (
   <Paper sx={{ p: 2 }}>
     <Grid container spacing={3}>
-      <Grid item xs={12} md={6} lg={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Grid container flexDirection='column' gap={1}>
           <Typography fontWeight={700}>Our adress</Typography>
           <Typography fontWeight={500}>{cafe?.address}</Typography>{}
         </Grid>
       </Grid>
-      <Grid item xs={12} md={6} lg={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Grid container flexDirection='column' gap={1}>
           <Typography fontWeight={700}>Working hours</Typography>
           {cafe && (
@@ -31,7 +31,7 @@ export const FooterComponent = () => {
           )}
         </Grid>
       </Grid>
-      <Grid item xs={12} md={6} lg={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Grid container flexDirection='column' gap={1}>
           <Typography fontWeight={700}>We are on social network</Typography>
           <Link to={cafe?.facebook || '/'} style={{ color: 'inherit', textDecoration: 'none' }}>

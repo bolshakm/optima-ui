@@ -1,40 +1,38 @@
-import { Grid, Paper, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import React, { memo } from 'react';
 import { IBill } from '../../types';
-import { COLORS } from '../../theme/colors';
+import { DishComponent } from '../dish/dish.component';
 
 interface IProps {
-  data: IBill;
-  clearCartAndNavigate: () => void;
+  bill: IBill;
 }
 
-export const BillComponent: React.FC<IProps> = memo(({ data, clearCartAndNavigate }) => {
+export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
   return (
-    <Grid 
-      container
-      sx={{ height: '100vh', alignItems: 'center' }}
-      onClick={clearCartAndNavigate}
-    >
-      <Paper sx={{ px: 3, py: 2, width: '100%', backgroundColor: COLORS.LIGHT_GRAY }}>
-        <Grid container alignItems='center' flexDirection='column' gap={2}>
-          <Typography variant='h4' fontWeight={700} mb={2} >Bill</Typography>
-          {data.orderedDish.map((item) => (
-            <Grid item key={item.dish.id + item.dish.name} width='100%'>
-              <Grid container justifyContent='space-between' width='100%'>
-                <Typography fontWeight={700}>{item.dish.name}</Typography>
-                <Typography fontWeight={700} sx={{ color: COLORS.ORANGE }}>x{item.quantity}</Typography>
-              </Grid>
+    <Box sx={{ mb: 3, flexGrow: 1 }}>
+        <Typography 
+          variant='h5'
+          sx={{ mb: 1, ml: 2, fontWeight: 700, }} 
+        >
+          Your order
+        </Typography>
+        <Grid container flexDirection="column" gap={1} mb={2}>
+          {bill.orderedDish.map((item) => (
+            <Grid key={item.dish.id} item sx={{ height: 'max-content' }}>
+              <DishComponent dish={item.dish} readonly={true} count={item.quantity}/>
             </Grid>
-          )
-          )}
-          <Typography variant='h6' sx={{ alignSelf: 'flex-end', fontWeight: 700 }}>
-            Total count:
-            <Typography variant='h6' sx={{ color: COLORS.ORANGE, display: 'inline-block', ml: 2, fontWeight: 700 }}>
-              {data.totalSum}UAH
-            </Typography>
-          </Typography>
+          ))}
         </Grid>
-      </Paper>
-    </Grid>
+        <Grid container sx={{ justifyContent: 'flex-end'}}>
+        <Typography 
+          variant='h5' 
+          mb={2}
+          mr={2} 
+          fontWeight={700}
+        >
+          Total sum: {bill.totalSum}UAH
+        </Typography>
+        </Grid>
+      </Box>
   )
 })
