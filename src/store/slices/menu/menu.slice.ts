@@ -3,6 +3,7 @@ import { IRestaurant, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
 import { API_KEYS } from '../../../common/constants';
+import { generateParams } from '../../../utils/generateParams';
 
 export interface IMenuState {
   menu: IRestaurant | null;
@@ -15,12 +16,13 @@ const initialState: IMenuState = {
 };
 
 interface IGetMenuRequest {
-  cafeId?: string;
-  table?: string;
+  cafeId: string;
+  tableId: string;
 }
 
-export const getMenu = createAsyncThunk('menu/getMenu', async ({cafeId = '1', table = '23'}: IGetMenuRequest) => {
-  const { data } = await instance.get(`${API_KEYS.MENU}/${cafeId}/${table}`);
+export const getMenu = createAsyncThunk('menu/getMenu', async ({cafeId, tableId}: IGetMenuRequest) => {
+  const { data } 
+    = await instance.get(`${API_KEYS.MENU}/${cafeId}/${tableId}${generateParams(cafeId, tableId)}`);
 
   return data;
 });

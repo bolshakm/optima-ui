@@ -1,4 +1,4 @@
 export const MOCK = {
-  tableNum: 23,
-  cafeNum: 1,
+  tableId: '23',
+  cafeId: '1',
 } 

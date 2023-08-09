@@ -11,6 +11,7 @@ import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
 import { getCafe } from '../../store/slices/cafe/cafe.slice';
 import { MOCK } from '../../common/mockData';
+import { generateParams } from '../../utils/generateParams';
 
 export const CartPage = () => {
   const cartItems = useAppSelector(selectCartItems);
@@ -18,13 +19,17 @@ export const CartPage = () => {
   const navigate = useNavigate();
   const bill = useAppSelector(selectBill);
 
+  const cafe = MOCK.cafeId;
+  const table = MOCK.tableId;
+
   useEffect(() => {
-    dispatch(getCafe({cafeId: '1'}))
-  }, [dispatch]);
+    dispatch(getCafe({cafeId: cafe}))
+  }, [dispatch, cafe]);
     
   const handleOrder = async () => {
     const modifiedData = modifyData(cartItems, 1)
-    const { data } = await instance.post<IBill>(`${API_KEYS.ORDER}/${MOCK.cafeNum}/${MOCK.tableNum}`, modifiedData);
+    const { data } 
+      = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafe}/${table}${generateParams(cafe, table)}`, modifiedData);
 
     dispatch(updateBill(data));
     dispatch(clearCart())

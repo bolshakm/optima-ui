@@ -9,15 +9,19 @@ import { useState } from 'react';
 import { MOCK } from '../../common/mockData';
 import { useAppDispatch } from '../../store/app/hooks';
 import { removeBill } from '../../store/slices/cart/cart.slice';
+import { generateParams } from '../../utils/generateParams';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
 
+  const { tableId: tableNum, cafeId: cafeNum } = MOCK;
+
   const handleChoosePaymentMethod = async (key: string) => {
     setError(false);
-    const res = await instance.get(`${API_KEYS.BILL}/${MOCK.cafeNum}/${MOCK.tableNum}/?type=${key}`);
+    const res 
+      = await instance.get(`${API_KEYS.BILL}/${cafeNum}/${tableNum}/${generateParams(cafeNum, tableNum)}&type=${key}`);
 
     if (res.status === 200) {
       dispatch(removeBill());

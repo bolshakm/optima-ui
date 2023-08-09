@@ -18,7 +18,7 @@ interface IGetCafeRequest {
   cafeId: string;
 }
 
-export const getCafe = createAsyncThunk('cafe/getCafe', async ({cafeId = '1'}: IGetCafeRequest) => {
+export const getCafe = createAsyncThunk('cafe/getCafe', async ({cafeId}: IGetCafeRequest) => {
   const { data } = await instance.get(`${API_KEYS.CAFE}/${cafeId}`);
 
   return data;

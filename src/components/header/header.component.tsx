@@ -10,6 +10,8 @@ import { instance } from '../../axios/instanse';
 import { useState } from 'react';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { COLORS } from '../../theme/colors';
+import { MOCK } from '../../common/mockData';
+import { generateParams } from '../../utils/generateParams';
 
 export const HeaderComponent = () => {
   const navigate = useNavigate();
@@ -23,14 +25,19 @@ export const HeaderComponent = () => {
     navigate(ROUTER_KEYS.CART)
   }
 
-  const handleCallTowaiter = async () => {
-    const { status } = await instance.get(API_KEYS.WAITER);
+  const { tableId, cafeId } = MOCK;
 
-    if (status === 200) {
-      setIsCallTowaiter(true);
-    } else {
-      console.error('Such functionality isn\'t exist');
+  const handleCallTowaiter = async () => {
+    try {
+      const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}/${generateParams(cafeId, tableId)}`);
+
+      if (status === 200) {
+        setIsCallTowaiter(true);
+      } 
+    } catch (err) {
+      console.error(err);
     }
+    
   }
 
   return (

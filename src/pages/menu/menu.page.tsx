@@ -7,14 +7,17 @@ import { MenuContentComponent } from '../../components/menu-content/menu-content
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
+import { MOCK } from '../../common/mockData';
 
 export const MenuPage = () => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
   const navigate = useNavigate();
 
+  const { cafeId, tableId } = MOCK;
+
   useEffect(() => {
-    dispatch(getMenu({cafeId: '1'}))
+    dispatch(getMenu({cafeId, tableId}))
   }, [dispatch]);
 
   const handleNavigateToCart = () => {
