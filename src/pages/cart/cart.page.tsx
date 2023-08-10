@@ -1,4 +1,4 @@
-import { Grid, Paper, Box, Button, Typography } from '@mui/material';
+import { Grid, Paper, Box, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { clearCart, selectBill, selectCartItems, updateBill } from '../../store/slices/cart/cart.slice';
 import { useNavigate } from 'react-router-dom';
@@ -9,27 +9,23 @@ import { useEffect } from 'react';
 import { instance } from '../../axios/instanse';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
-import { getCafe } from '../../store/slices/cafe/cafe.slice';
-import { MOCK } from '../../common/mockData';
-import { generateParams } from '../../utils/generateParams';
+import { getCafe, selectCafe } from '../../store/slices/cafe/cafe.slice';
 
 export const CartPage = () => {
   const cartItems = useAppSelector(selectCartItems);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const bill = useAppSelector(selectBill);
-
-  const cafe = MOCK.cafeId;
-  const table = MOCK.tableId;
+  const { cafeId, tableId } = useAppSelector(selectCafe);
 
   useEffect(() => {
-    dispatch(getCafe({cafeId: cafe}))
-  }, [dispatch, cafe]);
+    dispatch(getCafe({cafeId}))
+  }, [dispatch, cafeId]);
     
   const handleOrder = async () => {
     const modifiedData = modifyData(cartItems, 1)
     const { data } 
-      = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafe}/${table}${generateParams(cafe, table)}`, modifiedData);
+      = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafeId}/${tableId}`, modifiedData);
 
     dispatch(updateBill(data));
     dispatch(clearCart())
@@ -37,7 +33,7 @@ export const CartPage = () => {
 
   useEffect(() => {
     if (!cartItems.length && !bill.totalSum) {
-      navigate(ROUTER_KEYS.HOME)
+      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
     }
   }, [cartItems.length, navigate, bill.totalSum]);
 
@@ -47,7 +43,7 @@ export const CartPage = () => {
       <Button
         variant='text'
         color='inherit'
-        onClick={() => navigate(ROUTER_KEYS.MENU)}
+        onClick={() => navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)}
       >
         <ArrowBackIosIcon color='inherit'/> Back to menu
       </Button>

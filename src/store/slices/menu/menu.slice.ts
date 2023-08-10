@@ -22,7 +22,7 @@ interface IGetMenuRequest {
 
 export const getMenu = createAsyncThunk('menu/getMenu', async ({cafeId, tableId}: IGetMenuRequest) => {
   const { data } 
-    = await instance.get(`${API_KEYS.MENU}/${cafeId}/${tableId}${generateParams(cafeId, tableId)}`);
+    = await instance.get(`${API_KEYS.MENU}/${cafeId}/${tableId}`);
 
   return data;
 });

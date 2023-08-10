@@ -5,20 +5,22 @@ import { getMenu } from '../../store/slices/menu/menu.slice'
 import { useEffect } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
-import { MOCK } from '../../common/mockData';
+import { getCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
 
 export const MenuPage = () => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
   const navigate = useNavigate();
-
-  const { cafeId, tableId } = MOCK;
+  const { cafeId = "1", tableId = "1" } = useParams();
 
   useEffect(() => {
-    dispatch(getMenu({cafeId, tableId}))
-  }, [dispatch]);
+    dispatch(setCafeId(cafeId));
+    dispatch(setTableId(tableId));
+    dispatch(getCafe({cafeId}));
+    dispatch(getMenu({cafeId, tableId}));
+  }, [dispatch, cafeId, tableId]);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)

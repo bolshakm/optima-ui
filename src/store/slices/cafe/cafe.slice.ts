@@ -1,15 +1,19 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ICafe, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
-import { API_KEYS } from '../../../common/constants';
+import { API_KEYS, STORAGE_KEYS } from '../../../common/constants';
 
 export interface ICafeState {
+  cafeId: string;
+  tableId: string;
   cafe: ICafe | null;
   status: LoadingStatus;
 }
 
 const initialState: ICafeState = {
+  cafeId: sessionStorage.getItem(STORAGE_KEYS.CAFE) || "",
+  tableId: sessionStorage.getItem(STORAGE_KEYS.TABLE) || "",
   cafe: null,
   status: LoadingStatus.idle
 };
@@ -27,7 +31,14 @@ export const getCafe = createAsyncThunk('cafe/getCafe', async ({cafeId}: IGetCaf
 export const menuSlice = createSlice({
   name: 'cafe',
   initialState,
-  reducers: {},
+  reducers: {
+    setCafeId: (state: ICafeState, action: PayloadAction<string>) => {
+      state.cafeId = action.payload;
+    },
+    setTableId: (state: ICafeState, action: PayloadAction<string>) => {
+      state.tableId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCafe.pending, (state) => {
       state.status = LoadingStatus.loading;
@@ -43,5 +54,5 @@ export const menuSlice = createSlice({
 });
 
 export const selectCafe = (state: RootState) => state.cafe;
-
+export const { setCafeId, setTableId } = menuSlice.actions;
 export default menuSlice.reducer;

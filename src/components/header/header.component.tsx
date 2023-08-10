@@ -10,8 +10,6 @@ import { instance } from '../../axios/instanse';
 import { useState } from 'react';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { COLORS } from '../../theme/colors';
-import { MOCK } from '../../common/mockData';
-import { generateParams } from '../../utils/generateParams';
 
 export const HeaderComponent = () => {
   const navigate = useNavigate();
@@ -20,16 +18,15 @@ export const HeaderComponent = () => {
   const { cafe } = useAppSelector(selectCafe);
   const IsCartEmpty = cartItems.length === 0;
   const [isCallToWaiter, setIsCallTowaiter] = useState(false);
+  const { cafeId, tableId } = useAppSelector(selectCafe);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)
   }
 
-  const { tableId, cafeId } = MOCK;
-
   const handleCallTowaiter = async () => {
     try {
-      const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}/${generateParams(cafeId, tableId)}`);
+      const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}`);
 
       if (status === 200) {
         setIsCallTowaiter(true);
@@ -45,11 +42,22 @@ export const HeaderComponent = () => {
       <Grid container justifyContent='space-between' alignItems='center'>
         <Typography sx={{ color: COLORS.ORANGE }} variant='h5' fontWeight={900}>{cafe?.name}</Typography>
         <Box>
-          <IconButton disabled={isCallToWaiter} onClick={handleCallTowaiter}>
+          <IconButton disabled={isCallToWaiter} onClick={handleCallTowaiter} sx={{ position: 'relative' }}>
             <EmojiPeople
               color={isCallToWaiter ? 'success' : 'inherit'}
               sx={{ width: [30, 35], height: [30, 35] }}
             />
+            <Typography
+              fontSize={10}
+              fontWeight={700}
+              position='absolute'
+              bottom='-5px'
+              left='50%'
+              width='max-content'
+              sx={{ transform: 'translateX(-50%)' }}
+            >
+              Call waiter
+            </Typography>
           </IconButton>
           <IconButton disabled={IsCartEmpty && !bill.totalSum} onClick={handleNavigateToCart}>
             <Badge variant='dot' invisible={IsCartEmpty} color='error'>

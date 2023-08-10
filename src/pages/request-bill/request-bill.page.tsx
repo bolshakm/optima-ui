@@ -6,22 +6,20 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { instance } from '../../axios/instanse';
 import { useState } from 'react';
-import { MOCK } from '../../common/mockData';
-import { useAppDispatch } from '../../store/app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { removeBill } from '../../store/slices/cart/cart.slice';
-import { generateParams } from '../../utils/generateParams';
+import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
-
-  const { tableId: tableNum, cafeId: cafeNum } = MOCK;
+  const { cafeId, tableId } = useAppSelector(selectCafe);
 
   const handleChoosePaymentMethod = async (key: string) => {
     setError(false);
     const res 
-      = await instance.get(`${API_KEYS.BILL}/${cafeNum}/${tableNum}/${generateParams(cafeNum, tableNum)}&type=${key}`);
+      = await instance.get(`${API_KEYS.BILL}/${cafeId}/${tableId}/?type=${key}`);
 
     if (res.status === 200) {
       dispatch(removeBill());

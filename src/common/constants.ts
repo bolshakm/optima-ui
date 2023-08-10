@@ -17,6 +17,8 @@ export const API_KEYS = {
 };
 
 export const STORAGE_KEYS = {
-  CART: "optima-cart",
-  BILL: "optima-bill",
+  CART: 'optima-cart',
+  BILL: 'optima-bill',
+  CAFE: 'optima-cafe',
+  TABLE: 'optima-table',
 };

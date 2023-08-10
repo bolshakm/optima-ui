@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect } from 'react';
+import { selectCafe } from '../../store/slices/cafe/cafe.slice';
+import { useAppSelector } from '../../store/app/hooks';
 
 export const SuccessBillPage = () => {
   const navigate = useNavigate();
+  const { cafeId, tableId } = useAppSelector(selectCafe);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      navigate(ROUTER_KEYS.MENU)
+      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
     }, 4000);
 
     return () => {
@@ -23,7 +26,7 @@ export const SuccessBillPage = () => {
       <Button
         variant='text'
         color='inherit'
-        onClick={() => navigate(ROUTER_KEYS.MENU)}
+        onClick={() => navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)}
       >
         <ArrowBackIosIcon color='inherit'/> Back to menu
       </Button>
