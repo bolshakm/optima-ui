@@ -1,0 +1,94 @@
+.header {
+  width: 100%;
+  margin-bottom: 24px;
+  background-color: #F5F5F5;
+  border-bottom: 1px solid #64616166;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 16px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.content {
+  height: 46px;
+  position: sticky;
+  top: 0;
+}
+
+.companyName {
+  color: #010101;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.circle {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 18px; 
+  height: 18px; 
+  border-radius: 50%;
+  background-color: rgba(47, 194, 141, 0.50); 
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+.text {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 8px;
+  font-weight: 400;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  position: relative;
+  margin-bottom: 6.5px;
+}
+
+.backButton button {
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.backButton button svg {
+  height: 12px;
+}

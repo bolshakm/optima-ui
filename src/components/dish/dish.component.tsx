@@ -1,43 +1,64 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { IDish } from '../../types'
-import { Grid, Paper, Typography } from '@mui/material';
-import { COLORS } from '../../theme/colors';
+import { Grid } from '@mui/material';
 import { CounterComponent } from '../counter/counter.component';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
+import styles from './style.module.css';
+import { DedscriptionComponent } from './description.component';
+import { PriceComponent } from './price.component';
 
 interface IProps {
   dish: IDish;
   readonly?: boolean;
   count?: number;
+  volumeId?: number;
+  isCartItem?: boolean;
+  isBillItem?: boolean;
 }
 
-export const DishComponent: React.FC<IProps> = memo(({ dish, readonly = false, count }) => {
+export const DishComponent: React.FC<IProps> = memo(({ 
+  dish, 
+  readonly = false, 
+  count, 
+  volumeId, 
+  isCartItem = false 
+}) => {
   const cartItems = useAppSelector(selectCartItems);
-  const isDishAddedToCart = cartItems.some((item) => item.dish.id === dish.id);
+  const [choosenVolumeId, setChoosenVolumeId] = useState(volumeId || dish.dishVolumesAndPrice[0].id);
 
-  const color = isDishAddedToCart || readonly ? COLORS.LIGHT_GRAY : COLORS.WHITE;
+  const isDishAddedToCart = cartItems.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
+
+  const changeVolumeId = (id: number) => {
+    setChoosenVolumeId(id)
+  }
 
   return (
-    <Paper sx={{ py: 1, px: 1.5, backgroundColor: color }}>
-      <Grid container justifyContent='space-between' alignItems='center' spacing={1}>
-        <Grid item xs={7}>
+    <div className={`${styles.dish} ${isDishAddedToCart ? styles.checked : ''}`}>
+      <div className={styles.content}>
+        <Grid item xs={8}>
           <Grid container flexDirection='column'>
-            <Typography variant='h6' sx={{ fontWeight: 700 }}>{dish.name}</Typography>
-            <Typography variant='h6' sx={{ color: COLORS.ORANGE, fontWeight: 600 }}>{dish.price}UAH</Typography>
-            <Typography>{dish.description}</Typography>
+            <h5 className={styles.name}>{dish.name}</h5>
+            <DedscriptionComponent text={dish.description} />
+            <PriceComponent
+              volumeId={choosenVolumeId} 
+              setVolumeId={changeVolumeId} 
+              volumes={dish.dishVolumesAndPrice} 
+              readonly={readonly}
+            />
           </Grid>
         </Grid>
-        <Grid item xs={5}>
-          {readonly ? (
-            <Grid container justifyContent='flex-end'>
-              <Typography variant='h6' sx={{ color: COLORS.ORANGE }}>x{count}</Typography>
-            </Grid>
-          ) : (<Grid container justifyContent='flex-end'>
-            <CounterComponent dish={dish} />
-          </Grid>)}
+        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div className={styles.rigth}>
+            {dish?.image && (
+              <div className={styles.box}>
+                <img src={dish.image} alt="dish" />
+              </div>
+            )}
+            <CounterComponent dish={dish} volumeId={choosenVolumeId} />
+          </div>
         </Grid>
-      </Grid>
-    </Paper>
+      </div>
+    </div>
   )
 })

@@ -1,15 +1,17 @@
+export interface IWorkingHours {
+    Thu: string;
+    Tue: string;
+    Wed: string;
+    Sat: string;
+    Fri: string;
+    Mon: string;
+    Sun: string;
+}
+
 export interface ICafe {
     name: string;
     address: string;
-    workingHours: {
-        Thu: string;
-        Tue: string;
-        Wed: string;
-        Sat: string;
-        Fri: string;
-        Mon: string;
-        Sun: string;
-    },
+    workingHours: IWorkingHours;
     facebook: string;
     instagram: string;
     tripAdvisor: string;

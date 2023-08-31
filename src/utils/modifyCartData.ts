@@ -1,18 +1,24 @@
 import { ICartItem } from '../store/slices/cart/cart.slice';
 
-interface IModifiedData {
-  tableNumber: number;
-  orderedDishes: {
-    [key: number]: number;
-  };
+interface IOrderedDish {
+  dishId: number;
+  qty: number;
+  volumeId: number;
 }
 
-export const modifyData = (items: ICartItem[], tableNumber: number) => (
+interface IModifiedData {
+  tableNumber: string;
+  cafeId: string;
+  orderedDishesForms: IOrderedDish[];
+}
+
+export const modifyData = (items: ICartItem[], cafeId: string, tableNumber: string) => (
   items.reduce((acc, item) => {
-    acc.orderedDishes[item.dish.id] = item.quantity;
+    acc.orderedDishesForms = [...acc.orderedDishesForms, { dishId: item.dish.id, qty: item.quantity, volumeId: item.volumeId }]
     return acc;
   }, {
-    'tableNumber': tableNumber,
-    'orderedDishes': {}
-  } as IModifiedData)
+    tableNumber,
+    cafeId,
+    'orderedDishesForms': []
+  } as unknown as IModifiedData)
 );

@@ -6,6 +6,7 @@ import { RootState } from '../../app/store';
 export interface ICartItem {
   dish: IDish;
   quantity: number;
+  volumeId: number;
 }
 
 export interface ICartState {
@@ -28,32 +29,38 @@ export const cartSlice = createSlice({
 
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
-    increaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish }>) => {
-      const item = state.cartItems?.find((item) => item.dish.id === action.payload.dish.id);
+    increaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
+      const { dish, volumeId } = action.payload;
+
+      const item = state.cartItems?.find((item) => (
+        item.dish.id === dish.id && item.volumeId === volumeId
+      ));
 
       if (item) {
         item.quantity = item.quantity + 1;
       } else {
-        state.cartItems.push({dish: action.payload.dish, quantity: 1})
+        state.cartItems.push({dish, quantity: 1, volumeId })
       }
 
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
 
     },
-    decreaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish }>) => {
-      const item = state.cartItems?.find((item) => item.dish.id === action.payload.dish.id);
-
-      if (item) {
-        if (item.quantity === 1) {
-          state.cartItems =
-            state.cartItems?.filter((item) => item.dish.id !== action.payload.dish.id);
+    decreaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
+      const { dish, volumeId } = action.payload;
+    
+      const findedItemIndex = state.cartItems?.findIndex((item) => item.dish.id === dish.id && item.volumeId === volumeId);
+    
+      if (findedItemIndex !== -1) {
+        const findedItem = state.cartItems[findedItemIndex];
+        
+        if (findedItem.quantity === 1) {
+          state.cartItems.splice(findedItemIndex, 1);
         } else {
-          item.quantity = item.quantity - 1;
+          findedItem.quantity = findedItem.quantity - 1;
         }
       }
-
+    
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
-
     },
     clearCart: (state: ICartState) => {
       state.cartItems = [];
@@ -61,24 +68,25 @@ export const cartSlice = createSlice({
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
     updateBill: (state: ICartState, action: PayloadAction<IBill>) => {
-      if (state.bill.totalSum) {
-        const combinedOrderedDish 
-          = [...state.bill.orderedDish, ...action.payload.orderedDish].reduce((acc, { dish, quantity }) => {
-            const { id } = dish;
-            if (acc[id]) {
-              acc[id].quantity += quantity
-            } else {
-              acc[id] = { dish, quantity }
-            }
-            return acc;
-          }, {} as { [id: number]: ICartItem })
-        state.bill = {
-          orderedDish: Object.values(combinedOrderedDish),
-          totalSum: action.payload.totalSum + state.bill.totalSum,
-        }
-      } else {
-        state.bill = {...action.payload}
-      }
+      state.bill = action.payload;
+      // if (state.bill.totalSum) {
+      //   const combinedOrderedDish 
+      //     = [...state.bill.orderedDish, ...action.payload.orderedDish].reduce((acc, { dish, quantity, volumeId }) => {
+      //       const { id } = dish;
+      //       if (acc[id]) {
+      //         acc[id].quantity += quantity
+      //       } else {
+      //         acc[id] = { dish, quantity, volumeId }
+      //       }
+      //       return acc;
+      //     }, {} as { [id: number]: ICartItem })
+      //   state.bill = {
+      //     orderedDish: Object.values(combinedOrderedDish),
+      //     totalSum: action.payload.totalSum + state.bill.totalSum,
+      //   }
+      // } else {
+      //   state.bill = {...action.payload}
+      // }
 
       sessionStorage.setItem(STORAGE_KEYS.BILL, JSON.stringify(state.bill))
     },

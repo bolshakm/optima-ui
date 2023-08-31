@@ -3,7 +3,6 @@ import { IRestaurant, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
 import { API_KEYS } from '../../../common/constants';
-import { generateParams } from '../../../utils/generateParams';
 
 export interface IMenuState {
   menu: IRestaurant | null;

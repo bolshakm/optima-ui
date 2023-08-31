@@ -1,0 +1,28 @@
+.box {
+  flex-grow: 1;
+  width: 100%;
+  background-color: #F5F5F5;
+}
+
+.title {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 27px 27px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sum {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 19px;
+  margin-bottom: 36px;
+}

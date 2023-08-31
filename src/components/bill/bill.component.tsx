@@ -1,38 +1,34 @@
 import { Box, Grid, Typography } from '@mui/material'
 import React, { memo } from 'react';
 import { IBill } from '../../types';
-import { DishComponent } from '../dish/dish.component';
+import { BillItemComponent } from '../dish/bill-item.component';
+
+import styles from './styles.module.css';
 
 interface IProps {
   bill: IBill;
 }
 
 export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
+  console.log(bill);
+  
   return (
-    <Box sx={{ mb: 3, flexGrow: 1 }}>
-        <Typography 
-          variant='h5'
-          sx={{ mb: 1, ml: 2, fontWeight: 700, }} 
-        >
+    <h6 className={styles.box}>
+        <h6 className={styles.title}>
           Your order
-        </Typography>
-        <Grid container flexDirection="column" gap={1} mb={2}>
+        </h6>
+        <div className={styles.list}>
           {bill.orderedDish.map((item) => (
-            <Grid key={item.dish.id} item sx={{ height: 'max-content' }}>
-              <DishComponent dish={item.dish} readonly={true} count={item.quantity}/>
-            </Grid>
+            <React.Fragment key={item.id + item.selectedVolumeId}>
+              <BillItemComponent item={item} />
+            </React.Fragment>
           ))}
-        </Grid>
+        </div>
         <Grid container sx={{ justifyContent: 'flex-end'}}>
-        <Typography 
-          variant='h5' 
-          mb={2}
-          mr={2} 
-          fontWeight={700}
-        >
+        <h6 className={styles.sum}>
           Total sum: {bill.totalSum}UAH
-        </Typography>
+        </h6>
         </Grid>
-      </Box>
+      </h6>
   )
 })

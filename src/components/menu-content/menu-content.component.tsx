@@ -3,9 +3,21 @@ import { useAppSelector } from '../../store/app/hooks';
 import { selectRestaurant } from '../../store/slices/menu/menu.slice';
 import { LoadingStatus } from '../../types';
 import { CategoryItemComponent, ErrorComponent } from '..';
+import { useEffect, useState } from 'react';
+import { scrollToTop } from '../../utils/scrollToTop';
 
 export const MenuContentComponent = () => {
   const { menu: restaurant, status } = useAppSelector(selectRestaurant);
+  const [expandedCategoryId, setExpandedCategoryId] = useState<number | null>(null);
+
+  const toggleCategoryId = (categoryId: number) => {
+    setExpandedCategoryId(expandedCategoryId === categoryId ? null : categoryId);
+  };
+
+  useEffect(() => {
+    scrollToTop()
+  }, [expandedCategoryId])
+
 
   if (status === LoadingStatus.failed) {
     return <ErrorComponent title='Problem with fetching data' />
@@ -21,7 +33,14 @@ export const MenuContentComponent = () => {
 
   return (
     <Box>
-      {restaurant?.categories.map((category) => <CategoryItemComponent key={category.id + category.name} category={category} />)}
+      {restaurant?.categories.map((category) => (
+        <CategoryItemComponent
+          key={category.id + category.name}
+          category={category}
+          isExpanded={expandedCategoryId === category.id}
+          toggleCategory={() => toggleCategoryId(category.id)}
+        />
+      ))}
     </Box>
   )
 }

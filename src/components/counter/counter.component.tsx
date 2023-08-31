@@ -1,54 +1,57 @@
 import React, { memo } from 'react';
 import { IDish } from '../../types';
-import { Button, ButtonGroup, Paper } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
-import { COLORS } from '../../theme/colors';
 import { decreaseCount, increaseCount, selectCartItems } from '../../store/slices/cart/cart.slice';
+import styles from './styles.module.css';
 
 interface IProps {
   dish: IDish;
+  volumeId: number;
 }
 
-export const CounterComponent: React.FC<IProps> = memo(({ dish }) => {
+export const CounterComponent: React.FC<IProps> = memo(({ dish, volumeId }) => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
 
-  const cartItem = cartItems.find((item) => item.dish.name === dish.name)
+  const cartItem = cartItems.find((item) => (
+    item.dish.id === dish.id && item.volumeId === volumeId
+  ))
 
   const handleIncreaseCount = () => {
-    dispatch(increaseCount({ dish }))
+    dispatch(increaseCount({ dish, volumeId }))
   }
 
   const handleDecreaseCount = () => {
-    dispatch(decreaseCount({ dish }))
+    dispatch(decreaseCount({ dish, volumeId }))
+  }
+
+  if (!cartItem) {
+    return (
+      <button
+        className={styles.activeBtn}
+        onClick={handleIncreaseCount}
+        >
+          +
+      </button>
+    )
   }
 
   return (
-    <Paper sx={{ p: 0, border: `1px solid ${COLORS.GRAY}` }}>
-      <ButtonGroup
-        disableElevation
-        variant="outlined"
-        color='inherit'
-      >
-        {cartItem && (
-          <>
-            <Button 
-              sx={{ border: 'none', fontSize: 16, fontWeight: 700 }} 
-              onClick={handleDecreaseCount}
-              >
-                -
-              </Button>
-            <Button sx={{ border: 'none' }}>{cartItem.quantity}</Button>
-          </>
-        )}
+    <div className={styles.buttons}>
+        <button 
+          className={styles.button}
+          onClick={handleDecreaseCount}
+          >
+          -
+        </button>
+        <span className={styles.quantity}>{cartItem.quantity}</span>
         
-        <Button 
-          sx={{ border: 'none', fontSize: 16, fontWeight: 700 }} 
+        <button
+          className={styles.button}
           onClick={handleIncreaseCount}
           >
             +
-          </Button>
-      </ButtonGroup> 
-    </Paper>
+        </button>
+    </div>
   )
 })

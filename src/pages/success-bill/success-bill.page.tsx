@@ -1,46 +1,41 @@
-import { Grid, Paper, Box, Button, Typography } from '@mui/material';
+import { Grid, Paper, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect } from 'react';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { useAppSelector } from '../../store/app/hooks';
+import styles from './styles.module.css';
+import { FooterComponent, HeaderComponent } from '../../components';
 
 export const SuccessBillPage = () => {
   const navigate = useNavigate();
   const { cafeId, tableId } = useAppSelector(selectCafe);
 
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
-    }, 4000);
+  // useEffect(() => {
+  //   const timerId = setTimeout(() => {
+  //     navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
+  //   }, 4000);
 
-    return () => {
-      clearTimeout(timerId);
-    }
-  }, [navigate])
+  //   return () => {
+  //     clearTimeout(timerId);
+  //   }
+  // }, [navigate, tableId, cafeId])
 
   return (
-    <Grid container sx={{ height: '100%', minHeight: 'calc(100vh - 16px)', flexDirection: 'column' }}>
-    <Paper sx={{ mb: 3, p: 2 }}>
-      <Button
-        variant='text'
-        color='inherit'
-        onClick={() => navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)}
-      >
-        <ArrowBackIosIcon color='inherit'/> Back to menu
-      </Button>
-    </Paper>
-    <Paper sx={{ mb: 2, flexGrow: 1, p: 2 }}>
-      <Box>
-        <Grid container flexDirection="column" alignItems='center'>
-          <Typography variant='h6' sx={{ mb: 4 }}>
-            Thank you! <br/>
-            Soon waiter will bring you a bill.
-          </Typography>
-        </Grid>
-      </Box>
-    </Paper>
-  </Grid>
+    <div className={styles.box}>
+      <HeaderComponent isCut={true} text='menu' addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />
+      <div className={styles.inner}>
+        <Box>
+          <Grid container flexDirection="column">
+            <h6 className={styles.text}>
+              Thank you! <br/>
+              Soon waiter will bring you a bill.
+            </h6>
+          </Grid>
+        </Box>
+      </div>
+      <FooterComponent />
+    </div>
   )
 }

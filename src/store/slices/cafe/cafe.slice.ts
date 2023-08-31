@@ -34,9 +34,11 @@ export const menuSlice = createSlice({
   reducers: {
     setCafeId: (state: ICafeState, action: PayloadAction<string>) => {
       state.cafeId = action.payload;
+      sessionStorage.setItem(STORAGE_KEYS.CAFE, action.payload);
     },
     setTableId: (state: ICafeState, action: PayloadAction<string>) => {
       state.tableId = action.payload;
+      sessionStorage.setItem(STORAGE_KEYS.TABLE, action.payload);
     },
   },
   extraReducers: (builder) => {

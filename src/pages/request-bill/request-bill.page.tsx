@@ -1,14 +1,15 @@
-import { Grid, Paper, Box, Button, Typography } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { ReactComponent as CreditCardIcon } from '../../assets/svg/credit_card.svg';
+import { ReactComponent as AttachMoneyIcon } from '../../assets/svg/euro_symbol.svg';
 import { instance } from '../../axios/instanse';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { removeBill } from '../../store/slices/cart/cart.slice';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
+import { FooterComponent, HeaderComponent } from '../../components';
+import styles from './styles.module.css';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
@@ -30,50 +31,39 @@ export const RequestBillPage = () => {
   }
 
   return (
-    <Grid container sx={{ height: '100%', minHeight: 'calc(100vh - 16px)', flexDirection: 'column' }}>
-    <Paper sx={{ mb: 3, p: 2 }}>
-      <Button
-        variant='text'
-        color='inherit'
-        onClick={() => navigate(ROUTER_KEYS.CART)}
-      >
-        <ArrowBackIosIcon color='inherit'/> Back to my order
-      </Button>
-    </Paper>
-    <Paper sx={{ mb: 2, flexGrow: 1, p: 2 }}>
-      <Box>
-        <Grid container flexDirection="column" alignItems='center'>
-          <Typography variant='h5' sx={{ mb: 4, textAlign: 'center' }}>How do you want to pay?</Typography>
-          <Grid item>
-            <Grid container flexDirection="column" gap={2} maxWidth={320}>
-              <Button 
-                variant='outlined' 
-                color='inherit' 
-                sx={{ minWidth: 300 }}
-                onClick={() => handleChoosePaymentMethod('card')}
-              >
-                <CreditCardIcon /> Credit card
-              </Button>
-              <Button 
-                variant='outlined' 
-                color='inherit' 
-                sx={{ minWidth: 300 }}
-                onClick={() => handleChoosePaymentMethod('cash')}
-              >
-                <AttachMoneyIcon /> Cash
-              </Button>
+    <div className={styles.box}>
+      <HeaderComponent isCut={true} text='my order' addres={ROUTER_KEYS.CART} />
+      <div className={styles.inner}>
+        <Box>
+          <Grid container flexDirection="column" alignItems='center'>
+            <h6 className={styles.question}>How do you want to pay?</h6>
+            <Grid item>
+              <div className={styles.buttons}>
+                <button
+                  className={styles.button}
+                  onClick={() => handleChoosePaymentMethod('card')}
+                >
+                  <CreditCardIcon /> Credit card
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => handleChoosePaymentMethod('cash')}
+                >
+                  <AttachMoneyIcon /> Cash
+                </button>
+              </div>
             </Grid>
+            {error && (
+              <Grid item sx={{ mt: 5 }}>
+                <Typography variant='h5' sx={{ mb: 4, textAlign: 'center' }} color='error'>
+                  Oops! Something wrong
+                </Typography>
+              </Grid>
+            )}
           </Grid>
-          {error && (
-            <Grid item sx={{ mt: 5 }}>
-              <Typography variant='h5' sx={{ mb: 4, textAlign: 'center' }} color='error'>
-                Oops! Something wrong
-              </Typography>
-            </Grid>
-          )}
-        </Grid>
-      </Box>
-    </Paper>
-  </Grid>
+        </Box>
+      </div>
+    <FooterComponent />
+  </div>
   )
 }

@@ -1,0 +1,53 @@
+.buttons {
+  border-radius: 5px;
+  border: 0.5px solid #B7B4B4;
+  background: #ffffff;
+  width: 66px;
+  color: #0000009c;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+
+.button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+}
+
+.activeBtn {
+  color: #ffffff;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 5px;
+  border: 0.5px solid #2FC28D;
+  background: #2FC28D;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.61);
+  font-family: Inter, sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  border-right: 0.5px solid #B7B4B4;
+  border-left: 0.5px solid #B7B4B4;
+}
