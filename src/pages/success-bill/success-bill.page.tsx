@@ -12,15 +12,15 @@ export const SuccessBillPage = () => {
   const navigate = useNavigate();
   const { cafeId, tableId } = useAppSelector(selectCafe);
 
-  // useEffect(() => {
-  //   const timerId = setTimeout(() => {
-  //     navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
-  //   }, 4000);
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
+    }, 4000);
 
-  //   return () => {
-  //     clearTimeout(timerId);
-  //   }
-  // }, [navigate, tableId, cafeId])
+    return () => {
+      clearTimeout(timerId);
+    }
+  }, [navigate, tableId, cafeId])
 
   return (
     <div className={styles.box}>

@@ -38,51 +38,54 @@ export const CartPage = () => {
   }, [cartItems.length, navigate, bill.totalSum, cafeId, tableId]);
 
   return (
-    <Grid container sx={{ height: '100%', minHeight: 'calc(100vh - 16px)', flexDirection: 'column' }}>
+    <div className={styles.box}>
       <HeaderComponent isCut={true} text='menu' addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />
-      <div className="container container--sm">
-        {Boolean(Object.keys(bill).length) && (
-          <BillComponent bill={bill} />
-        )}
-        <Box sx={{ mb: 2, flexGrow: 1 }}>
-          <Grid container flexDirection="column" gap={1}>
-            {cartItems.map((item) => (
-              <Grid key={item.dish.id + item.volumeId} item sx={{ height: 'max-content' }}>
-                <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} count={item.quantity} isCartItem={true} />
-              </Grid>
-            ))}
+      <div className={styles.inner}>
+        <div className="container container--sm">
+          {Boolean(Object.keys(bill).length) && (
+            <BillComponent bill={bill} />
+          )}
+          <Box sx={{ mb: 2, flexGrow: 1 }}>
+            <div className={styles.list}>
+              {cartItems.map((item) => (
+                <div key={item.dish.id + item.volumeId}>
+                  <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} count={item.quantity} isCartItem={true} />
+                </div>
+              ))}
+            </div>
+          </Box>
+          <Grid container sx={{ minWidth: '100%', mb: 3 }} spacing={1}>
+            <Grid item xs={3} md={4}>
+              <button 
+                className={styles.button}
+                onClick={() => navigate(ROUTER_KEYS.MENU)}
+              >
+                Add
+              </button>
+            </Grid>
+            <Grid item xs={3} md={4}>
+              <button
+                className={styles.button}
+                onClick={handleOrder}
+                disabled={!cartItems.length}
+              >
+                Order
+              </button>
+            </Grid>
+            <Grid item xs={6} md={4}>
+              <button
+                className={styles.button}
+                onClick={() => navigate(ROUTER_KEYS.REQUEST_BILL)}
+                disabled={!bill.totalSum}
+              >
+                Request a bill
+              </button>
+            </Grid>
           </Grid>
-        </Box>
-        <Grid container sx={{ minWidth: '100%', mb: 3 }} spacing={1}>
-          <Grid item xs={3} md={4}>
-            <button 
-              className={styles.button}
-              onClick={() => navigate(ROUTER_KEYS.MENU)}
-            >
-              Add
-            </button>
-          </Grid>
-          <Grid item xs={3} md={4}>
-            <button
-              className={styles.button}
-              onClick={handleOrder}
-              disabled={!cartItems.length}
-            >
-              Order
-            </button>
-          </Grid>
-          <Grid item xs={6} md={4}>
-            <button
-              className={styles.button}
-              onClick={() => navigate(ROUTER_KEYS.REQUEST_BILL)}
-              disabled={!bill.totalSum}
-            >
-              Request a bill
-            </button>
-          </Grid>
-        </Grid>
+        </div>
       </div>
+      
     <FooterComponent />
-  </Grid>
+    </div>
   )
 }
