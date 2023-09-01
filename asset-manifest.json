@@ -1,14 +1,20 @@
 {
   "files": {
-    "main.css": "/optima-ui/static/css/main.8a685450.css",
-    "main.js": "/optima-ui/static/js/main.2f584195.js",
-    "static/media/tripadvisor.svg": "/optima-ui/static/media/tripadvisor.6cc2266901127cca411d73f0099e8313.svg",
+    "main.css": "/optima-ui/static/css/main.e48a5464.css",
+    "main.js": "/optima-ui/static/js/main.72810c97.js",
+    "static/media/hero-bg.png": "/optima-ui/static/media/hero-bg.ac0aaac948161477ae4e.png",
+    "static/media/tripadvisor.svg": "/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
     "index.html": "/optima-ui/index.html",
-    "main.8a685450.css.map": "/optima-ui/static/css/main.8a685450.css.map",
-    "main.2f584195.js.map": "/optima-ui/static/js/main.2f584195.js.map"
+    "static/media/shopping_bag.svg": "/optima-ui/static/media/shopping_bag.6f879221a99b28d974fc460a25fa2bda.svg",
+    "static/media/back_hand.svg": "/optima-ui/static/media/back_hand.b7d314eb547161b92dbd3e8f7b8af9b4.svg",
+    "static/media/euro_symbol.svg": "/optima-ui/static/media/euro_symbol.87e9fe6a96572e8765614ee8321f6a3e.svg",
+    "static/media/credit_card.svg": "/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
+    "static/media/expand_more.svg": "/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
+    "main.e48a5464.css.map": "/optima-ui/static/css/main.e48a5464.css.map",
+    "main.72810c97.js.map": "/optima-ui/static/js/main.72810c97.js.map"
   },
   "entrypoints": [
-    "static/css/main.8a685450.css",
-    "static/js/main.2f584195.js"
+    "static/css/main.e48a5464.css",
+    "static/js/main.72810c97.js"
   ]
 }
