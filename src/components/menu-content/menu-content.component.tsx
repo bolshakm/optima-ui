@@ -1,10 +1,12 @@
-import { Box, CircularProgress, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectRestaurant } from '../../store/slices/menu/menu.slice';
 import { LoadingStatus } from '../../types';
 import { CategoryItemComponent, ErrorComponent } from '..';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../utils/scrollToTop';
+
+import styles from './styles.module.css'
 
 export const MenuContentComponent = () => {
   const { menu: restaurant, status } = useAppSelector(selectRestaurant);
@@ -32,7 +34,7 @@ export const MenuContentComponent = () => {
   }
 
   return (
-    <Box>
+    <div className={styles.list}>
       {restaurant?.categories.map((category) => (
         <CategoryItemComponent
           key={category.id + category.name}
@@ -41,6 +43,6 @@ export const MenuContentComponent = () => {
           toggleCategory={() => toggleCategoryId(category.id)}
         />
       ))}
-    </Box>
+    </div>
   )
 }

@@ -63,7 +63,7 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
                 onClick={handleCallTowaiter}
                 className={styles.button} 
               >
-                <Hand width={18} height={18} />
+                <Hand width={28} height={27} />
                 {isCallToWaiter && (
                   <div className={styles.circle} />
                 )}
@@ -78,7 +78,7 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
                 style={{ visibility: isCut ? 'hidden' : 'visible' }}
               >
                 <Badge variant='dot' invisible={IsCartEmpty} color='error'>
-                  <Bag width={20} height={20} />
+                  <Bag width={31} height={30} />
                 </Badge>
               </button>
             </div>

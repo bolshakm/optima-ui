@@ -26,7 +26,7 @@ export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
         </div>
         <Grid container sx={{ justifyContent: 'flex-end'}}>
         <h6 className={styles.sum}>
-          Total sum: {bill.totalSum}UAH
+          Total sum: {bill.totalSum}€
         </h6>
         </Grid>
       </h6>

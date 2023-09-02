@@ -1,10 +1,10 @@
-import { Grid, Box, Button } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { clearCart, selectBill, selectCartItems, updateBill } from '../../store/slices/cart/cart.slice';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
 import { BillComponent, DishComponent, FooterComponent, HeaderComponent } from '../../components';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { instance } from '../../axios/instanse';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
@@ -37,6 +37,17 @@ export const CartPage = () => {
     }
   }, [cartItems.length, navigate, bill.totalSum, cafeId, tableId]);
 
+  const totalSum = useMemo(() => {
+    if (!cartItems.length) return 0;
+
+    return cartItems.reduce((sum, item) => {
+      const price = item.dish.dishVolumesAndPrice.find((vol) => vol.id === item.volumeId)?.price || 0;
+      const totalItemPrice = price * item.quantity;
+
+      return sum + totalItemPrice;
+    },0)
+  }, [cartItems])
+
   return (
     <div className={styles.box}>
       <HeaderComponent isCut={true} text='menu' addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />
@@ -54,6 +65,11 @@ export const CartPage = () => {
               ))}
             </div>
           </Box>
+          {Boolean(totalSum) && (
+            <div className={styles.sumBlock}>
+              <span className={styles.sum}>Total sum: {totalSum}€</span>
+            </div>
+          )}
           <Grid container sx={{ minWidth: '100%', mb: 3 }} spacing={1}>
             <Grid item xs={3} md={4}>
               <button 

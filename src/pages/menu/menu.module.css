@@ -4,6 +4,26 @@
   flex-direction: column;
 }
 
+.inner {
+  flex-grow: 1;
+}
+
 .list {
   flex-grow: 1;
+}
+
+.button {
+  width: 100%;
+  border-radius: 5px;
+  background: #3EB98C;
+  border: none;
+  outline: none;
+  padding: 14px;
+  color: #FFF;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  position: sticky;
+  bottom: 2px;
+  z-index: 2;
 }

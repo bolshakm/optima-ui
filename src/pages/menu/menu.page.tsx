@@ -30,23 +30,22 @@ export const MenuPage = () => {
   return (
     <div className={styles.menu}>
       <HeaderComponent />
-      <div className="container container--sm">
-        <Box sx={{ mb: 2, flexGrow: 1 }}>
-          <MenuContentComponent />
-        </Box>
-        {Boolean(cartItems.length) && (
-          <Grid container sx={{ width: '100%', mb: 4, mt: '13px', justifyContent: 'flex-end' }}>
-            <Button 
-              color='success' 
-              variant='contained' 
-              sx={{ width: '100%', maxWidth: 400 }}
+      <div className={styles.inner}>
+        <div className="container container--sm">
+          <Box sx={{ mb: 2, flexGrow: 1 }}>
+            <MenuContentComponent />
+          </Box>
+          {Boolean(cartItems.length) && (
+            <button
+              className={styles.button}
               onClick={handleNavigateToCart}
             >
               Go to cart
-            </Button>
-          </Grid>
-        )}
+            </button>
+          )}
+        </div>
       </div>
+      
       <FooterComponent />
     </div>
   )

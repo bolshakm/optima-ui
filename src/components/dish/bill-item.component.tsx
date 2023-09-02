@@ -28,7 +28,7 @@ export const BillItemComponent: React.FC<IProps> = memo(({
           </Grid>
         </Grid>
         <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Grid container justifyContent='flex-end'>
+          <Grid container justifyContent='flex-end' alignItems='center'>
             <h6 className={styles.count}>x{item.quantity}</h6>
           </Grid>
         </Grid>

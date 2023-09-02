@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { IDish } from '../../types'
-import { Grid } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import { CounterComponent } from '../counter/counter.component';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectCartItems } from '../../store/slices/cart/cart.slice';
@@ -36,10 +36,12 @@ export const DishComponent: React.FC<IProps> = memo(({
   return (
     <div className={`${styles.dish} ${isDishAddedToCart ? styles.checked : ''}`}>
       <div className={styles.content}>
-        <Grid item xs={8}>
-          <Grid container flexDirection='column'>
-            <h5 className={styles.name}>{dish.name}</h5>
-            <DedscriptionComponent text={dish.description} />
+        <Grid container flexDirection='column'>
+          <Grid container flexDirection='column' justifyContent='space-between' height='100%'>
+            <div className={styles.textContent}>
+              <h5 className={styles.name}>{dish.name}</h5>
+              <DedscriptionComponent text={dish.description} />
+            </div>
             <PriceComponent
               volumeId={choosenVolumeId} 
               setVolumeId={changeVolumeId} 
@@ -48,16 +50,16 @@ export const DishComponent: React.FC<IProps> = memo(({
             />
           </Grid>
         </Grid>
-        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <div className={styles.rigth}>
+        <div className={styles.side}>
+          <div className={`${styles.right} ${dish?.image ? styles.rightLarge : ''}`}>
             {dish?.image && (
               <div className={styles.box}>
-                <img src={dish.image} alt="dish" />
+                <img src={`data:image/png;base64,${dish.image}`} alt="dish" />
               </div>
             )}
             <CounterComponent dish={dish} volumeId={choosenVolumeId} />
           </div>
-        </Grid>
+        </div>
       </div>
     </div>
   )

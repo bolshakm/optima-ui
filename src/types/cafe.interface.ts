@@ -10,6 +10,7 @@ export interface IWorkingHours {
 
 export interface ICafe {
     name: string;
+    banner: string;
     address: string;
     workingHours: IWorkingHours;
     facebook: string;

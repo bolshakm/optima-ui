@@ -7,9 +7,9 @@
 .title {
   color: #000;
   font-family: Inter, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
-  margin: 0 0 27px 27px;
+  margin: 0 0 24px 24px;
 }
 
 .list {
@@ -21,8 +21,9 @@
 .sum {
   color: #000;
   font-family: Inter, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   margin-top: 19px;
   margin-bottom: 36px;
+  margin-right: 24px;
 }

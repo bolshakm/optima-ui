@@ -1,20 +1,22 @@
 .header {
   width: 100%;
   margin-bottom: 24px;
+  height: 83px;
   background-color: #F5F5F5;
   border-bottom: 1px solid #64616166;
   position: sticky;
   top: 0;
   z-index: 2;
+  display: flex;
+  align-items: center;
 }
 
-.container {
+/* .container {
   width: 100%;
   max-width: 1200px;
   padding: 0 16px;
   margin: 0 auto;
-  height: 100%;
-}
+} */
 
 .inner {
   display: flex;
@@ -24,7 +26,7 @@
 }
 
 .content {
-  height: 46px;
+  width: 100%;
   position: sticky;
   top: 0;
 }
@@ -32,7 +34,7 @@
 .companyName {
   color: #010101;
   font-family: Inter, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 900;
 }
 
@@ -40,8 +42,8 @@
   position: absolute; 
   top: 0; 
   left: 0; 
-  width: 18px; 
-  height: 18px; 
+  width: 28px; 
+  height: 28px; 
   border-radius: 50%;
   background-color: rgba(47, 194, 141, 0.50); 
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
@@ -50,10 +52,10 @@
 .text {
   color: #000;
   font-family: Inter, sans-serif;
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 400;
   position: absolute;
-  bottom: -10px;
+  bottom: -20px;
   left: 50%;
   width: max-content;
   transform: translateX(-50%);
@@ -85,7 +87,7 @@
   background-color: transparent;
   color: #000;
   font-family: Inter, sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
 }
 

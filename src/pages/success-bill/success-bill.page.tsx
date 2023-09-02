@@ -29,7 +29,7 @@ export const SuccessBillPage = () => {
         <Box>
           <Grid container flexDirection="column">
             <h6 className={styles.text}>
-              Thank you! <br/>
+              <Box marginBottom='4px'>Thank you!</Box> <br/>
               Soon waiter will bring you a bill.
             </h6>
           </Grid>

@@ -38,7 +38,7 @@ export const FooterComponent = () => {
               </button>
               <div className={`${styles.list} ${!isExpanded ? styles.hidden : ''}`}>
                 {Object.entries(cafe.workingHours).map(([day, hours]) => (
-                  <div className={styles.item}>
+                  <div className={styles.item} key={day + hours}>
                     <p className={`${styles.text} ${styles.day}`}>{day}</p>
                     <p className={styles.text}>{hours}</p>
                   </div>

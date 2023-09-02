@@ -14,12 +14,12 @@ export const DedscriptionComponent: React.FC<IProps> = ({ text }) => {
 
   if (!text) return null;
 
-  const isTextToLong = text?.length > 150;
+  const isTextToLong = text?.length > 80;
 
   return (
     <p className={styles.text}>{isTextToLong ? (
       <>
-        {isShowAll ? text : `${text.slice(0, 150)}...`}
+        {isShowAll ? text : `${text.slice(0, 80)}...`}
         <button className={styles.button} onClick={toggleShowMore}>{isShowAll ? 'hide' : 'show'}</button>
       </>
     ) : text}</p>
