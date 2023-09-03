@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/optima-ui/static/css/main.9e39e7cd.css",
-    "main.js": "/optima-ui/static/js/main.b4b01a60.js",
-    "static/media/tripadvisor.svg": "/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
-    "index.html": "/optima-ui/index.html",
-    "static/media/shopping_bag.svg": "/optima-ui/static/media/shopping_bag.6f879221a99b28d974fc460a25fa2bda.svg",
-    "static/media/back_hand.svg": "/optima-ui/static/media/back_hand.b7d314eb547161b92dbd3e8f7b8af9b4.svg",
-    "static/media/euro_symbol.svg": "/optima-ui/static/media/euro_symbol.87e9fe6a96572e8765614ee8321f6a3e.svg",
-    "static/media/credit_card.svg": "/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
-    "static/media/expand_more.svg": "/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
-    "main.9e39e7cd.css.map": "/optima-ui/static/css/main.9e39e7cd.css.map",
-    "main.b4b01a60.js.map": "/optima-ui/static/js/main.b4b01a60.js.map"
+    "main.css": "/ui-test/optima-ui/static/css/main.9e39e7cd.css",
+    "main.js": "/ui-test/optima-ui/static/js/main.ba20c300.js",
+    "static/media/tripadvisor.svg": "/ui-test/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
+    "index.html": "/ui-test/optima-ui/index.html",
+    "static/media/shopping_bag.svg": "/ui-test/optima-ui/static/media/shopping_bag.6f879221a99b28d974fc460a25fa2bda.svg",
+    "static/media/back_hand.svg": "/ui-test/optima-ui/static/media/back_hand.b7d314eb547161b92dbd3e8f7b8af9b4.svg",
+    "static/media/euro_symbol.svg": "/ui-test/optima-ui/static/media/euro_symbol.87e9fe6a96572e8765614ee8321f6a3e.svg",
+    "static/media/credit_card.svg": "/ui-test/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
+    "static/media/expand_more.svg": "/ui-test/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
+    "main.9e39e7cd.css.map": "/ui-test/optima-ui/static/css/main.9e39e7cd.css.map",
+    "main.ba20c300.js.map": "/ui-test/optima-ui/static/js/main.ba20c300.js.map"
   },
   "entrypoints": [
     "static/css/main.9e39e7cd.css",
-    "static/js/main.b4b01a60.js"
+    "static/js/main.ba20c300.js"
   ]
 }
