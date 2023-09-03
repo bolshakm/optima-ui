@@ -71,7 +71,7 @@ export const CartPage = () => {
           </Box>
           {Boolean(totalSum) && (
             <div className={styles.sumBlock}>
-              <span className={styles.sum}>Total sum: {totalSum}€</span>
+              <span className={styles.sum}>Total sum: {totalSum.toFixed(2)}€</span>
             </div>
           )}
           <Grid container sx={{ minWidth: '100%', mb: 3 }} spacing={1}>
