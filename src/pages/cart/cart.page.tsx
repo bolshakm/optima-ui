@@ -1,10 +1,10 @@
 import { Grid, Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
-import { clearCart, selectBill, selectCartItems, updateBill } from '../../store/slices/cart/cart.slice';
+import { checkOrder, clearCart, selectBill, selectCartItems, updateBill } from '../../store/slices/cart/cart.slice';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
 import { BillComponent, DishComponent, FooterComponent, HeaderComponent } from '../../components';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { instance } from '../../axios/instanse';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
@@ -36,6 +36,10 @@ export const CartPage = () => {
       navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
     }
   }, [cartItems.length, navigate, bill.totalSum, cafeId, tableId]);
+
+  useEffect(() => {
+    dispatch(checkOrder({cafeId, tableId}))
+  }, [dispatch, cafeId, tableId])
 
   const totalSum = useMemo(() => {
     if (!cartItems.length) return 0;

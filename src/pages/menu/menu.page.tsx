@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
 import { getMenu } from '../../store/slices/menu/menu.slice'
 import { useEffect } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
-import { selectCartItems } from '../../store/slices/cart/cart.slice';
+import { checkOrder, selectCartItems } from '../../store/slices/cart/cart.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
 import { getCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
@@ -21,6 +21,7 @@ export const MenuPage = () => {
     dispatch(setTableId(tableId));
     dispatch(getCafe({cafeId}));
     dispatch(getMenu({cafeId, tableId}));
+    dispatch(checkOrder({cafeId, tableId}))
   }, [dispatch, cafeId, tableId]);
 
   const handleNavigateToCart = () => {

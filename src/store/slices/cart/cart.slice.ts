@@ -1,7 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { STORAGE_KEYS } from '../../../common/constants';
-import { IBill, IDish } from '../../../types';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { API_KEYS, STORAGE_KEYS } from '../../../common/constants';
+import { IBill, IDish, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
+import { instance } from '../../../axios/instanse';
 
 export interface ICartItem {
   dish: IDish;
@@ -10,14 +11,32 @@ export interface ICartItem {
 }
 
 export interface ICartState {
+  checkStatus: LoadingStatus;
   bill: IBill;
   cartItems: ICartItem[];
 }
 
+interface ICheckOrderRequest {
+  cafeId: string;
+  tableId: string;
+}
+
 const initialState: ICartState = {
   bill: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.BILL) || '{}'),
-  cartItems: JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]')
+  cartItems: JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]'),
+  checkStatus: LoadingStatus.idle,
 };
+
+export const checkOrder = createAsyncThunk('cart/getCafe', 
+  async ({cafeId, tableId}: ICheckOrderRequest, { dispatch }) => {
+  const { status, data } = await instance.get(`${API_KEYS.CHECK_ORDER}/${cafeId}/${tableId}`);
+
+  if (status === 204) {
+    dispatch(removeBill())
+  } else {
+    dispatch(updateBill(data))
+  }
+});
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -69,24 +88,6 @@ export const cartSlice = createSlice({
     },
     updateBill: (state: ICartState, action: PayloadAction<IBill>) => {
       state.bill = action.payload;
-      // if (state.bill.totalSum) {
-      //   const combinedOrderedDish 
-      //     = [...state.bill.orderedDish, ...action.payload.orderedDish].reduce((acc, { dish, quantity, volumeId }) => {
-      //       const { id } = dish;
-      //       if (acc[id]) {
-      //         acc[id].quantity += quantity
-      //       } else {
-      //         acc[id] = { dish, quantity, volumeId }
-      //       }
-      //       return acc;
-      //     }, {} as { [id: number]: ICartItem })
-      //   state.bill = {
-      //     orderedDish: Object.values(combinedOrderedDish),
-      //     totalSum: action.payload.totalSum + state.bill.totalSum,
-      //   }
-      // } else {
-      //   state.bill = {...action.payload}
-      // }
 
       sessionStorage.setItem(STORAGE_KEYS.BILL, JSON.stringify(state.bill))
     },
@@ -94,6 +95,14 @@ export const cartSlice = createSlice({
       state.bill = JSON.parse('{}');
       sessionStorage.setItem(STORAGE_KEYS.BILL, JSON.stringify(state.bill))
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(checkOrder.pending, (state) => {
+      state.checkStatus = LoadingStatus.loading;
+    })
+    builder.addCase(checkOrder.rejected, (state) => {
+      state.checkStatus = LoadingStatus.failed;
+    })
   }
 });
 
