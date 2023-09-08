@@ -6,6 +6,7 @@ export interface IBillItem {
   description: string;
   enabled: boolean;
   quantity: number;
+  image: string;
   selectedVolumeId: number;
   volumeDataList: IDishVolumesAndPrice[]
 }

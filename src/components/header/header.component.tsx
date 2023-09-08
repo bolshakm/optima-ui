@@ -16,9 +16,10 @@ interface IProps {
   isCut?: boolean;
   addres?: string;
   text?: string;
+  isSimple?: boolean;
 }
 
-export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', text = '' }) => {
+export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', text = '', isSimple = false }) => {
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
   const bill = useAppSelector(selectBill);

@@ -44,6 +44,6 @@ export const menuSlice = createSlice({
   }
 });
 
-export const selectRestaurant = (state: RootState) => state.menu;
+export const selectMenu = (state: RootState) => state.menu;
 
 export default menuSlice.reducer;

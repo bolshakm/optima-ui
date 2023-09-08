@@ -13,7 +13,7 @@ export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
   console.log(bill);
   
   return (
-    <h6 className={styles.box}>
+    <div className={styles.box}>
         <h6 className={styles.title}>
           Your order
         </h6>
@@ -25,10 +25,10 @@ export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
           ))}
         </div>
         <Grid container sx={{ justifyContent: 'flex-end'}}>
-        <h6 className={styles.sum}>
-          Total sum: {bill.totalSum}€
-        </h6>
+          <h6 className={styles.sum}>
+            Total sum: {bill.totalSum.toFixed(2)}€
+          </h6>
         </Grid>
-      </h6>
+      </div>
   )
 })

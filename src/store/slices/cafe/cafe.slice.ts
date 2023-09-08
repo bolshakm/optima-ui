@@ -28,7 +28,7 @@ export const getCafe = createAsyncThunk('cafe/getCafe', async ({cafeId}: IGetCaf
   return data;
 });
 
-export const menuSlice = createSlice({
+export const cafeSlice = createSlice({
   name: 'cafe',
   initialState,
   reducers: {
@@ -56,5 +56,5 @@ export const menuSlice = createSlice({
 });
 
 export const selectCafe = (state: RootState) => state.cafe;
-export const { setCafeId, setTableId } = menuSlice.actions;
-export default menuSlice.reducer;
+export const { setCafeId, setTableId } = cafeSlice.actions;
+export default cafeSlice.reducer;

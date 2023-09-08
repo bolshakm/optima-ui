@@ -8,11 +8,11 @@ import styles from './style.module.css';
 
 interface IProps {
   category: ICategory;
-  isExpanded: boolean;
+  isExpanded?: boolean;
   toggleCategory: () => void;
 }
 
-export const CategoryItemComponent: React.FC<IProps> = memo(({ category, isExpanded, toggleCategory }) => {
+export const CategoryItemComponent: React.FC<IProps> = memo(({ category, isExpanded = false, toggleCategory }) => {
   return (
     <div className={styles.category}>
       <button

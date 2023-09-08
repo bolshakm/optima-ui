@@ -13,6 +13,11 @@
 }
 
 .button {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
   width: 100%;
   border-radius: 5px;
   background: #3EB98C;

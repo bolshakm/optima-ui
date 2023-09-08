@@ -60,7 +60,7 @@ export const CartPage = () => {
           {Boolean(Object.keys(bill).length) && (
             <BillComponent bill={bill} />
           )}
-          <Box sx={{ mb: 2, flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1 }}>
             <div className={styles.list}>
               {cartItems.map((item) => (
                 <div key={item.dish.id + item.volumeId}>

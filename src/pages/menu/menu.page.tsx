@@ -1,17 +1,19 @@
 import { Box, Button, Grid } from '@mui/material';
 import { FooterComponent, HeaderComponent } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
-import { getMenu } from '../../store/slices/menu/menu.slice'
+import { getMenu, selectMenu } from '../../store/slices/menu/menu.slice'
 import { useEffect } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
 import { checkOrder, selectCartItems } from '../../store/slices/cart/cart.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
-import { getCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
+import { getCafe, selectCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
 import styles from './menu.module.css';
 
 export const MenuPage = () => {
   const dispatch = useAppDispatch();
+  const { menu } = useAppSelector(selectMenu);
+  const { cafe } = useAppSelector(selectCafe);
   const cartItems = useAppSelector(selectCartItems);
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
@@ -19,10 +21,17 @@ export const MenuPage = () => {
   useEffect(() => {
     dispatch(setCafeId(cafeId));    
     dispatch(setTableId(tableId));
-    dispatch(getCafe({cafeId}));
-    dispatch(getMenu({cafeId, tableId}));
+
+    if (!cafe) {
+      dispatch(getCafe({cafeId}));
+    }
+    
+    if (!menu) {
+      dispatch(getMenu({cafeId, tableId}));
+    }
+
     dispatch(checkOrder({cafeId, tableId}))
-  }, [dispatch, cafeId, tableId]);
+  }, [dispatch, cafeId, tableId, menu]);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)

@@ -29,8 +29,9 @@ export const SuccessBillPage = () => {
         <Box>
           <Grid container flexDirection="column">
             <h6 className={styles.text}>
-              <Box marginBottom='4px'>Thank you!</Box> <br/>
-              Soon waiter will bring you a bill.
+              <span className={styles.top}>Thank you!</span>
+              <span>Soon waiter</span>
+              <span>will bring you a bill.</span>
             </h6>
           </Grid>
         </Box>

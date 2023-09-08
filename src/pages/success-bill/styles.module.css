@@ -1,11 +1,19 @@
 .text {
   color: #000;
-  max-width: 230px;
-  width: 70%;
+  max-width: 223px;
+  width: 90%;
   font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 8px 0 54px 28px;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 84px 0 165px 43px;
+}
+
+.text span{
+  display: block;
+}
+
+.top {
+  margin-bottom: 12px;
 }
 
 .box {

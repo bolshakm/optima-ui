@@ -1,6 +1,6 @@
 import { CircularProgress, Grid } from '@mui/material';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectRestaurant } from '../../store/slices/menu/menu.slice';
+import { selectMenu } from '../../store/slices/menu/menu.slice';
 import { LoadingStatus } from '../../types';
 import { CategoryItemComponent, ErrorComponent } from '..';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import { scrollToTop } from '../../utils/scrollToTop';
 import styles from './styles.module.css'
 
 export const MenuContentComponent = () => {
-  const { menu: restaurant, status } = useAppSelector(selectRestaurant);
+  const { menu, status } = useAppSelector(selectMenu);
   const [expandedCategoryId, setExpandedCategoryId] = useState<number | null>(null);
 
   const toggleCategoryId = (categoryId: number) => {
@@ -35,14 +35,31 @@ export const MenuContentComponent = () => {
 
   return (
     <div className={styles.list}>
-      {restaurant?.categories.map((category) => (
-        <CategoryItemComponent
-          key={category.id + category.name}
-          category={category}
-          isExpanded={expandedCategoryId === category.id}
-          toggleCategory={() => toggleCategoryId(category.id)}
-        />
-      ))}
+      
+      {menu?.categories?.map((category) => {
+        if (expandedCategoryId) {
+          if (category.id === expandedCategoryId) {
+            return (
+              <CategoryItemComponent
+                key={category.id + category.name}
+                category={category}
+                isExpanded={true}
+                toggleCategory={() => toggleCategoryId(category.id)}
+              />
+            )
+          } else {
+            return null;
+          }
+        } else {
+          return (
+            <CategoryItemComponent
+              key={category.id + category.name}
+              category={category}
+              toggleCategory={() => toggleCategoryId(category.id)}
+            />
+          )
+        }
+      })}
     </div>
   )
 }
