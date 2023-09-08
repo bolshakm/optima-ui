@@ -16,4 +16,5 @@ export interface ICafe {
     facebook: string;
     instagram: string;
     tripAdvisor: string;
+    googleReview: string;
   }

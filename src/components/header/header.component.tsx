@@ -1,4 +1,4 @@
-import { Badge } from '@mui/material';
+import { Badge, Grid } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
@@ -23,10 +23,9 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
   const bill = useAppSelector(selectBill);
-  const { cafe } = useAppSelector(selectCafe);
   const IsCartEmpty = cartItems.length === 0;
   const [isCallToWaiter, setIsCallTowaiter] = useState(false);
-  const { cafeId, tableId } = useAppSelector(selectCafe);
+  const { cafe, cafeId, tableId } = useAppSelector(selectCafe);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)
@@ -42,6 +41,18 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
     } catch (err) {
       console.error(err);
     }
+  }
+
+  if (isSimple) {
+    return (
+      <div className={`${styles.header} ${styles.headerSm}`}>
+        <div className={styles.content}>
+          <Grid container justifyContent='center' alignItems='center'>
+            <h3 className={styles.companyName}>{cafe?.name}</h3>
+          </Grid>
+        </div>
+      </div>
+    )
   }
 
   return (
