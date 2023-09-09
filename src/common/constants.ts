@@ -2,7 +2,7 @@ export const ROUTER_KEYS = {
   ANOTHER: '*',
   HOME: '/',
   MENU: '/menu',
-  MENU_OPTIONS: '/menu/options',
+  MENU_ACTIONS: '/menu/actions',
   CART: '/cart',
   REQUEST_BILL: '/cart/request-bill',
   SUCCESS_BILL: '/cart/success-bill'

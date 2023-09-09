@@ -14,18 +14,15 @@ export const SuccessBillPage = () => {
   const parent = searchParams.get('parent')
   const reason = searchParams.get('reason')
 
-  console.log(parent, reason);
-  
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
+    }, 4000);
 
-  // useEffect(() => {
-  //   const timerId = setTimeout(() => {
-  //     navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
-  //   }, 4000);
-
-  //   return () => {
-  //     clearTimeout(timerId);
-  //   }
-  // }, [navigate, tableId, cafeId])
+    return () => {
+      clearTimeout(timerId);
+    }
+  }, [navigate, tableId, cafeId])
 
   return (
     <div className={styles.box}>

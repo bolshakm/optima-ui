@@ -15,7 +15,7 @@ export const Router = () => {
     <Routes>
       <Route path={ROUTER_KEYS.HOME} element={<Navigate to={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} replace />} />
       <Route path={`${ROUTER_KEYS.MENU}/:cafeId/:tableId`} element={<MenuPage />} />
-      <Route path={`${ROUTER_KEYS.MENU_OPTIONS}/:cafeId/:tableId`} element={<OptionsPage />} />
+      <Route path={`${ROUTER_KEYS.MENU_ACTIONS}/:cafeId/:tableId`} element={<OptionsPage />} />
       <Route path={ROUTER_KEYS.CART} element={<CartPage />} />
       <Route path={ROUTER_KEYS.REQUEST_BILL} element={<RequestBillPage />} />
       <Route path={ROUTER_KEYS.SUCCESS_BILL} element={<SuccessBillPage />} />
