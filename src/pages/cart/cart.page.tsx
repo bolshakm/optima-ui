@@ -34,11 +34,10 @@ export const CartPage = () => {
 
   const handleUpdateOrder = async () => {
     const modifiedData = modifyData(cartItems, cafeId, tableId);
-
     const combinedData = combineArrays(modifiedData, bill)
     
     const { data } 
-      = await instance.post<IBill>(`${API_KEYS.ORDER_UPDATE}/${cafeId}/${tableId}`, modifiedData);
+      = await instance.put<IBill>(`${API_KEYS.ORDER_UPDATE}/${cafeId}/${tableId}`, combinedData);
 
     dispatch(updateBill(data));
     dispatch(clearCart())
