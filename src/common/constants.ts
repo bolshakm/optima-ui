@@ -14,6 +14,7 @@ export const API_KEYS = {
   MENU: '/v1/menu/view',
   CHECK_ORDER: '/v1/order',
   ORDER: '/v1/order/place',
+  ORDER_UPDATE: '/v1/order/update/',
   BILL: '/v1/bill',
   WAITER: '/v1/waiter'
 };

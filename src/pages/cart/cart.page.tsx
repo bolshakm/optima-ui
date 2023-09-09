@@ -4,12 +4,13 @@ import { checkOrder, clearCart, selectBill, selectCartItems, updateBill } from '
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
 import { BillComponent, DishComponent, FooterComponent, HeaderComponent } from '../../components';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { instance } from '../../axios/instanse';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
 import { getCafe, selectCafe } from '../../store/slices/cafe/cafe.slice';
 import styles from './styles.module.css';
+import { combineArrays } from '../../utils/combineOrder';
 
 export const CartPage = () => {
   const cartItems = useAppSelector(selectCartItems);
@@ -26,6 +27,18 @@ export const CartPage = () => {
     const modifiedData = modifyData(cartItems, cafeId, tableId)
     const { data } 
       = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafeId}/${tableId}`, modifiedData);
+
+    dispatch(updateBill(data));
+    dispatch(clearCart())
+  }
+
+  const handleUpdateOrder = async () => {
+    const modifiedData = modifyData(cartItems, cafeId, tableId);
+
+    const combinedData = combineArrays(modifiedData, bill)
+    
+    const { data } 
+      = await instance.post<IBill>(`${API_KEYS.ORDER_UPDATE}/${cafeId}/${tableId}`, modifiedData);
 
     dispatch(updateBill(data));
     dispatch(clearCart())
@@ -86,7 +99,7 @@ export const CartPage = () => {
             <Grid item xs={3} md={4}>
               <button
                 className={styles.button}
-                onClick={handleOrder}
+                onClick={Object.values(bill).length ? handleUpdateOrder : handleOrder}
                 disabled={!cartItems.length}
               >
                 Order

@@ -6,7 +6,7 @@ interface IOrderedDish {
   volumeId: number;
 }
 
-interface IModifiedData {
+export interface IModifiedData {
   tableNumber: string;
   cafeId: string;
   orderedDishesForms: IOrderedDish[];

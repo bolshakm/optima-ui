@@ -39,12 +39,6 @@ export const OptionsPage = () => {
     }
   }
 
-  const navigateToReview = () => {
-    if (cafe?.googleReview) {
-      navigate(cafe.googleReview)
-    }
-  }
-
   const handleChoosePaymentMethod = async (key: string) => {
     const res 
       = await instance.get(`${API_KEYS.BILL}/${cafeId}/${tableId}/?type=${key}`);
@@ -78,12 +72,14 @@ export const OptionsPage = () => {
             >
               <CreditCardIcon /> Bill, please. I pay by card
             </button>
-            <button
+            <a
+              href={cafe?.googleReview}
+              target='_blank'
+              rel="noreferrer"
               className={styles.button}
-              onClick={navigateToReview}
             >
               <ReviewsIcon /> Rate and review
-            </button>
+            </a>
           </div>
         </div>
       </div>
