@@ -1,4 +1,4 @@
-import { Grid, Paper, Box, Button } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTER_KEYS } from '../../common/constants';
 import { useEffect } from 'react';
@@ -16,17 +16,21 @@ export const SuccessBillPage = () => {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
+      if (parent === 'actions') {
+        window.history.back();
+      } else {
+        navigate(`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`)
+      }
     }, 4000);
 
     return () => {
       clearTimeout(timerId);
     }
-  }, [navigate, tableId, cafeId])
+  }, [navigate, tableId, cafeId, parent])
 
   return (
     <div className={styles.box}>
-      {parent === 'options' ? (
+      {parent === 'actions' ? (
         <HeaderComponent isSimple={true} />
       ) : (
         <HeaderComponent isCut={true} text='menu' addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />

@@ -85,6 +85,10 @@
   margin-bottom: 6.5px;
 }
 
+.button:disabled {
+  opacity: 0.4;
+}
+
 .backButton button {
   display: flex;
   align-items: center;

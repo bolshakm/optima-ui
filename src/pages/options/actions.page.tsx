@@ -11,7 +11,7 @@ import { FooterComponent, HeaderComponent } from '../../components';
 import styles from './styles.module.css';
 import { instance } from '../../axios/instanse';
 
-export const OptionsPage = () => {
+export const ActionsPage = () => {
   const dispatch = useAppDispatch();
   const { cafe } = useAppSelector(selectCafe);
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export const OptionsPage = () => {
       const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}`);
 
       if (status === 200) {
-        navigate(`${ROUTER_KEYS.SUCCESS_BILL}?parent=options&reason=call-waiter`)
+        navigate(`${ROUTER_KEYS.SUCCESS_BILL}?parent=actions&reason=call-waiter`)
       } 
     } catch (err) {
       console.error(err);
@@ -44,7 +44,7 @@ export const OptionsPage = () => {
       = await instance.get(`${API_KEYS.BILL}/${cafeId}/${tableId}/?type=${key}`);
 
     if (res.status === 200) {
-      navigate(`${ROUTER_KEYS.SUCCESS_BILL}?parent=options`);
+      navigate(`${ROUTER_KEYS.SUCCESS_BILL}?parent=actions`);
     }
   }
 

@@ -2,8 +2,10 @@ export const ROUTER_KEYS = {
   ANOTHER: '*',
   HOME: '/',
   MENU: '/menu',
+  MENU_READ: '/menu/read',
   MENU_ACTIONS: '/menu/actions',
   CART: '/cart',
+  ORDER_UPDATE: '/order/update',
   REQUEST_BILL: '/cart/request-bill',
   SUCCESS_BILL: '/cart/success-bill'
 }
@@ -24,4 +26,6 @@ export const STORAGE_KEYS = {
   BILL: 'optima-bill',
   CAFE: 'optima-cafe',
   TABLE: 'optima-table',
+  MODE: 'optima-mode',
+  FAVOURITES: 'optima-favourites'
 };

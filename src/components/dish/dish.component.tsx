@@ -1,12 +1,15 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import { IDish } from '../../types'
-import { Grid, Box } from '@mui/material';
+import { Grid } from '@mui/material';
 import { CounterComponent } from '../counter/counter.component';
-import { useAppSelector } from '../../store/app/hooks';
-import { selectCartItems } from '../../store/slices/cart/cart.slice';
+import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
+import { selectCartItems, selectFavourites, updateFavourites } from '../../store/slices/cart/cart.slice';
 import styles from './style.module.css';
 import { DedscriptionComponent } from './description.component';
 import { PriceComponent } from './price.component';
+import { STORAGE_KEYS } from '../../common/constants';
+import { ModeEnum } from '../../types/mode.enum';
+import { ReactComponent as FavouriteIcon } from '../../assets/svg/favorite.svg'
 
 interface IProps {
   dish: IDish;
@@ -25,9 +28,20 @@ export const DishComponent: React.FC<IProps> = memo(({
   isCartItem = false 
 }) => {
   const cartItems = useAppSelector(selectCartItems);
-  const [choosenVolumeId, setChoosenVolumeId] = useState(volumeId || dish.dishVolumesAndPrice[0].id);
+  const favourites = useAppSelector(selectFavourites);
 
-  const isDishAddedToCart = cartItems.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
+  const [choosenVolumeId, setChoosenVolumeId] = useState(volumeId || dish.dishVolumesAndPrice[0].id);
+  const mode = sessionStorage.getItem(STORAGE_KEYS.MODE);
+  const dispatch = useAppDispatch();
+
+  const isDishAddedToCart = useMemo(() => {
+    if (mode === ModeEnum.readonly) {
+      return favourites.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
+    } else {
+      cartItems.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
+    }
+  }, [mode, cartItems, favourites, choosenVolumeId, dish.id])
+
 
   const changeVolumeId = (id: number) => {
     setChoosenVolumeId(id)
@@ -57,7 +71,14 @@ export const DishComponent: React.FC<IProps> = memo(({
                 <img src={`data:image/png;base64,${dish.image}`} alt="dish" />
               </div>
             )}
-            <CounterComponent dish={dish} volumeId={choosenVolumeId} />
+            {mode === ModeEnum.readonly ? (
+              <button
+                onClick={() => dispatch(updateFavourites({ dish, volumeId: choosenVolumeId }))}
+                className={`${styles.favourite} ${isDishAddedToCart ? styles.favouriteSelected : ''}`}
+              >
+                <FavouriteIcon />
+              </button>
+            ) : <CounterComponent dish={dish} volumeId={choosenVolumeId} />}
           </div>
         </div>
       </div>

@@ -10,10 +10,16 @@ export interface ICartItem {
   volumeId: number;
 }
 
+export interface IFavouriteItem {
+  dish: IDish;
+  volumeId: number;
+}
+
 export interface ICartState {
   checkStatus: LoadingStatus;
   bill: IBill;
   cartItems: ICartItem[];
+  favouritesItems: IFavouriteItem[];
 }
 
 interface ICheckOrderRequest {
@@ -23,7 +29,8 @@ interface ICheckOrderRequest {
 
 const initialState: ICartState = {
   bill: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.BILL) || '{}'),
-  cartItems: JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]'),
+  cartItems: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.CART) || '[]'),
+  favouritesItems: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.FAVOURITES) || '[]'),
   checkStatus: LoadingStatus.idle,
 };
 
@@ -46,7 +53,7 @@ export const cartSlice = createSlice({
       state.cartItems =
         state.cartItems?.filter((item) => item.dish.id !== action.payload.id) || null;
 
-      localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
     increaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
       const { dish, volumeId } = action.payload;
@@ -61,7 +68,7 @@ export const cartSlice = createSlice({
         state.cartItems.push({dish, quantity: 1, volumeId })
       }
 
-      localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
 
     },
     decreaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
@@ -79,12 +86,28 @@ export const cartSlice = createSlice({
         }
       }
     
-      localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+    },
+    updateFavourites: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
+      const { dish, volumeId } = action.payload;
+
+      const findedItemIndex = state.favouritesItems?.findIndex((item) => (
+        item.dish.id === dish.id && item.volumeId === volumeId
+      ));
+
+      if (findedItemIndex !== -1) {
+        state.favouritesItems.splice(findedItemIndex, 1);
+      } else {
+        state.favouritesItems.push({dish, volumeId })
+      }
+
+      sessionStorage.setItem(STORAGE_KEYS.FAVOURITES, JSON.stringify(state.favouritesItems));
+
     },
     clearCart: (state: ICartState) => {
       state.cartItems = [];
 
-      localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
     updateBill: (state: ICartState, action: PayloadAction<IBill>) => {
       state.bill = action.payload;
@@ -113,7 +136,9 @@ export const {
   clearCart, 
   updateBill, 
   removeBill,
+  updateFavourites,
 } = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
+export const selectFavourites = (state: RootState) => state.cart.favouritesItems;
 export const selectBill = (state: RootState) => state.cart.bill;
 export default cartSlice.reducer;

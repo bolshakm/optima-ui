@@ -178,3 +178,15 @@
   min-height: 100%;
   display: flex;
 }
+
+.favourite {
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.favouriteSelected path {
+  fill: rgb(208, 35, 29);
+}
