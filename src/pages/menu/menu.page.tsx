@@ -2,9 +2,9 @@ import { Box } from '@mui/material';
 import { FooterComponent, HeaderComponent } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
 import { getMenu, selectMenu } from '../../store/slices/menu/menu.slice'
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
-import { checkOrder, selectCartItems } from '../../store/slices/cart/cart.slice';
+import { checkOrder, selectCartItems, selectFavourites } from '../../store/slices/cart/cart.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { getCafe, selectCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
@@ -20,6 +20,8 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   const { menu } = useAppSelector(selectMenu);
   const { cafe } = useAppSelector(selectCafe);
   const cartItems = useAppSelector(selectCartItems);
+  const favourites = useAppSelector(selectFavourites);
+
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE)
@@ -55,6 +57,14 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
     navigate(ROUTER_KEYS.CART)
   };
 
+  const isVisibleButton = useMemo(() => {
+    if (mode === ModeEnum.readonly) {
+      return Boolean(favourites.length)
+    } else {
+      return Boolean(cartItems.length)
+    }
+  }, [mode, cartItems.length, favourites.length])
+
   return (
     <div className={styles.menu}>
       <HeaderComponent />
@@ -63,7 +73,7 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
           <Box sx={{ mb: 2, flexGrow: 1 }}>
             <MenuContentComponent />
           </Box>
-          {Boolean(cartItems.length) && (
+          {isVisibleButton && (
             <button
               className={styles.button}
               onClick={handleNavigateToCart}
