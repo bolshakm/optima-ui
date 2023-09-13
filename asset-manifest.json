@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/optima-ui/static/css/main.601a350e.css",
-    "main.js": "/optima-ui/static/js/main.24993930.js",
-    "static/media/tripadvisor.svg": "/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
-    "index.html": "/optima-ui/index.html",
-    "static/media/shopping_bag.svg": "/optima-ui/static/media/shopping_bag.6f879221a99b28d974fc460a25fa2bda.svg",
-    "static/media/payments.svg": "/optima-ui/static/media/payments.ce82960411a9614ee561a0ee8b7346aa.svg",
-    "static/media/favorite.svg": "/optima-ui/static/media/favorite.fce797cc4ec96c2a21b62e4497ebe2e0.svg",
-    "static/media/back_hand.svg": "/optima-ui/static/media/back_hand.b7d314eb547161b92dbd3e8f7b8af9b4.svg",
-    "static/media/euro_symbol.svg": "/optima-ui/static/media/euro_symbol.87e9fe6a96572e8765614ee8321f6a3e.svg",
-    "static/media/reviews.svg": "/optima-ui/static/media/reviews.aafb91482e45d0aea16bec973f83bfed.svg",
-    "static/media/credit_card.svg": "/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
-    "static/media/expand_more.svg": "/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
-    "main.601a350e.css.map": "/optima-ui/static/css/main.601a350e.css.map",
-    "main.24993930.js.map": "/optima-ui/static/js/main.24993930.js.map"
+    "main.css": "/ui/optima-ui/static/css/main.601a350e.css",
+    "main.js": "/ui/optima-ui/static/js/main.79c81dda.js",
+    "static/media/tripadvisor.svg": "/ui/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
+    "index.html": "/ui/optima-ui/index.html",
+    "static/media/shopping_bag.svg": "/ui/optima-ui/static/media/shopping_bag.6f879221a99b28d974fc460a25fa2bda.svg",
+    "static/media/payments.svg": "/ui/optima-ui/static/media/payments.ce82960411a9614ee561a0ee8b7346aa.svg",
+    "static/media/favorite.svg": "/ui/optima-ui/static/media/favorite.fce797cc4ec96c2a21b62e4497ebe2e0.svg",
+    "static/media/back_hand.svg": "/ui/optima-ui/static/media/back_hand.b7d314eb547161b92dbd3e8f7b8af9b4.svg",
+    "static/media/euro_symbol.svg": "/ui/optima-ui/static/media/euro_symbol.87e9fe6a96572e8765614ee8321f6a3e.svg",
+    "static/media/reviews.svg": "/ui/optima-ui/static/media/reviews.aafb91482e45d0aea16bec973f83bfed.svg",
+    "static/media/credit_card.svg": "/ui/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
+    "static/media/expand_more.svg": "/ui/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
+    "main.601a350e.css.map": "/ui/optima-ui/static/css/main.601a350e.css.map",
+    "main.79c81dda.js.map": "/ui/optima-ui/static/js/main.79c81dda.js.map"
   },
   "entrypoints": [
     "static/css/main.601a350e.css",
-    "static/js/main.24993930.js"
+    "static/js/main.79c81dda.js"
   ]
 }
