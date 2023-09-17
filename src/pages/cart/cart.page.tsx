@@ -11,6 +11,7 @@ import { IBill } from '../../types/bill.interface';
 import { getCafe, selectCafe } from '../../store/slices/cafe/cafe.slice';
 import styles from './styles.module.css';
 import { ModeEnum } from '../../types/mode.enum';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 interface IProps {
   mode?: ModeEnum;
@@ -25,6 +26,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
   const { cafeId, tableId } = useAppSelector(selectCafe);
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
   const [isOrdered, setIsOrdered] = useState(false);
+  const { texts } = useAppSelector(selectTexts);
 
   useEffect(() => {
     if (mode) {
@@ -114,7 +116,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
 
   return (
     <div className={styles.box}>
-      <HeaderComponent isCut={true} text='menu' addres={backAddress} />
+      <HeaderComponent isCut={true} addres={backAddress} />
       <div className={styles.inner}>
         <div className="container container--sm">
           {Boolean(Object.keys(bill).length) && (
@@ -124,7 +126,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
             <Box sx={{ flexGrow: 1 }}>
               <div className={styles.favouritesBox}>
                 <h6 className={styles.favouritesTitle}>
-                  Your favourites
+                  {texts['your.favourites']}
                 </h6>
                 <div className={styles.list}>
                   {favourites.map((item) => (
@@ -149,7 +151,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
           )}
           {Boolean(totalSum) && (
             <div className={styles.sumBlock}>
-              <span className={styles.sum}>Total sum: {totalSum.toFixed(2)}€</span>
+              <span className={styles.sum}>{`${texts['total.sum']} ${totalSum.toFixed(2)}€`}</span>
             </div>
           )}
           {currentMode !== ModeEnum.readonly && (
@@ -159,7 +161,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
                   className={styles.button}
                   onClick={() => navigate(ROUTER_KEYS.MENU)}
                 >
-                  Add
+                  {texts.add}
                 </button>
               </Grid>
               <Grid item xs={3} md={4}>
@@ -168,7 +170,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
                   onClick={handleOrder}
                   disabled={!cartItems.length}
                 >
-                  Order
+                  {texts.order}
                 </button>
               </Grid>
               <Grid item xs={6} md={4}>
@@ -177,7 +179,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
                   onClick={() => navigate(ROUTER_KEYS.REQUEST_BILL)}
                   disabled={!bill.totalSum}
                 >
-                  Request a bill
+                  {texts['request.bill']}
                 </button>
               </Grid>
             </Grid>

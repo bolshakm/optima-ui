@@ -1,20 +1,22 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import React, { memo } from 'react';
 import { IBill } from '../../types';
 import { BillItemComponent } from '../dish/bill-item.component';
-
 import styles from './styles.module.css';
+import { selectTexts } from '../../store/slices/texts.slice';
+import { useAppSelector } from '../../store/app/hooks';
 
 interface IProps {
   bill: IBill;
 }
 
 export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
-  
+  const { texts } = useAppSelector(selectTexts);
+
   return (
     <div className={styles.box}>
         <h6 className={styles.title}>
-          Your order
+          {texts['your.order']}
         </h6>
         <div className={styles.list}>
           {bill.orderedDish.map((item) => (
@@ -25,7 +27,7 @@ export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
         </div>
         <Grid container sx={{ justifyContent: 'flex-end'}}>
           <h6 className={styles.sum}>
-            Total sum: {bill.totalSum.toFixed(2)}€
+            {`${texts['total.sum']} ${bill.totalSum.toFixed(2)}€`}
           </h6>
         </Grid>
       </div>

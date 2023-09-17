@@ -33,7 +33,7 @@ export const SuccessBillPage = () => {
       {parent === 'actions' ? (
         <HeaderComponent isSimple={true} />
       ) : (
-        <HeaderComponent isCut={true} text='menu' addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />
+        <HeaderComponent isCut={true}  addres={`${ROUTER_KEYS.MENU}/${cafeId}/${tableId}`} />
       )}
       <div className={styles.inner}>
         <Box>

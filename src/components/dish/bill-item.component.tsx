@@ -4,6 +4,8 @@ import { Grid } from '@mui/material';
 import styles from './style.module.css';
 import { DedscriptionComponent } from './description.component';
 import { PriceComponent } from './price.component';
+import { useAppSelector } from '../../store/app/hooks';
+import { selectLanguage } from '../../store/slices/menu/menu.slice';
 
 interface IProps {
   item: IBillItem;
@@ -12,13 +14,15 @@ interface IProps {
 export const BillItemComponent: React.FC<IProps> = memo(({ 
   item
 }) => {
+  const lang = useAppSelector(selectLanguage) || 'en';
+
   return (
     <div className={styles.billItem}>
       <div className={styles.content}>
         <Grid item xs={8}>
           <Grid container flexDirection='column' height='100%'>
-            <h5 className={styles.name}>{item.name}</h5>
-            <DedscriptionComponent text={item.description} />
+            <h5 className={styles.name}>{item?.multilingualName?.[lang] || item.name}</h5>
+            <DedscriptionComponent text={item?.multilingualDescription?.[lang] || item.description} />
             <div className={styles.priceWrapper}>
               <PriceComponent
                 volumeId={item.selectedVolumeId} 

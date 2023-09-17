@@ -6,7 +6,7 @@ import { RequestBillPage } from '../pages/request-bill';
 import { SuccessBillPage } from '../pages/success-bill';
 import { useAppSelector } from '../store/app/hooks';
 import { selectCafe } from '../store/slices/cafe/cafe.slice';
-import { ActionsPage } from '../pages/options';
+import { ActionsPage } from '../pages/actions';
 import { ModeEnum } from '../types/mode.enum';
 
 export const Router = () => {

@@ -1,3 +1,5 @@
+import { ILanguages } from './languages.interface';
+
 export interface IDishVolumesAndPrice {
   id: number; 
   volume: string; 
@@ -10,4 +12,6 @@ export interface IDish {
   description: string;
   dishVolumesAndPrice: IDishVolumesAndPrice[];
   image?: string;
+  multilingualDescription: ILanguages | null;
+  multilingualName: ILanguages | null;
 }

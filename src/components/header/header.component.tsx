@@ -14,6 +14,7 @@ import { ReactComponent as Favourite } from '../../assets/svg/favorite.svg'
 import styles from './header.module.css'
 import { ModeEnum } from '../../types/mode.enum';
 import { LanguageComponent } from '../language';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 interface IProps {
   isCut?: boolean;
@@ -22,7 +23,7 @@ interface IProps {
   isSimple?: boolean;
 }
 
-export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', text = '', isSimple = false }) => {
+export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', text = null, isSimple = false }) => {
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
   const favourites = useAppSelector(selectFavourites);
@@ -30,6 +31,7 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
   const [isCallToWaiter, setIsCallTowaiter] = useState(false);
   const { cafe, cafeId, tableId } = useAppSelector(selectCafe);
   const mode = sessionStorage.getItem(STORAGE_KEYS.MODE);
+  const { texts } = useAppSelector(selectTexts);
 
   const isCartEmpty = useMemo(() => {
     if (mode === ModeEnum.readonly) {
@@ -83,7 +85,7 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
                 <button
                   onClick={() => navigate(addres)}
                 >
-                  <ArrowBackIosIcon color='inherit'/> {`Back to ${text}`}
+                  <ArrowBackIosIcon color='inherit'/> {text || texts['back.to.menu']}
                 </button>
               </div>
             ) : (<h3 className={styles.companyName}>{cafe?.name}</h3>)}
@@ -99,7 +101,7 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
                   <div className={styles.circle} />
                 )}
                 <h6 className={styles.text}>
-                  Call waiter
+                  {texts['call.waiter']}
                 </h6>
               </button>
               <button

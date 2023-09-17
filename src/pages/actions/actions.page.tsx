@@ -10,13 +10,22 @@ import { getCafe, selectCafe, setCafeId, setTableId } from '../../store/slices/c
 import { FooterComponent, HeaderComponent } from '../../components';
 import styles from './styles.module.css';
 import { instance } from '../../axios/instanse';
+import { getTexts, selectTexts } from '../../store/slices/texts.slice';
+import { Language } from '../../types';
 
 export const ActionsPage = () => {
   const dispatch = useAppDispatch();
   const { cafe } = useAppSelector(selectCafe);
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
-  const language = localStorage.getItem(STORAGE_KEYS.LANG)
+  const language = localStorage.getItem(STORAGE_KEYS.LANG) as Language;
+  const { texts } = useAppSelector(selectTexts);
+
+  useEffect(() => {
+    if (!Boolean(Object.keys(texts).length) && language) {
+      dispatch(getTexts(language))
+    }
+  }, [texts, language, dispatch]);
 
   useEffect(() => {
     if (cafe && !language) {
@@ -65,19 +74,19 @@ export const ActionsPage = () => {
               className={styles.button}
               onClick={handleCallTowaiter}
             >
-              <HandIcon /> I have a question
+              <HandIcon /> {texts['have.question']}
             </button>
             <button
               className={styles.button}
               onClick={() => handleChoosePaymentMethod('cash')}
             >
-              <Payments /> Bill, please. I pay by cash
+              <Payments /> {texts['bill.cash']}
             </button>
             <button
               className={styles.button}
               onClick={() => handleChoosePaymentMethod('card')}
             >
-              <CreditCardIcon /> Bill, please. I pay by card
+              <CreditCardIcon /> {texts['bill.card']}
             </button>
             {/* <a
               href={cafe?.googleReview}

@@ -28,14 +28,18 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
   const language = useAppSelector(selectLanguage);
   const [isChecked, setIsChecked] = useState(false);
-
+  
   useEffect(() => {
     if (mode) {
-      sessionStorage.setItem(STORAGE_KEYS.MODE, mode)
-    } else {
+      sessionStorage.setItem(STORAGE_KEYS.MODE, mode);
+      sessionStorage.removeItem(STORAGE_KEYS.CART);
+      sessionStorage.removeItem(STORAGE_KEYS.BILL);
+    } else {    
       if (modeFromStorage === ModeEnum.readonly) {
         sessionStorage.removeItem(STORAGE_KEYS.MODE)
       }
+
+      sessionStorage.removeItem(STORAGE_KEYS.FAVOURITES)
     }
   }, [mode, modeFromStorage])
 
@@ -49,25 +53,31 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
     if (!Boolean(Object.keys(texts).length) && language) {
       dispatch(getTexts(language))
     }
-  }, [texts, language, dispatch])
+  }, [texts, language, dispatch]);
 
   useEffect(() => {
     dispatch(setCafeId(cafeId));    
     dispatch(setTableId(tableId));
+  }, [dispatch, cafeId, tableId]);
 
+  useEffect(() => {
     if (!cafe) {
       dispatch(getCafe({cafeId}));
     }
-    
+  }, [dispatch, cafeId, cafe]);
+
+  useEffect(() => {   
     if (!menu) {
       dispatch(getMenu({cafeId, tableId}));
     }
+  }, [dispatch, cafeId, tableId, menu]);
 
+  useEffect(() => {
     if (mode !== ModeEnum.readonly && !isChecked) {
       setIsChecked(true);
       dispatch(checkOrder({cafeId, tableId}))
     }
-  }, [dispatch, cafeId, tableId, menu, cafe, mode, isChecked]);
+  }, [dispatch, cafeId, tableId, mode, isChecked]);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)
@@ -94,7 +104,7 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
               className={styles.button}
               onClick={handleNavigateToCart}
             >
-              {mode === ModeEnum.readonly ? 'GO TO FAVORITES' : 'Go to cart'}
+              {mode === ModeEnum.readonly ? (texts['go.to.favourites']) : texts['go.to.cart']}
             </button>
           )}
         </div>

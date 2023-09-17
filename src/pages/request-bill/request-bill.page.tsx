@@ -10,12 +10,14 @@ import { removeBill } from '../../store/slices/cart/cart.slice';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { FooterComponent, HeaderComponent } from '../../components';
 import styles from './styles.module.css';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 export const RequestBillPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
   const { cafeId, tableId } = useAppSelector(selectCafe);
+  const { texts } = useAppSelector(selectTexts);
 
   const handleChoosePaymentMethod = async (key: string) => {
     setError(false);
@@ -32,24 +34,24 @@ export const RequestBillPage = () => {
 
   return (
     <div className={styles.box}>
-      <HeaderComponent isCut={true} text='my order' addres={ROUTER_KEYS.CART} />
+      <HeaderComponent isCut={true} addres={ROUTER_KEYS.CART} text={texts['back.to.cart']}/>
       <div className={styles.inner}>
         <Box>
           <Grid container flexDirection="column" alignItems='center'>
-            <h6 className={styles.question}>How do you want to pay?</h6>
+            <h6 className={styles.question}>{texts['how.pay']}</h6>
             <Grid item>
               <div className={styles.buttons}>
                 <button
                   className={styles.button}
                   onClick={() => handleChoosePaymentMethod('card')}
                 >
-                  <CreditCardIcon /> Credit card
+                  <CreditCardIcon />{texts['credit.card']}
                 </button>
                 <button
                   className={styles.button}
                   onClick={() => handleChoosePaymentMethod('cash')}
                 >
-                  <AttachMoneyIcon /> Cash
+                  <AttachMoneyIcon />{texts.cash}
                 </button>
               </div>
             </Grid>

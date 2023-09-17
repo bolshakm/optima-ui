@@ -10,6 +10,7 @@ import { PriceComponent } from './price.component';
 import { STORAGE_KEYS } from '../../common/constants';
 import { ModeEnum } from '../../types/mode.enum';
 import { ReactComponent as FavouriteIcon } from '../../assets/svg/favorite.svg'
+import { selectLanguage } from '../../store/slices/menu/menu.slice';
 
 interface IProps {
   dish: IDish;
@@ -29,7 +30,7 @@ export const DishComponent: React.FC<IProps> = memo(({
 }) => {
   const cartItems = useAppSelector(selectCartItems);
   const favourites = useAppSelector(selectFavourites);
-
+  const lang = useAppSelector(selectLanguage) || 'en';
   const [choosenVolumeId, setChoosenVolumeId] = useState(volumeId || dish.dishVolumesAndPrice[0].id);
   const mode = sessionStorage.getItem(STORAGE_KEYS.MODE);
   const dispatch = useAppDispatch();
@@ -53,8 +54,8 @@ export const DishComponent: React.FC<IProps> = memo(({
         <Grid container flexDirection='column'>
           <Grid container flexDirection='column' justifyContent='space-between' height='100%'>
             <div className={styles.textContent}>
-              <h5 className={styles.name}>{dish.name}</h5>
-              <DedscriptionComponent text={dish.description} />
+              <h5 className={styles.name}>{dish.multilingualName?.[lang] || dish.name}</h5>
+              <DedscriptionComponent text={dish.multilingualDescription?.[lang] || dish.description} />
             </div>
             <PriceComponent
               volumeId={choosenVolumeId} 

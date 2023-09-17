@@ -9,10 +9,12 @@ import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { ReactComponent as Expand } from '../../assets/svg/expand_more.svg';
 import styles from './styles.module.css';
 import { IWorkingHours } from '../../types';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 export const FooterComponent = () => {
   const { cafe } = useAppSelector(selectCafe);
   const [isExpanded, setIsExpanded] = useState(false);
+  const { texts } = useAppSelector(selectTexts);
 
   const today = new Date().toLocaleDateString('en-US', { weekday: 'short' }) as keyof IWorkingHours;
 
@@ -23,7 +25,7 @@ export const FooterComponent = () => {
           {cafe && cafe.address && (
             <Grid item xs={12} sm={6} md={4}>
               <Grid container flexDirection='column' gap={1}>
-                <h6 className={styles.title}>Our adress</h6>
+                <h6 className={styles.title}>{texts.address || 'Our adress'}</h6>
                 <p className={styles.text}>{cafe.address}</p>{}
               </Grid>
             </Grid>
@@ -31,7 +33,7 @@ export const FooterComponent = () => {
         {cafe && Boolean(Object.keys(cafe.workingHours).length) && (
           <Grid item xs={12} sm={6} md={4}>
             <div className={styles.list}>
-              <h6 className={styles.title}>Working hours</h6>
+              <h6 className={styles.title}>{texts['working.hours']}</h6>
               <button className={styles.button} onClick={() => setIsExpanded(!isExpanded)}>
                 <p className={styles.text}>{cafe.workingHours[today]}</p>
                 <span className={`${styles.icon} ${isExpanded ? styles.iconRevert : ''}`}><Expand /></span>
@@ -49,7 +51,7 @@ export const FooterComponent = () => {
         )}
         <Grid item xs={12} sm={6} md={4}>
           <div className={styles.list}>
-            <h6 className={styles.title}>We are on social network</h6>
+            <h6 className={styles.title}>{texts['social.network']}</h6>
             <Link to={cafe?.facebook || '/'} style={{ color: 'inherit', textDecoration: 'none' }}>
               <div className={styles.item}>
                 <FacebookIcon /> <span className={styles.text}>Facebook</span>
@@ -71,7 +73,7 @@ export const FooterComponent = () => {
     </div>
    
     <div className={styles.bottom}>
-      Created by <a href='/' target='_blank' className={styles.link}>Optima</a>
+      {texts['created.by']} <a href='/' target='_blank' className={styles.link}>Optima</a>
     </div>
   </div>
 )}
