@@ -20,14 +20,14 @@ export const FooterComponent = () => {
   <div className={styles.box}>
     <div className="container">
         <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
           {cafe && cafe.address && (
-            <Grid container flexDirection='column' gap={1}>
-              <h6 className={styles.title}>Our adress</h6>
-              <p className={styles.text}>{cafe.address}</p>{}
+            <Grid item xs={12} sm={6} md={4}>
+              <Grid container flexDirection='column' gap={1}>
+                <h6 className={styles.title}>Our adress</h6>
+                <p className={styles.text}>{cafe.address}</p>{}
+              </Grid>
             </Grid>
           )}
-        </Grid>
         {cafe && Boolean(Object.keys(cafe.workingHours).length) && (
           <Grid item xs={12} sm={6} md={4}>
             <div className={styles.list}>

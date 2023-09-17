@@ -1,0 +1,80 @@
+.box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.icon {
+  width: 28px;
+  height: 24px;
+  transform-origin: center;
+  transition: all 0.3s;
+}
+
+.icon.reverted {
+  transform: rotate(180deg);
+}
+
+.list {
+  position: absolute;
+  bottom: -10px;
+  right: 0;
+  transform: translateY(100%);
+  min-width: 130px;
+  padding: 3px 17px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  background: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  transition: all 0.3s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.list.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.item:not(:last-child) {
+  border-bottom: 1px solid #00000036;
+}
+
+.option {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  outline: none;
+  background-color: transparent;      
+  color: #000;
+  font-family: Inter;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.option.active {
+  color: #3EB98C
+}

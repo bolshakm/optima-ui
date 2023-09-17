@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
 import { FooterComponent, HeaderComponent } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
-import { getMenu, selectMenu } from '../../store/slices/menu/menu.slice'
-import { memo, useEffect } from 'react';
+import { getMenu, selectLanguage, selectMenu, setLanguage } from '../../store/slices/menu/menu.slice'
+import { memo, useEffect, useMemo, useState } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
-import { checkOrder, selectCartItems } from '../../store/slices/cart/cart.slice';
+import { checkOrder, selectCartItems, selectFavourites } from '../../store/slices/cart/cart.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { getCafe, selectCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
 import styles from './menu.module.css';
 import { ModeEnum } from '../../types/mode.enum';
+import { getTexts, selectTexts } from '../../store/slices/texts.slice';
 
 interface IProps {
   mode?: ModeEnum;
@@ -19,10 +20,14 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   const dispatch = useAppDispatch();
   const { menu } = useAppSelector(selectMenu);
   const { cafe } = useAppSelector(selectCafe);
+  const { texts } = useAppSelector(selectTexts);
   const cartItems = useAppSelector(selectCartItems);
+  const favourites = useAppSelector(selectFavourites);
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
-  const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE)
+  const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
+  const language = useAppSelector(selectLanguage);
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     if (mode) {
@@ -33,6 +38,18 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
       }
     }
   }, [mode, modeFromStorage])
+
+  useEffect(() => {
+    if (cafe && !language) {
+      dispatch(setLanguage(cafe.defLang))
+    }
+  }, [language, cafe, dispatch])
+
+  useEffect(() => {
+    if (!Boolean(Object.keys(texts).length) && language) {
+      dispatch(getTexts(language))
+    }
+  }, [texts, language, dispatch])
 
   useEffect(() => {
     dispatch(setCafeId(cafeId));    
@@ -46,14 +63,23 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
       dispatch(getMenu({cafeId, tableId}));
     }
 
-    if (mode !== ModeEnum.readonly) {
+    if (mode !== ModeEnum.readonly && !isChecked) {
+      setIsChecked(true);
       dispatch(checkOrder({cafeId, tableId}))
     }
-  }, [dispatch, cafeId, tableId, menu, cafe, mode]);
+  }, [dispatch, cafeId, tableId, menu, cafe, mode, isChecked]);
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)
   };
+
+  const isVisibleButton = useMemo(() => {
+    if (mode === ModeEnum.readonly) {
+      return favourites.length > 0
+    } else {
+      return cartItems.length > 0
+    }
+  }, [mode, favourites.length, cartItems.length])
 
   return (
     <div className={styles.menu}>
@@ -63,17 +89,16 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
           <Box sx={{ mb: 2, flexGrow: 1 }}>
             <MenuContentComponent />
           </Box>
-          {Boolean(cartItems.length) && (
+          {isVisibleButton && (
             <button
               className={styles.button}
               onClick={handleNavigateToCart}
             >
-              Go to cart
+              {mode === ModeEnum.readonly ? 'GO TO FAVORITES' : 'Go to cart'}
             </button>
           )}
         </div>
       </div>
-      
       <FooterComponent />
     </div>
   )

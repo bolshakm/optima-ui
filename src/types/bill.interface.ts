@@ -2,6 +2,7 @@ import { IDishVolumesAndPrice } from './dish.interface';
 
 export interface IBillItem {
   id: number;
+  productId: number;
   name: string;
   description: string;
   enabled: boolean;

@@ -16,9 +16,10 @@ export const API_KEYS = {
   MENU: '/v1/menu/view',
   CHECK_ORDER: '/v1/order',
   ORDER: '/v1/order/place',
-  ORDER_UPDATE: '/v1/order/update/',
+  ORDER_UPDATE: '/v1/order/update',
   BILL: '/v1/bill',
-  WAITER: '/v1/waiter'
+  WAITER: '/v1/waiter',
+  LOCAL: '/v1/text/local'
 };
 
 export const STORAGE_KEYS = {
@@ -27,5 +28,7 @@ export const STORAGE_KEYS = {
   CAFE: 'optima-cafe',
   TABLE: 'optima-table',
   MODE: 'optima-mode',
-  FAVOURITES: 'optima-favourites'
+  FAVOURITES: 'optima-favourites',
+  LANG: 'optima-language',
+  LOCAL: 'optima-local'
 };

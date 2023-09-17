@@ -8,8 +8,11 @@ export interface IWorkingHours {
     Sun: string;
 }
 
+export type Language = 'en' | 'es';
+
 export interface ICafe {
     name: string;
+    defLang: Language;
     banner: string;
     address: string;
     workingHours: IWorkingHours;

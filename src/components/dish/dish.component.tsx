@@ -38,7 +38,7 @@ export const DishComponent: React.FC<IProps> = memo(({
     if (mode === ModeEnum.readonly) {
       return favourites.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
     } else {
-      cartItems.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
+      return cartItems.some((item) => item.dish.id === dish.id && item.volumeId === choosenVolumeId);
     }
   }, [mode, cartItems, favourites, choosenVolumeId, dish.id])
 

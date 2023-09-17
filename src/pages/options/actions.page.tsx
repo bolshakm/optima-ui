@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_KEYS, ROUTER_KEYS } from '../../common/constants';
+import { API_KEYS, ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { ReactComponent as CreditCardIcon } from '../../assets/svg/credit_card.svg';
 import { ReactComponent as HandIcon } from '../../assets/svg/back_hand.svg';
 import { ReactComponent as ReviewsIcon } from '../../assets/svg/reviews.svg';
@@ -16,6 +16,13 @@ export const ActionsPage = () => {
   const { cafe } = useAppSelector(selectCafe);
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
+  const language = localStorage.getItem(STORAGE_KEYS.LANG)
+
+  useEffect(() => {
+    if (cafe && !language) {
+      localStorage.setItem(STORAGE_KEYS.LANG, cafe.defLang)
+    }
+  }, [language, cafe])
 
   useEffect(() => {
     dispatch(setCafeId(cafeId));    
@@ -72,14 +79,14 @@ export const ActionsPage = () => {
             >
               <CreditCardIcon /> Bill, please. I pay by card
             </button>
-            <a
+            {/* <a
               href={cafe?.googleReview}
               target='_blank'
               rel="noreferrer"
               className={styles.button}
             >
               <ReviewsIcon /> Rate and review
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

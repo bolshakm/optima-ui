@@ -104,3 +104,12 @@
 .backButton button svg {
   height: 12px;
 }
+
+.favourite {
+  width: 35px;
+  height: 35px;
+}
+
+.favouriteActive path {
+  fill: #d63d3d;
+}

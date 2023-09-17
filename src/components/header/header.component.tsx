@@ -9,9 +9,11 @@ import { useState, useMemo } from 'react';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { ReactComponent as Hand } from '../../assets/svg/back_hand.svg';
 import { ReactComponent as Bag } from '../../assets/svg/shopping_bag.svg';
+import { ReactComponent as Favourite } from '../../assets/svg/favorite.svg'
 
 import styles from './header.module.css'
 import { ModeEnum } from '../../types/mode.enum';
+import { LanguageComponent } from '../language';
 
 interface IProps {
   isCut?: boolean;
@@ -42,14 +44,20 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
   }
 
   const handleCallTowaiter = async () => {
-    try {
-      const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}`);
+    setIsCallTowaiter(true);
 
-      if (status === 200) {
-        setIsCallTowaiter(true);
-      } 
-    } catch (err) {
-      console.error(err);
+    if (mode === ModeEnum.readonly) {
+      navigate(`${ROUTER_KEYS.MENU_ACTIONS}/${cafeId}/${tableId}`)
+    } else {
+      try {
+        const { status } = await instance.get(`${API_KEYS.WAITER}/${cafeId}/${tableId}`);
+  
+        if (status !== 200) {
+          setIsCallTowaiter(false);
+        } 
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 
@@ -80,8 +88,9 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
               </div>
             ) : (<h3 className={styles.companyName}>{cafe?.name}</h3>)}
             <div className={styles.buttons}>
+              <LanguageComponent />
               <button
-                disabled={isCallToWaiter || mode === ModeEnum.readonly} 
+                disabled={isCallToWaiter} 
                 onClick={handleCallTowaiter}
                 className={styles.button}
               >
@@ -99,9 +108,13 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
                 className={styles.button}
                 style={{ visibility: isCut ? 'hidden' : 'visible' }}
               >
-                <Badge variant='dot' invisible={isCartEmpty} color='error'>
-                  <Bag width={31} height={30} />
-                </Badge>
+                {mode === ModeEnum.readonly ? (
+                  <Favourite className={`${styles.favourite} ${isCartEmpty ? '' : styles.favouriteActive}`} />
+                ) :(
+                  <Badge variant='dot' invisible={isCartEmpty} color='error'>
+                    <Bag width={31} height={30} />
+                  </Badge>
+                )}
               </button>
             </div>
           </div>

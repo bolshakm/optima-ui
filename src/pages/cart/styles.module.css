@@ -55,3 +55,16 @@
   margin-bottom: 36px;
   margin-right: 24px;
 }
+
+.favouritesBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.favouritesTitle {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 24px 24px;
+}

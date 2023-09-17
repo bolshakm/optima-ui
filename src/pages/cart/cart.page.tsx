@@ -4,7 +4,7 @@ import { checkOrder, clearCart, selectBill, selectCartItems, selectFavourites, u
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { BillComponent, DishComponent, FooterComponent, HeaderComponent } from '../../components';
-import { useEffect, useMemo, memo } from 'react';
+import { useEffect, useMemo, memo, useState } from 'react';
 import { instance } from '../../axios/instanse';
 import { modifyData } from '../../utils/modifyCartData';
 import { IBill } from '../../types/bill.interface';
@@ -24,6 +24,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
   const bill = useAppSelector(selectBill);
   const { cafeId, tableId } = useAppSelector(selectCafe);
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
+  const [isOrdered, setIsOrdered] = useState(false);
 
   useEffect(() => {
     if (mode) {
@@ -48,24 +49,24 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
   }, [dispatch, cafeId]);
     
   const handleOrder = async () => {
+    if (isOrdered) {
+      return;
+    }
+
+    setIsOrdered(true);
+
     const modifiedData = modifyData(cartItems, cafeId, tableId)
-    const { data } 
+    const { data, status } 
       = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafeId}/${tableId}`, modifiedData);
 
+    if (status !== 200) {
+      setIsOrdered(false)
+    }
+      
     dispatch(updateBill(data));
     dispatch(clearCart())
   }
 
-  // const handleUpdateOrder = async () => {
-  //   const modifiedData = modifyData(cartItems, cafeId, tableId);
-  //   const combinedData = combineArrays(modifiedData, bill)
-    
-  //   const { data } 
-  //     = await instance.put<IBill>(`${API_KEYS.ORDER_UPDATE}/${cafeId}/${tableId}`, combinedData);
-
-  //   dispatch(updateBill(data));
-  //   dispatch(clearCart())
-  // }
   const backAddress = useMemo(() => {
     if (currentMode === ModeEnum.readonly) {
       return `${ROUTER_KEYS.MENU_READ}/${cafeId}/${tableId}`
@@ -111,8 +112,6 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
     },0)
   }, [cartItems, currentMode, favourites])
 
-
-
   return (
     <div className={styles.box}>
       <HeaderComponent isCut={true} text='menu' addres={backAddress} />
@@ -123,25 +122,30 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
           )}
           {currentMode === ModeEnum.readonly ? (
             <Box sx={{ flexGrow: 1 }}>
-              <div className={styles.list}>
-                {favourites.map((item) => (
-                  <div key={item.dish.id + item.volumeId}>
-                    <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} isCartItem={true} />
-                  </div>
-                ))}
+              <div className={styles.favouritesBox}>
+                <h6 className={styles.favouritesTitle}>
+                  Your favourites
+                </h6>
+                <div className={styles.list}>
+                  {favourites.map((item) => (
+                    <div key={item.dish.id + item.volumeId}>
+                      <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} isCartItem={true} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </Box>
           ) :
           (
-          <Box sx={{ flexGrow: 1 }}>
-            <div className={styles.list}>
-              {cartItems.map((item) => (
-                <div key={item.dish.id + item.volumeId}>
-                  <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} count={item.quantity} isCartItem={true} />
-                </div>
-              ))}
-            </div>
-          </Box>
+            <Box sx={{ flexGrow: 1 }}>
+              <div className={styles.list}>
+                {cartItems.map((item) => (
+                  <div key={item.dish.id + item.volumeId}>
+                    <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} count={item.quantity} isCartItem={true} />
+                  </div>
+                ))}
+              </div>
+            </Box>
           )}
           {Boolean(totalSum) && (
             <div className={styles.sumBlock}>
@@ -180,7 +184,6 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
           )}
         </div>
       </div>
-      
     <FooterComponent />
     </div>
   )

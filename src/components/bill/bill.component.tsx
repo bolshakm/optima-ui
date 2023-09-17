@@ -10,7 +10,6 @@ interface IProps {
 }
 
 export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
-  console.log(bill);
   
   return (
     <div className={styles.box}>
