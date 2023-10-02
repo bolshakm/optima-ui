@@ -15,6 +15,7 @@
 .headerSm {
   height: 63px;
   min-height: 63px;
+  padding: 0 16px;
 }
 
 /* .container {

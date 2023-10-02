@@ -6,6 +6,8 @@ import { DedscriptionComponent } from './description.component';
 import { PriceComponent } from './price.component';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectLanguage } from '../../store/slices/menu/menu.slice';
+import { AllergensComponent } from './allergens.component';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 interface IProps {
   item: IBillItem;
@@ -15,6 +17,7 @@ export const BillItemComponent: React.FC<IProps> = memo(({
   item
 }) => {
   const lang = useAppSelector(selectLanguage) || 'en';
+  const { texts } = useAppSelector(selectTexts);
 
   return (
     <div className={styles.billItem}>
@@ -31,6 +34,9 @@ export const BillItemComponent: React.FC<IProps> = memo(({
                 readonly={true}
               />
             </div>
+            {(Boolean(item.allergens?.length) || Boolean(item.infoDishIcons?.length)) && (
+              <AllergensComponent allergens={item.allergens} info={item.infoDishIcons} />
+            )}
           </Grid>
         </Grid>
         <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -44,6 +50,12 @@ export const BillItemComponent: React.FC<IProps> = memo(({
           </Grid>
         </Grid>
       </div>
+      {item.comment && (
+        <p className={styles.comment}>
+          <span><b>{texts.comment}:</b></span>
+          {item.comment}
+        </p>
+      )}
     </div>
   )
 })

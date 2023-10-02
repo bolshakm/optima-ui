@@ -12,6 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .billItem {
@@ -27,7 +29,8 @@
   height: max-content;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .content {
@@ -35,6 +38,7 @@
   height: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .dish.checked {
@@ -189,4 +193,68 @@
 
 .favouriteSelected path {
   fill: #d63d3d;
+}
+
+.description {
+  max-width: 60% !important;
+}
+
+/* Allergens */
+
+.allergensBox {
+  margin-top: 23px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.allergens {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.allergen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+/* Input */
+
+.input {
+  width: 100%;
+  padding: 8px 13px;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: #FFF;
+  color: inherit;
+  outline: none;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  border-color: rgba(0, 0, 0, 0.50);
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.58);
+}
+
+/* Comment */
+
+.comment {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
 }

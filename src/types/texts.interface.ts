@@ -22,4 +22,10 @@ export interface ITexts {
   'bill.cash': string;
   'bill.card': string;
   address: string;
+  'soon.waiter': string;
+  'will.bring': string;
+  'will.come': string;
+  'default.error': string;
+  comment: string;
+  'add.comment': string;
 }

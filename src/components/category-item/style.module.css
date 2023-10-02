@@ -60,3 +60,7 @@
   display: block;
   opacity: 1;
 }
+
+.listExpanded.transform {
+  transform: translateY(84px);
+}

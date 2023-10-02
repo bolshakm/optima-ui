@@ -57,14 +57,14 @@ export const FooterComponent = () => {
                 <FacebookIcon /> <span className={styles.text}>Facebook</span>
               </div>
             </Link>
-            <Link to={cafe?.tripAdvisor || '/'} style={{ color: 'inherit', textDecoration: 'none' }}>
-              <div className={styles.item}>
-                <TripAdvisor /><span className={styles.text}>TripAdvisor</span>
-              </div>
-            </Link>
             <Link to={cafe?.instagram || '/'} style={{ color: 'inherit', textDecoration: 'none' }}>
               <div className={styles.item}>
                 <InstagramIcon /> <span className={styles.text}>Instagram</span>
+              </div>
+            </Link>
+            <Link to={cafe?.tripAdvisor || '/'} style={{ color: 'inherit', textDecoration: 'none' }}>
+              <div className={styles.item}>
+                <TripAdvisor /><span className={styles.text}>TripAdvisor</span>
               </div>
             </Link>
           </div>

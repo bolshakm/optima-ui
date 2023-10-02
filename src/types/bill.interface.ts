@@ -1,8 +1,10 @@
+import { Allergens, DishInfo } from './allergens.enum';
 import { IDishVolumesAndPrice } from './dish.interface';
 import { ILanguages } from './languages.interface';
 
 export interface IBillItem {
   id: number;
+  comment: string;
   productId: number;
   name: string;
   description: string;
@@ -12,6 +14,8 @@ export interface IBillItem {
   quantity: number;
   image: string;
   selectedVolumeId: number;
+  allergens: Allergens[];
+  infoDishIcons: DishInfo[];
   volumeDataList: IDishVolumesAndPrice[];
 }
 

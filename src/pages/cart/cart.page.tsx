@@ -27,7 +27,17 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
   const [isOrdered, setIsOrdered] = useState(false);
   const { texts } = useAppSelector(selectTexts);
+  const [comments, setComments] = useState({});
 
+  useEffect(() => {
+    cartItems.forEach((item) => {
+      setComments((curr) => ({
+        ...curr,
+        [`${item.dish.id}-${item.volumeId}`]: '',
+      }))
+    })
+  }, [cartItems]);
+  
   useEffect(() => {
     if (mode) {
       sessionStorage.setItem(STORAGE_KEYS.MODE, mode)
@@ -57,7 +67,7 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
 
     setIsOrdered(true);
 
-    const modifiedData = modifyData(cartItems, cafeId, tableId)
+    const modifiedData = modifyData(cartItems, cafeId, tableId, comments)
     const { data, status } 
       = await instance.post<IBill>(`${API_KEYS.ORDER}/${cafeId}/${tableId}`, modifiedData);
 
@@ -143,7 +153,15 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
               <div className={styles.list}>
                 {cartItems.map((item) => (
                   <div key={item.dish.id + item.volumeId}>
-                    <DishComponent dish={item.dish} readonly={true} volumeId={item.volumeId} count={item.quantity} isCartItem={true} />
+                    <DishComponent 
+                      dish={item.dish} 
+                      readonly={true} 
+                      volumeId={item.volumeId} 
+                      count={item.quantity} 
+                      isCartItem={true}
+                      comments={comments}
+                      setComments={setComments}
+                    />
                   </div>
                 ))}
               </div>

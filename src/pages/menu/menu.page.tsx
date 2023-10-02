@@ -44,12 +44,6 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   }, [mode, modeFromStorage])
 
   useEffect(() => {
-    if (cafe && !language) {
-      dispatch(setLanguage(cafe.defLang))
-    }
-  }, [language, cafe, dispatch])
-
-  useEffect(() => {
     if (!Boolean(Object.keys(texts).length) && language) {
       dispatch(getTexts(language))
     }

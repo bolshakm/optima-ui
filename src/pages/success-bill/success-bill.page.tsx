@@ -6,13 +6,15 @@ import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 import { useAppSelector } from '../../store/app/hooks';
 import styles from './styles.module.css';
 import { FooterComponent, HeaderComponent } from '../../components';
+import { selectTexts } from '../../store/slices/texts.slice';
 
 export const SuccessBillPage = () => {
   const navigate = useNavigate();
   const { cafeId, tableId } = useAppSelector(selectCafe);
   let [searchParams] = useSearchParams();
-  const parent = searchParams.get('parent')
-  const reason = searchParams.get('reason')
+  const parent = searchParams.get('parent');
+  const reason = searchParams.get('reason');
+  const { texts } = useAppSelector(selectTexts);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -40,14 +42,14 @@ export const SuccessBillPage = () => {
           <Grid container flexDirection="column">
             {reason === 'call-waiter' ? (
               <h6 className={styles.text}>
-                <span>Soon the waiter</span>
-                <span>will come up to you.</span>
+                <span>{texts['soon.waiter']}</span>
+                <span>{texts['will.come']}</span>
               </h6>
               ):(
                 <h6 className={styles.text}>
-                  <span className={styles.top}>Thank you!</span>
-                  <span>Soon waiter</span>
-                  <span>will bring you a bill.</span>
+                  <span className={styles.top}>{texts['thank.you']}</span>
+                  <span>{texts['soon.waiter']}</span>
+                  <span>{texts['will.bring']}</span>
                 </h6>
               )}
           </Grid>

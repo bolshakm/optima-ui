@@ -4,6 +4,7 @@ interface IOrderedDish {
   dishId: number;
   qty: number;
   volumeId: number;
+  comment: string;
 }
 
 export interface IModifiedData {
@@ -12,9 +13,14 @@ export interface IModifiedData {
   orderedDishesForms: IOrderedDish[];
 }
 
-export const modifyData = (items: ICartItem[], cafeId: string, tableNumber: string) => (
+export const modifyData = (
+  items: ICartItem[], 
+  cafeId: string, 
+  tableNumber: string, 
+  comments: { [key:string]: string }
+) => (
   items.reduce((acc, item) => {
-    acc.orderedDishesForms = [...acc.orderedDishesForms, { dishId: item.dish.id, qty: item.quantity, volumeId: item.volumeId }]
+    acc.orderedDishesForms = [...acc.orderedDishesForms, { dishId: item.dish.id, qty: item.quantity, volumeId: item.volumeId, comment: comments[`${item.dish.id}-${item.volumeId}`] }]
     return acc;
   }, {
     tableNumber,

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { ICategory } from '../../types'
 import { Typography, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -12,13 +12,52 @@ interface IProps {
   category: ICategory;
   isExpanded?: boolean;
   toggleCategory: () => void;
+  index: number;
 }
 
-export const CategoryItemComponent: React.FC<IProps> = memo(({ category, isExpanded = false, toggleCategory }) => {
+export const CategoryItemComponent: React.FC<IProps> = memo(({ 
+  category, 
+  isExpanded = false, 
+  toggleCategory, 
+  index 
+}) => {
   const laguage = useAppSelector(selectLanguage) || 'en';
+  const itemContainerRef = useRef<HTMLDivElement>(null);
+  const [isTransform, setIsTransform] = useState(false);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+    let timeout = false;
+
+    const timerId = setTimeout(() => {
+      timeout = true;
+    }, (index + 1) * 200);
+
+    const handleScroll = () => {
+      if (isTransform && timeout) {
+        setIsTransform(false);
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      clearTimeout(timerId);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isTransform, index, isExpanded]);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+    if (itemContainerRef.current) {
+      itemContainerRef.current.scrollIntoView({ behavior: 'auto', block: 'start' })
+    }
+
+    setIsTransform(true);
+  }, [isExpanded])
 
   return (
-    <div className={styles.category}>
+    <div className={styles.category} ref={itemContainerRef}>
       <button
         className={`${styles.button} ${isExpanded ? styles.stiky : ''}`}
         onClick={toggleCategory}
@@ -31,7 +70,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({ category, isExpan
         </Grid>
         <span className={`${styles.icon} ${isExpanded ? styles.iconReverted : ''}`}><ExpandMoreIcon /></span>
       </button>
-      <div className={`${styles.list} ${isExpanded ? styles.listExpanded : ''}`}>
+      <div className={`${styles.list} ${isExpanded ? styles.listExpanded : ''} ${isTransform ? styles.transform : ''}`}>
         <div className={styles.dishes}>
           {category.dishes.map((dish) => (
             <React.Fragment key={dish.id}><DishComponent dish={dish} /></React.Fragment>

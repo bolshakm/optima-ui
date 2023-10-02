@@ -13,7 +13,7 @@ export interface IMenuState {
 const initialState: IMenuState = {
   menu: null,
   status: LoadingStatus.idle,
-  language: localStorage.getItem(STORAGE_KEYS.LANG) as Language || 'en'
+  language: sessionStorage.getItem(STORAGE_KEYS.LANG) as Language
 };
 
 interface IGetMenuRequest {
@@ -35,7 +35,7 @@ export const menuSlice = createSlice({
     setLanguage: (state: IMenuState, action: PayloadAction<Language>) => {
       state.language = action.payload;
 
-      localStorage.setItem(STORAGE_KEYS.LANG, action.payload)
+      sessionStorage.setItem(STORAGE_KEYS.LANG, action.payload)
     }
   },
   extraReducers: (builder) => {

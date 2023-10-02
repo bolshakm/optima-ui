@@ -67,8 +67,9 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
     return (
       <div className={`${styles.header} ${styles.headerSm}`}>
         <div className={styles.content}>
-          <Grid container justifyContent='center' alignItems='center'>
+          <Grid container justifyContent='space-between' alignItems='center'>
             <h3 className={styles.companyName}>{cafe?.name}</h3>
+            <LanguageComponent />
           </Grid>
         </div>
       </div>

@@ -4,13 +4,25 @@ import { MenuPage } from '../pages/menu';
 import { CartPage } from '../pages/cart';
 import { RequestBillPage } from '../pages/request-bill';
 import { SuccessBillPage } from '../pages/success-bill';
-import { useAppSelector } from '../store/app/hooks';
+import { useAppDispatch, useAppSelector } from '../store/app/hooks';
 import { selectCafe } from '../store/slices/cafe/cafe.slice';
 import { ActionsPage } from '../pages/actions';
 import { ModeEnum } from '../types/mode.enum';
+import { useEffect } from 'react';
+import { selectLanguage, setLanguage } from '../store/slices/menu/menu.slice';
 
 export const Router = () => {
   const { cafeId, tableId } = useAppSelector(selectCafe);
+  const language = useAppSelector(selectLanguage);
+  const { cafe } = useAppSelector(selectCafe);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (cafe && !language) {
+      dispatch(setLanguage(cafe.defLang || 'en'))
+    }
+  }, [dispatch, cafe, language])
 
   return (
     <Routes>

@@ -15,7 +15,6 @@ import { selectTexts } from '../../store/slices/texts.slice';
 export const RequestBillPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
-  const dispatch = useAppDispatch();
   const { cafeId, tableId } = useAppSelector(selectCafe);
   const { texts } = useAppSelector(selectTexts);
 
@@ -25,7 +24,6 @@ export const RequestBillPage = () => {
       = await instance.get(`${API_KEYS.BILL}/${cafeId}/${tableId}/?type=${key}`);
 
     if (res.status === 200) {
-      dispatch(removeBill());
       navigate(ROUTER_KEYS.SUCCESS_BILL);
     } else {
       setError(true);
@@ -58,7 +56,7 @@ export const RequestBillPage = () => {
             {error && (
               <Grid item sx={{ mt: 5 }}>
                 <Typography variant='h5' sx={{ mb: 4, textAlign: 'center' }} color='error'>
-                  Oops! Something wrong
+                  {texts['default.error']}
                 </Typography>
               </Grid>
             )}
