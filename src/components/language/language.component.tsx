@@ -5,15 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { selectLanguage, setLanguage } from '../../store/slices/menu/menu.slice';
 import { Language } from '../../types';
 import { getTexts } from '../../store/slices/texts.slice';
-
-const languages = {
-  'en': "English",
-  'es': "Spanish"
-}
+import { selectCafe } from '../../store/slices/cafe/cafe.slice';
 
 export const LanguageComponent = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const lang = useAppSelector(selectLanguage) || 'en';
+  const { cafe } = useAppSelector(selectCafe); 
+
   const dispatch = useAppDispatch();
 
   const toggleIsExpanded = () => {
@@ -36,13 +34,13 @@ export const LanguageComponent = () => {
         <ExpandMoreIcon className={`${styles.icon} ${isExpanded ? styles.reverted : ''}`} />
       </button>
       <ul className={`${styles.list} ${isExpanded ? styles.visible : ''}`}>
-        {Object.entries(languages).map(([key, value]) => (
-          <li className={styles.item} key={key}>
+        {cafe?.languageSet.map((language) => (
+          <li className={styles.item} key={language}>
             <button 
-              className={`${styles.option} ${key === lang ? styles.active : ''}`} 
-              onClick={() => handleSetLanguage(key as Language)}
+              className={`${styles.option} ${language === lang ? styles.active : ''}`} 
+              onClick={() => handleSetLanguage(language as Language)}
             >
-              {value}
+              {language}
             </button>
           </li>
         ))}

@@ -21,7 +21,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({
   toggleCategory, 
   index 
 }) => {
-  const laguage = useAppSelector(selectLanguage) || 'en';
+  const laguage = useAppSelector(selectLanguage) || 'EN';
   const itemContainerRef = useRef<HTMLDivElement>(null);
   const [isTransform, setIsTransform] = useState(false);
 
@@ -64,7 +64,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({
       >
         <Grid container sx={{ flexDirection: 'column' }}>
           <h6 className={styles.buttonText}>
-            {category.multilingualName ? category.multilingualName[laguage] : category.name}
+            {category.multilingualNameMap ? category.multilingualNameMap[laguage] : category.name}
           </h6>
           <Typography sx={{ color: COLORS.GRAY }}>{category.description}</Typography>
         </Grid>

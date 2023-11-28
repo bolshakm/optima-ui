@@ -16,7 +16,7 @@ interface IProps {
 export const BillItemComponent: React.FC<IProps> = memo(({ 
   item
 }) => {
-  const lang = useAppSelector(selectLanguage) || 'en';
+  const lang = useAppSelector(selectLanguage) || 'EN';
   const { texts } = useAppSelector(selectTexts);
 
   return (
@@ -24,8 +24,8 @@ export const BillItemComponent: React.FC<IProps> = memo(({
       <div className={styles.content}>
         <Grid item xs={8}>
           <Grid container flexDirection='column' height='100%'>
-            <h5 className={styles.name}>{item?.multilingualName?.[lang] || item.name}</h5>
-            <DedscriptionComponent text={item?.multilingualDescription?.[lang] || item.description} />
+            <h5 className={styles.name}>{item?.multilingualNameMap?.[lang] || item.name}</h5>
+            <DedscriptionComponent text={item?.multilingualDescriptionMap?.[lang] || item.description} />
             <div className={styles.priceWrapper}>
               <PriceComponent
                 volumeId={item.selectedVolumeId} 

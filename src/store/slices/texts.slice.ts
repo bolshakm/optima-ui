@@ -15,8 +15,10 @@ const initialState: ITextsState = {
 };
 
 export const getTexts = createAsyncThunk('menu/getTexts', async (key: Language) => {
+  const keyForUrl = key.toLocaleLowerCase();
+
   const { data } 
-    = await instance.get(`${API_KEYS.LOCAL}?lang=${key}`);
+    = await instance.get(`${API_KEYS.LOCAL}?lang=${keyForUrl}`);
 
   return data;
 });

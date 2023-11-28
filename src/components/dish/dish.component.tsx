@@ -13,6 +13,7 @@ import { selectLanguage } from '../../store/slices/menu/menu.slice';
 import styles from './style.module.css';
 import { AllergensComponent } from './allergens.component';
 import { selectTexts } from '../../store/slices/texts.slice';
+import { ExtraComponent } from './extra.component';
 
 interface IProps {
   dish: IDish;
@@ -34,9 +35,10 @@ export const DishComponent: React.FC<IProps> = memo(({
   comments,
   setComments,
 }) => {
+  const [showExtras, setShowExtras] = useState(false);
   const cartItems = useAppSelector(selectCartItems);
   const favourites = useAppSelector(selectFavourites);
-  const lang = useAppSelector(selectLanguage) || 'en';
+  const lang = useAppSelector(selectLanguage) || 'EN';
   const { texts } = useAppSelector(selectTexts);
   const [choosenVolumeId, setChoosenVolumeId] = useState(volumeId || dish.dishVolumesAndPrice[0].id);
   const mode = sessionStorage.getItem(STORAGE_KEYS.MODE);
@@ -50,6 +52,12 @@ export const DishComponent: React.FC<IProps> = memo(({
     }
   }, [mode, cartItems, favourites, choosenVolumeId, dish.id])
 
+  
+  const handleShowExtras = () => {
+    if (!isDishAddedToCart) return;
+
+    setShowExtras(!showExtras);
+  }
 
   const changeVolumeId = (id: number) => {
     setChoosenVolumeId(id)
@@ -71,8 +79,8 @@ export const DishComponent: React.FC<IProps> = memo(({
         <Grid container flexDirection='column' className={styles.description}>
           <Grid container flexDirection='column' justifyContent='space-between' height='100%'>
             <div className={styles.textContent}>
-              <h5 className={styles.name}>{dish.multilingualName?.[lang] || dish.name}</h5>
-              <DedscriptionComponent text={dish.multilingualDescription?.[lang] || dish.description} />
+              <h5 className={styles.name}>{dish.multilingualNameMap?.[lang] || dish.name}</h5>
+              <DedscriptionComponent text={dish.multilingualDescriptionMap?.[lang] || dish.description} />
             </div>
             <PriceComponent
               volumeId={choosenVolumeId} 
@@ -103,6 +111,16 @@ export const DishComponent: React.FC<IProps> = memo(({
           </div>
         </div>
       </div>
+      <button>
+        
+      </button>
+      {showExtras && (
+        <div className={styles.extras}>
+          {dish.extras.map((extra) => (
+            <ExtraComponent key={extra.id} extra={extra} />
+          ))}
+        </div>
+      )}
       {isCartItem && comments && handleChangeComment && (
         <input 
           type="text" 

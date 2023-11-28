@@ -10,6 +10,7 @@ import { ActionsPage } from '../pages/actions';
 import { ModeEnum } from '../types/mode.enum';
 import { useEffect } from 'react';
 import { selectLanguage, setLanguage } from '../store/slices/menu/menu.slice';
+import { Language } from '../types';
 
 export const Router = () => {
   const { cafeId, tableId } = useAppSelector(selectCafe);
@@ -20,7 +21,7 @@ export const Router = () => {
 
   useEffect(() => {
     if (cafe && !language) {
-      dispatch(setLanguage(cafe.defLang || 'en'))
+      dispatch(setLanguage(cafe.defLang.toUpperCase() as Language || 'EN'))
     }
   }, [dispatch, cafe, language])
 

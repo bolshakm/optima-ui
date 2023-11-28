@@ -1,6 +1,6 @@
 import { Allergens, DishInfo } from './allergens.enum';
 import { IDishVolumesAndPrice } from './dish.interface';
-import { ILanguages } from './languages.interface';
+import { ILanguagesMap } from './languages.interface';
 
 export interface IBillItem {
   id: number;
@@ -8,8 +8,8 @@ export interface IBillItem {
   productId: number;
   name: string;
   description: string;
-  multilingualDescription: ILanguages | null;
-  multilingualName: ILanguages | null;
+  multilingualDescriptionMap: ILanguagesMap | null;
+  multilingualNameMap: ILanguagesMap | null;
   enabled: boolean;
   quantity: number;
   image: string;

@@ -29,7 +29,7 @@ export const ActionsPage = () => {
 
   useEffect(() => {
     if (cafe && !language) {
-      localStorage.setItem(STORAGE_KEYS.LANG, cafe.defLang)
+      localStorage.setItem(STORAGE_KEYS.LANG, cafe.defLang.toUpperCase())
     }
   }, [language, cafe])
 
