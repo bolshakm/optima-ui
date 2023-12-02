@@ -1,12 +1,8 @@
 import axios from 'axios';
-import { API_KEYS } from '../common/constants';
+import { API_KEYS, PREFIXES } from '../common/constants';
 
-const baseURL = API_KEYS.BASE || 'http://localhost:8080/api';
+const baseURL = `${API_KEYS.BASE}/${PREFIXES.V1}/`;
 
 export const instance = axios.create({
   baseURL,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   Accept: 'application/json',
-  // },
 });

@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { API_KEYS, STORAGE_KEYS } from '../../../common/constants';
-import { IBill, IDish, LoadingStatus } from '../../../types';
+import { IBill, IDish, IExtra, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
 
@@ -8,11 +8,13 @@ export interface ICartItem {
   dish: IDish;
   quantity: number;
   volumeId: number;
+  extras: IExtra[];
 }
 
 export interface IFavouriteItem {
   dish: IDish;
   volumeId: number;
+  extras: IExtra[];
 }
 
 export interface ICartState {
@@ -65,11 +67,29 @@ export const cartSlice = createSlice({
       if (item) {
         item.quantity = item.quantity + 1;
       } else {
-        state.cartItems.push({dish, quantity: 1, volumeId })
+        state.cartItems.push({dish, quantity: 1, volumeId, extras: []})
       }
 
       sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
+    },
+    addRemoveExtra: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number, extra: IExtra }>) => {
+      const { dish, volumeId, extra } = action.payload;
 
+      const item = state.cartItems?.find((item) => (
+        item.dish.id === dish.id && item.volumeId === volumeId
+      ));
+
+      if (!item) return;
+
+      const extraIndex = item.extras.findIndex((existExtra) => existExtra.id === extra.id);
+
+      if (extraIndex !== -1) {
+        item?.extras.splice(extraIndex, 1)
+      } else {
+        item?.extras.push(extra);
+      }
+
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
     decreaseCount: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number }>) => {
       const { dish, volumeId } = action.payload;
@@ -98,11 +118,29 @@ export const cartSlice = createSlice({
       if (findedItemIndex !== -1) {
         state.favouritesItems.splice(findedItemIndex, 1);
       } else {
-        state.favouritesItems.push({dish, volumeId })
+        state.favouritesItems.push({dish, volumeId, extras: []})
       }
 
       sessionStorage.setItem(STORAGE_KEYS.FAVOURITES, JSON.stringify(state.favouritesItems));
+    },
+    addRemoveExtraToFromFavourites: (state: ICartState, action: PayloadAction<{ dish: IDish, volumeId: number, extra: IExtra }>) => {
+      const { dish, volumeId, extra } = action.payload;
 
+      const item = state.favouritesItems?.find((item) => (
+        item.dish.id === dish.id && item.volumeId === volumeId
+      ));
+
+      if (!item) return;
+
+      const extraIndex = item.extras.findIndex((existExtra) => existExtra.id === extra.id);
+
+      if (extraIndex !== -1) {
+        item?.extras.splice(extraIndex, 1)
+      } else {
+        item?.extras.push(extra);
+      }
+
+      sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.favouritesItems));
     },
     clearCart: (state: ICartState) => {
       state.cartItems = [];
@@ -137,6 +175,8 @@ export const {
   updateBill, 
   removeBill,
   updateFavourites,
+  addRemoveExtra,
+  addRemoveExtraToFromFavourites,
 } = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
 export const selectFavourites = (state: RootState) => state.cart.favouritesItems;

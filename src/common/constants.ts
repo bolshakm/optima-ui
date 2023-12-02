@@ -10,16 +10,22 @@ export const ROUTER_KEYS = {
   SUCCESS_BILL: '/cart/success-bill'
 }
 
+export const PREFIXES = {
+  V1: 'v1',
+  UI: 'ui',
+  UAT: 'uat',
+}
+
 export const API_KEYS = {
   BASE: process.env.REACT_APP_SERVER_URL,
-  CAFE: '/v1/cafe',
-  MENU: '/v1/menu/view',
-  CHECK_ORDER: '/v1/order',
-  ORDER: '/v1/order/place',
-  ORDER_UPDATE: '/v1/order/update',
-  BILL: '/v1/bill',
-  WAITER: '/v1/waiter',
-  LOCAL: '/v1/text/local'
+  CAFE: 'cafe',
+  MENU: 'menu/view',
+  CHECK_ORDER: 'order',
+  ORDER: 'order/place',
+  ORDER_UPDATE: 'order/update',
+  BILL: 'bill',
+  WAITER: 'waiter',
+  LOCAL: 'text/local'
 };
 
 export const STORAGE_KEYS = {

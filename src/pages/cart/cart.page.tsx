@@ -109,8 +109,9 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
     if (currentMode === ModeEnum.readonly) {
       return favourites.reduce((sum, item) => {
         const price = item.dish.dishVolumesAndPrice.find((vol) => vol.id === item.volumeId)?.price || 0;
+        const extraPrice = item.extras.reduce((acc, extra) => acc + extra.price, 0)
   
-        return sum + price;
+        return sum + price + extraPrice;
       },0)
     }
 
@@ -118,7 +119,8 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
 
     return cartItems.reduce((sum, item) => {
       const price = item.dish.dishVolumesAndPrice.find((vol) => vol.id === item.volumeId)?.price || 0;
-      const totalItemPrice = price * item.quantity;
+      const extraPrice = item.extras.reduce((acc, extra) => acc + extra.price, 0)
+      const totalItemPrice = (price + extraPrice) * item.quantity;
 
       return sum + totalItemPrice;
     },0)

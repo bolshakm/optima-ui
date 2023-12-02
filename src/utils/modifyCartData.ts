@@ -5,6 +5,7 @@ interface IOrderedDish {
   qty: number;
   volumeId: number;
   comment: string;
+  extrasId: number[];
 }
 
 export interface IModifiedData {
@@ -20,7 +21,18 @@ export const modifyData = (
   comments: { [key:string]: string }
 ) => (
   items.reduce((acc, item) => {
-    acc.orderedDishesForms = [...acc.orderedDishesForms, { dishId: item.dish.id, qty: item.quantity, volumeId: item.volumeId, comment: comments[`${item.dish.id}-${item.volumeId}`] }]
+    const extrasId = item.extras.map((extra) => extra.id);
+
+    acc.orderedDishesForms = [
+      ...acc.orderedDishesForms, 
+      { 
+        dishId: item.dish.id, 
+        qty: item.quantity, 
+        volumeId: item.volumeId, 
+        comment: comments[`${item.dish.id}-${item.volumeId}`] ,
+        extrasId,
+      }
+    ]
     return acc;
   }, {
     tableNumber,

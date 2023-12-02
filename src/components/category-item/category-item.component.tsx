@@ -64,7 +64,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({
       >
         <Grid container sx={{ flexDirection: 'column' }}>
           <h6 className={styles.buttonText}>
-            {category.multilingualNameMap ? category.multilingualNameMap[laguage] : category.name}
+            {category.multilingualNameMap?.[laguage] || category.name}
           </h6>
           <Typography sx={{ color: COLORS.GRAY }}>{category.description}</Typography>
         </Grid>
