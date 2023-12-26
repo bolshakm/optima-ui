@@ -7,15 +7,23 @@ import { useState } from 'react';
 
 import styles from './styles.module.css'
 import { selectTexts } from '../../store/slices/texts.slice';
+import { CombinationComponent } from '../combination';
 
 export const MenuContentComponent = () => {
   const { menu, status } = useAppSelector(selectMenu);
   const [expandedCategoryId, setExpandedCategoryId] = useState<number | null>(null);
+  const [isExpandedCombination, setIsExpandedCombination] = useState(false);
   const { texts } = useAppSelector(selectTexts);
 
   const toggleCategoryId = (categoryId: number) => {
     setExpandedCategoryId(expandedCategoryId === categoryId ? null : categoryId);
+    setIsExpandedCombination(false);
   };
+
+  const handleToggleCombination = () => {
+    setIsExpandedCombination(!isExpandedCombination);
+    setExpandedCategoryId(null);
+  }
 
   if (status === LoadingStatus.failed) {
     return <ErrorComponent title={texts['default.error']} />
@@ -31,6 +39,18 @@ export const MenuContentComponent = () => {
 
   return (
     <div className={styles.list}>
+      {Boolean(menu?.combinations?.length) && (
+        <>{
+          menu?.combinations?.map((combination) => (
+            <CombinationComponent 
+              key={combination.id}
+              combination={combination}
+              isOpen={isExpandedCombination} 
+              toggleOpen={handleToggleCombination} 
+            />
+          ))
+        }</>
+      )}
       {menu?.categories?.map((category, idx) => {
         return (
           <CategoryItemComponent

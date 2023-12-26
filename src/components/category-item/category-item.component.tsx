@@ -73,7 +73,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({
       <div className={`${styles.list} ${isExpanded ? styles.listExpanded : ''} ${isTransform ? styles.transform : ''}`}>
         <div className={styles.dishes}>
           {category.dishes.map((dish) => (
-            <React.Fragment key={dish.id}><DishComponent dish={dish} /></React.Fragment>
+            <DishComponent dish={dish} key={dish.id}/>
           ))}
         </div>
       </div>

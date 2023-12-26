@@ -1,0 +1,48 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0 8px;
+}
+
+.wrapper.wrapperWithoutMargin {
+  margin: 0;
+}
+
+.check {
+  width: 33px;
+  height: 33px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px solid rgba(0, 0, 0, 0.17);
+  background-color: rgba(0, 0, 0, 0.17);
+  outline: none;
+}
+
+.check.checked {
+  border-radius: 5px;
+  border-color: #2FC28D;
+  background-color: #2FC28D;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  color: #000000a3;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.volume svg {
+  width: 18px;
+  height: 18px;
+}
+
+.volume path {
+  fill: #000000a3;
+}

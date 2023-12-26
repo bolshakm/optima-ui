@@ -50,6 +50,18 @@ export const BillItemComponent: React.FC<IProps> = memo(({
           </Grid>
         </Grid>
       </div>
+      {Boolean(item.extras.length) && (
+        <div className={styles.orderedExtras}>
+          <h6 className={styles.name}>Extras</h6>
+          <ul className={styles.list}>
+            {item.extras.map((extra) => (
+              <li key={extra.id} className={styles.listItem}>
+                {extra.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {item.comment && (
         <p className={styles.comment}>
           <span><b>{texts.comment}:</b></span>

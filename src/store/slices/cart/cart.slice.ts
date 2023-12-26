@@ -11,6 +11,20 @@ export interface ICartItem {
   extras: IExtra[];
 }
 
+export interface ISelectedDishes {
+  [key: string]: {
+    dish: IDish; 
+    extrass: IExtra[]
+  }[]
+}
+
+export interface ICombination {
+  id: string;
+  combinationId: number;
+  orderedDishesForms: ISelectedDishes,
+  qty: number;
+}
+
 export interface IFavouriteItem {
   dish: IDish;
   volumeId: number;
@@ -22,6 +36,7 @@ export interface ICartState {
   bill: IBill;
   cartItems: ICartItem[];
   favouritesItems: IFavouriteItem[];
+  combinationsItems: ICombination[];
 }
 
 interface ICheckOrderRequest {
@@ -33,6 +48,7 @@ const initialState: ICartState = {
   bill: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.BILL) || '{}'),
   cartItems: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.CART) || '[]'),
   favouritesItems: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.FAVOURITES) || '[]'),
+  combinationsItems: JSON.parse(sessionStorage.getItem(STORAGE_KEYS.COMBINATIONS) || '[]'),
   checkStatus: LoadingStatus.idle,
 };
 
@@ -155,7 +171,17 @@ export const cartSlice = createSlice({
     removeBill: (state: ICartState) => {
       state.bill = JSON.parse('{}');
       sessionStorage.setItem(STORAGE_KEYS.BILL, JSON.stringify(state.bill))
-    }
+    },
+    addCombination: (state: ICartState, action: PayloadAction<{combination: ISelectedDishes, combinationId: number}>) => {
+      const { combination, combinationId } = action.payload;
+  
+      state.combinationsItems.push({
+        id: `${combinationId}-${Date.now()}`,
+        combinationId,
+        orderedDishesForms: combination,
+        qty: 1,
+      })
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(checkOrder.pending, (state) => {
@@ -177,8 +203,10 @@ export const {
   updateFavourites,
   addRemoveExtra,
   addRemoveExtraToFromFavourites,
+  addCombination,
 } = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
 export const selectFavourites = (state: RootState) => state.cart.favouritesItems;
+export const selectCombinations = (state: RootState) => state.cart.combinationsItems;
 export const selectBill = (state: RootState) => state.cart.bill;
 export default cartSlice.reducer;

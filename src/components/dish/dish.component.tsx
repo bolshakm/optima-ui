@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo, useEffect } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import { IDish } from '../../types'
 import { Grid, Modal } from '@mui/material';
 import { CounterComponent } from '../counter/counter.component';
@@ -59,16 +59,7 @@ export const DishComponent: React.FC<IProps> = memo(({
     }
   }, [mode, cartItems, favourites, choosenVolumeId, dish.id]);
 
-  useEffect(() => { 
-    if (!isDishAddedToCart) {
-      setShowExtras(false);
-    }
-  }, [isDishAddedToCart])
-
-  
   const handleShowExtras = () => {
-    if (!isDishAddedToCart) return;
-
     setShowExtras(!showExtras);
   }
 
@@ -153,6 +144,7 @@ export const DishComponent: React.FC<IProps> = memo(({
                 extra={extra} 
                 dish={dish}
                 volumeId={choosenVolumeId}
+                isDisabled={!isDishAddedToCart}
               />
             ))}
           </div>

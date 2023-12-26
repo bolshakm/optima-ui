@@ -1,3 +1,4 @@
+import { ICombination } from './combination.interface';
 import { ICategory } from './category.interface';
 
 export interface IRestaurant {
@@ -5,5 +6,6 @@ export interface IRestaurant {
   name: string;
   tableNumber: number;
   categories: ICategory[];
+  combinations: ICombination[] | null;
   active: boolean;
 }

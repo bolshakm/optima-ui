@@ -38,6 +38,7 @@
   height: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -297,7 +298,7 @@
 }
 
 .extraCheckbox:has(input:checked) .extraSquare {
-  background-image: url('../../assets/svg/expand_more.svg');
+  background-image: url('../../../assets/svg/expand_more.svg');
   background-color: #FFF;
   background-repeat: no-repeat;
   background-position: center;
@@ -361,4 +362,12 @@
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: 400;
+}
+
+.titleBlock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
 }

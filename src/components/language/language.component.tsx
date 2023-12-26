@@ -34,7 +34,7 @@ export const LanguageComponent = () => {
         <ExpandMoreIcon className={`${styles.icon} ${isExpanded ? styles.reverted : ''}`} />
       </button>
       <ul className={`${styles.list} ${isExpanded ? styles.visible : ''}`}>
-        {cafe?.languageSet.map((language) => (
+        {cafe?.languageSet?.map((language) => (
           <li className={styles.item} key={language}>
             <button 
               className={`${styles.option} ${language === lang ? styles.active : ''}`} 

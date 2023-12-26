@@ -11,6 +11,7 @@ interface IOrderedDish {
 export interface IModifiedData {
   tableNumber: string;
   cafeId: string;
+  combinationsForms: [];
   orderedDishesForms: IOrderedDish[];
 }
 
@@ -37,6 +38,7 @@ export const modifyData = (
   }, {
     tableNumber,
     cafeId,
+    combinationsForms: [],
     'orderedDishesForms': []
   } as unknown as IModifiedData)
 );

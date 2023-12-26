@@ -1,0 +1,129 @@
+.category {
+  display: flex;
+  flex-direction: column;
+}
+
+.combinationInner, .combinationHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.combinationHeader {
+  padding: 13px 49px 21px;
+}
+
+.combinationWarning {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  margin: 12px 0 38px;
+}
+
+.combinationDescription {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.combinationPrice {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.combinationList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button {
+  z-index: 2;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #64616199;
+  background: #ffffff;
+  box-shadow: 0px 0px 0px 0px #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14.5px 21px;
+  min-height: 74px;
+}
+
+.button.stiky {
+  position: sticky;
+  top: 84px;
+}
+
+.buttonText {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+.buttonSubtext {
+  text-align: left;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  transition: all 0.2s;
+}
+
+.iconReverted {
+  transform: rotate(180deg);
+}
+
+.list {
+  position: relative;
+  z-index: 1;
+  display: none;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.listExpanded {
+  display: block;
+  opacity: 1;
+}
+
+.listExpanded.transform {
+  transform: translateY(84px)
+}
+
+.combinationFooter {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  padding: 26px 0 35px;
+}
+
+.combinationBtn {
+  border-radius: 5px;
+  border: 1px solid #D4D4D4;
+  background: #D4D4D4;
+  color: #FFF;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

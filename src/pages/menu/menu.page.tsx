@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { FooterComponent, HeaderComponent } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
-import { getMenu, selectLanguage, selectMenu, setLanguage } from '../../store/slices/menu/menu.slice'
+import { getMenu, selectLanguage, selectMenu } from '../../store/slices/menu/menu.slice'
 import { memo, useEffect, useMemo, useState } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
 import { checkOrder, selectCartItems, selectFavourites } from '../../store/slices/cart/cart.slice';
@@ -28,7 +28,7 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
   const language = useAppSelector(selectLanguage);
   const [isChecked, setIsChecked] = useState(false);
-  
+
   useEffect(() => {
     if (mode) {
       sessionStorage.setItem(STORAGE_KEYS.MODE, mode);

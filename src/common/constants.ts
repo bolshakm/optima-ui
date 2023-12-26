@@ -35,6 +35,7 @@ export const STORAGE_KEYS = {
   TABLE: 'optima-table',
   MODE: 'optima-mode',
   FAVOURITES: 'optima-favourites',
+  COMBINATIONS: 'optima-combinations',
   LANG: 'optima-language',
   LOCAL: 'optima-local'
 };

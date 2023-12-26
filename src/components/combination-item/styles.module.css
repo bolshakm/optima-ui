@@ -1,0 +1,67 @@
+.combination {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.combinationItem {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.combinationName {
+  width: calc(100% + 6px);
+  padding: 12px 54px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  transform: translateX(-6px);
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid rgba(100, 97, 97, 0.60);
+  background: #fff;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.combinationDescription {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0 49px;
+}
+
+.dishes {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.addButton {
+  border-radius: 5px;
+  padding: 10px 22px;
+  border: none;
+  outline: none;
+  background-color: #3EB98C;
+  color: #FFF;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
