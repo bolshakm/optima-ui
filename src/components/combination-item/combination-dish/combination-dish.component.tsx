@@ -139,15 +139,6 @@ export const CombinationDishComponent: React.FC<IProps> = memo(({
             ))}
           </div>
         )}
-      {/* {isCartItem && comments && handleChangeComment && (
-        <input 
-          type="text" 
-          value={comments[`${dish.id}-${choosenVolumeId}`]} 
-          onChange={handleChangeComment} 
-          placeholder={texts['add.comment']}
-          className={styles.input}
-        />
-      )} */}
     </div>
   )
 })

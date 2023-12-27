@@ -38,20 +38,20 @@ export const CounterComponent: React.FC<IProps> = memo(({ dish, volumeId }) => {
 
   return (
     <div className={styles.buttons}>
-        <button 
-          className={styles.button}
-          onClick={handleDecreaseCount}
-          >
-          -
-        </button>
-        <span className={styles.quantity}>{cartItem.quantity}</span>
-        
-        <button
-          className={styles.button}
-          onClick={handleIncreaseCount}
-          >
-            +
-        </button>
+      <button 
+        className={styles.button}
+        onClick={handleDecreaseCount}
+        >
+        -
+      </button>
+      <span className={styles.quantity}>{cartItem.quantity}</span>
+      
+      <button
+        className={styles.button}
+        onClick={handleIncreaseCount}
+        >
+          +
+      </button>
     </div>
   )
 })

@@ -65,3 +65,7 @@
   font-size: 16px;
   font-weight: 700;
 }
+
+.addButton:disabled {
+  background-color: #D4D4D4;
+}

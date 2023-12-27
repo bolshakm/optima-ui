@@ -3,6 +3,7 @@ import { API_KEYS, STORAGE_KEYS } from '../../../common/constants';
 import { IBill, IDish, IExtra, LoadingStatus } from '../../../types';
 import { RootState } from '../../app/store';
 import { instance } from '../../../axios/instanse';
+import { ICombination } from '../../../types/combination.interface';
 
 export interface ICartItem {
   dish: IDish;
@@ -18,11 +19,13 @@ export interface ISelectedDishes {
   }[]
 }
 
-export interface ICombination {
+export interface ICombinationItem {
   id: string;
   combinationId: number;
   orderedDishesForms: ISelectedDishes,
+  combination: ICombination;
   qty: number;
+  totalPrice: number;
 }
 
 export interface IFavouriteItem {
@@ -36,7 +39,7 @@ export interface ICartState {
   bill: IBill;
   cartItems: ICartItem[];
   favouritesItems: IFavouriteItem[];
-  combinationsItems: ICombination[];
+  combinationsItems: ICombinationItem[];
 }
 
 interface ICheckOrderRequest {
@@ -172,15 +175,60 @@ export const cartSlice = createSlice({
       state.bill = JSON.parse('{}');
       sessionStorage.setItem(STORAGE_KEYS.BILL, JSON.stringify(state.bill))
     },
-    addCombination: (state: ICartState, action: PayloadAction<{combination: ISelectedDishes, combinationId: number}>) => {
-      const { combination, combinationId } = action.payload;
+    addCombination: (
+      state: ICartState, 
+      action: PayloadAction<{
+        orderedDishesForms: ISelectedDishes, 
+        combinationId: number, 
+        totalPrice: number,
+        combination: ICombination,
+      }>
+      ) => {
+      const { orderedDishesForms, combinationId, totalPrice, combination } = action.payload;
   
       state.combinationsItems.push({
         id: `${combinationId}-${Date.now()}`,
         combinationId,
-        orderedDishesForms: combination,
+        combination,
+        orderedDishesForms,
         qty: 1,
+        totalPrice,
       })
+    },
+    updateCombination: (
+      state: ICartState, 
+      action: PayloadAction<{id: string, combination: ISelectedDishes, totalPrice: number}>
+      ) => {
+      const { combination, id, totalPrice } = action.payload;
+  
+      state.combinationsItems = state.combinationsItems.map((el) => {
+        if (el.id === id) {
+          el.orderedDishesForms = combination;
+          el.totalPrice = totalPrice;
+        }
+
+        return el;
+      })
+    },
+    increaseCombinationQty: (state: ICartState, action: PayloadAction<{id: string}>) => {
+      const { id } = action.payload;
+  
+      const combination = state.combinationsItems.find((el) => el.id === id);
+
+      if (combination) {
+        combination.qty = combination.qty + 1
+      }
+    },
+    decreaseCombinationQty: (state: ICartState, action: PayloadAction<{id: string}>) => {
+      const { id } = action.payload;
+  
+      const combination = state.combinationsItems.find((el) => el.id === id);
+
+      if (combination && combination.qty >  1) {
+        combination.qty = combination.qty - 1;
+      } else {
+        state.combinationsItems = state.combinationsItems.filter((el) => el.id !== id)
+      }
     },
   },
   extraReducers: (builder) => {
@@ -204,9 +252,15 @@ export const {
   addRemoveExtra,
   addRemoveExtraToFromFavourites,
   addCombination,
+  updateCombination,
+  increaseCombinationQty,
+  decreaseCombinationQty,
 } = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
 export const selectFavourites = (state: RootState) => state.cart.favouritesItems;
 export const selectCombinations = (state: RootState) => state.cart.combinationsItems;
+export const selectCombination = (id: string) => (state: RootState) => (
+  state.cart.combinationsItems.find((el) => el.id === id)
+);
 export const selectBill = (state: RootState) => state.cart.bill;
 export default cartSlice.reducer;

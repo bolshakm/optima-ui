@@ -3,7 +3,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectBill, selectCartItems, selectFavourites } from '../../store/slices/cart/cart.slice';
+import { selectBill, selectCartItems, selectCombinations, selectFavourites } from '../../store/slices/cart/cart.slice';
 import { instance } from '../../axios/instanse';
 import { useState, useMemo } from 'react';
 import { selectCafe } from '../../store/slices/cafe/cafe.slice';
@@ -23,10 +23,16 @@ interface IProps {
   isSimple?: boolean;
 }
 
-export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', text = null, isSimple = false }) => {
+export const HeaderComponent: React.FC<IProps> = ({ 
+  isCut = false, 
+  addres = '', 
+  text = null, 
+  isSimple = false 
+}) => {
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
   const favourites = useAppSelector(selectFavourites);
+  const combinations = useAppSelector(selectCombinations);
   const bill = useAppSelector(selectBill);
   const [isCallToWaiter, setIsCallTowaiter] = useState(false);
   const { cafe, cafeId, tableId } = useAppSelector(selectCafe);
@@ -35,11 +41,11 @@ export const HeaderComponent: React.FC<IProps> = ({ isCut = false, addres = '', 
 
   const isCartEmpty = useMemo(() => {
     if (mode === ModeEnum.readonly) {
-      return favourites.length === 0
+      return favourites.length === 0 && combinations.length === 0
     } else {
-      return cartItems.length === 0
+      return cartItems.length === 0 && combinations.length === 0
     }
-  }, [mode, cartItems.length, favourites.length])
+  }, [mode, cartItems.length, favourites.length, combinations.length])
 
   const handleNavigateToCart = () => {
     navigate(ROUTER_KEYS.CART)

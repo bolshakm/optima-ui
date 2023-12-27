@@ -116,9 +116,9 @@
 
 .combinationBtn {
   border-radius: 5px;
-  border: 1px solid #D4D4D4;
-  background: #D4D4D4;
-  color: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  background: #FFF;
+  color: #000;
   font-family: Inter;
   font-size: 14px;
   font-weight: 500;
@@ -126,4 +126,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
+}
+
+.combinationBtn:disabled {
+  border: 1px solid #D4D4D4;
+  background: #D4D4D4;
+  color: #fff;
 }

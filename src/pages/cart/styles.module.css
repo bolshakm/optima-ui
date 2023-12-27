@@ -37,7 +37,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 9px;
 }
 
 .sumBlock {
@@ -67,4 +67,11 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 24px 24px;
+}
+
+.combinationWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 24px;
 }

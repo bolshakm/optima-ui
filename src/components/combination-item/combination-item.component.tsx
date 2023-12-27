@@ -5,11 +5,7 @@ import { IDish, IExtra } from '../../types';
 import { selectLanguage } from '../../store/slices/menu/menu.slice';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
 import { CombinationDishComponent } from './combination-dish';
-import { addCombination } from '../../store/slices/cart/cart.slice';
-
-interface IProps {
-  combination: ICombination;
-}
+import { addCombination, updateCombination } from '../../store/slices/cart/cart.slice';
 
 export interface ISelectedDishes {
   [key: string]: {
@@ -18,8 +14,17 @@ export interface ISelectedDishes {
   }[]
 }
 
-export const CombinationItemComponent: React.FC<IProps> = memo(({ combination }) => {
-  const [selectedDishes, setSelectedDishes] = useState<ISelectedDishes>({});
+interface IProps {
+  combination: ICombination;
+  dishes?: ISelectedDishes | null;
+  combinationId?: string | null;
+  editFn?: () => void;
+}
+
+export const CombinationItemComponent: React.FC<IProps> = memo(({ 
+  combination, dishes = null, combinationId = null, editFn
+}) => {
+  const [selectedDishes, setSelectedDishes] = useState<ISelectedDishes>(dishes || {});
   const laguage = useAppSelector(selectLanguage) || 'EN';
   const dispatch = useAppDispatch();
 
@@ -43,13 +48,30 @@ export const CombinationItemComponent: React.FC<IProps> = memo(({ combination })
     ), {})
   }, [combination.combinationDishes]);
 
-  const hundleAddToCart = () => {
-    dispatch(addCombination({ combination: selectedDishes, combinationId: combination.id }))
-  }
+  const hundleAddToCart = useCallback(() => {
+    dispatch(addCombination({ 
+      orderedDishesForms: selectedDishes, 
+      combinationId: combination.id, 
+      totalPrice: combinationTotalPrice ,
+      combination,
+    }))
+  }, [dispatch, selectedDishes, combinationTotalPrice, combination])
+
+  const hundleUpdateCartItem = useCallback(() => {
+    if (combinationId) {
+      dispatch(updateCombination({ 
+        id: combinationId, 
+        combination: selectedDishes, 
+        totalPrice: combinationTotalPrice 
+      }))
+    }
+
+      if (editFn) editFn()
+  }, [combinationId, dispatch, selectedDishes, combinationTotalPrice, editFn]);
 
   useEffect(() => {
     if (!Object.keys(selectedDishes).length) {
-      setSelectedDishes(createInitState())
+      setSelectedDishes(createInitState());
     }
   }, [combination, selectedDishes, createInitState]);
 
@@ -104,7 +126,9 @@ export const CombinationItemComponent: React.FC<IProps> = memo(({ combination })
     Object.values(selectedDishes).some((value) => !(value.length))
   ), [selectedDishes])
 
-  console.log(isDisabledButton);
+  const currentHundler = useMemo(() => (
+    combinationId ? hundleUpdateCartItem : hundleAddToCart
+  ), [combinationId, hundleUpdateCartItem, hundleAddToCart])
   
   return (
     <div className={styles.combination}>
@@ -136,11 +160,11 @@ export const CombinationItemComponent: React.FC<IProps> = memo(({ combination })
           {`Sum: ${combinationTotalPrice}€`}
         </span>
         <button 
-          onClick={hundleAddToCart}
+          onClick={currentHundler}
           className={styles.addButton}
           disabled={isDisabledButton}
         >
-          Add to cart
+          {dishes ? 'Edit' : 'Add to cart'}
         </button>
       </div>
     </div>

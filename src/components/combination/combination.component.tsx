@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo, memo } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectLanguage, selectMenu } from '../../store/slices/menu/menu.slice';
 import styles from './styles.module.css';
 import { Grid } from '@mui/material';
 import { ICombination } from '../../types/combination.interface';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { CombinationItemComponent } from '../combination-item/combination-item.component';
+import { CombinationItemComponent } from '../combination-item';
+import { selectCombinations, ICombinationItem as ICombinationFromSlice } from '../../store/slices/cart/cart.slice';
+import { CartItemComponent } from '../combination-item/cart-item/cart-item.component';
 
 interface IProps {
   isOpen: boolean;
@@ -13,16 +15,26 @@ interface IProps {
   toggleOpen: () => void;
 }
 
-export const CombinationComponent: React.FC<IProps> = ({
+export const CombinationComponent: React.FC<IProps> = memo(({
   isOpen = false,
   combination,
   toggleOpen,
 }) => {
+  const combinations = useAppSelector(selectCombinations);
   const { menu } = useAppSelector(selectMenu);
   const laguage = useAppSelector(selectLanguage) || 'EN';
   const itemContainerRef = useRef<HTMLDivElement>(null);
   const [isTransform, setIsTransform] = useState(false);
   const [count, setCount] = useState(1);
+  const [combinationToUpdate, setCombinationToUpdate] = useState<ICombinationFromSlice | null>(null);
+
+  const relatedCombinations = useMemo(() => (
+    combinations.filter((el) => el.combinationId === combination.id)
+  ), [combinations, combination]);
+
+  useEffect(() => {
+    setCount(relatedCombinations.length || 1)
+  }, [relatedCombinations])
 
   const handleIncreaseCount = () => {
     setCount((curr) => curr + 1)
@@ -96,20 +108,50 @@ export const CombinationComponent: React.FC<IProps> = ({
             </div>
           </div>
           <div className={styles.combinationList}>
-            {[...Array(count)].map((_, idx) => (
+            {Boolean(relatedCombinations.length) && (
+              <>
+                {relatedCombinations.filter((el) => el.id !== combinationToUpdate?.id)
+                  .map((el) => (
+                    <CartItemComponent 
+                      combination={combination}
+                      dishes={el.orderedDishesForms}
+                      combinationId={el.id}
+                      key={el.id}
+                      price={el.totalPrice}
+                      withComment={false}
+                      editFn={() => setCombinationToUpdate(el)}
+                    />
+                ))}
+              </>
+            )}
+            {combinationToUpdate && (
               <CombinationItemComponent 
                 combination={combination} 
-                key={`${Math.random()}-${idx}`} 
+                dishes={combinationToUpdate.orderedDishesForms}
+                combinationId={combinationToUpdate.id}
+                editFn={() => setCombinationToUpdate(null)}
               />
-            ))}
+            )}
+            {relatedCombinations.length < count 
+              && (
+                <CombinationItemComponent 
+                  combination={combination} 
+                  key={`${Math.random()}-${Date.now()}`}
+                />
+              )
+            }
           </div>
         </div>
         <div className={styles.combinationFooter}>
-          <button className={styles.combinationBtn} onClick={handleIncreaseCount}>
+          <button
+            className={styles.combinationBtn}
+            onClick={handleIncreaseCount}
+            disabled={!Boolean(relatedCombinations.length) || count > relatedCombinations.length}
+          >
             Add more menu del dia
           </button>
         </div>
       </div>
     </div>
   )
-}
+})

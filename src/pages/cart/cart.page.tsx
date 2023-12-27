@@ -1,6 +1,6 @@
 import { Grid, Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
-import { checkOrder, clearCart, selectBill, selectCartItems, selectFavourites, updateBill } from '../../store/slices/cart/cart.slice';
+import { ICombinationItem, checkOrder, clearCart, selectBill, selectCartItems, selectCombinations, selectFavourites, updateBill } from '../../store/slices/cart/cart.slice';
 import { useNavigate } from 'react-router-dom';
 import { API_KEYS, ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { BillComponent, DishComponent, FooterComponent, HeaderComponent } from '../../components';
@@ -12,9 +12,15 @@ import { getCafe, selectCafe } from '../../store/slices/cafe/cafe.slice';
 import styles from './styles.module.css';
 import { ModeEnum } from '../../types/mode.enum';
 import { selectTexts } from '../../store/slices/texts.slice';
+import { CartItemComponent } from '../../components/combination-item/cart-item';
+import { CombinationItemComponent } from '../../components/combination-item';
 
 interface IProps {
   mode?: ModeEnum;
+}
+
+interface IComment {
+  [key: string]: string;
 }
 
 export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
@@ -28,6 +34,9 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
   const [isOrdered, setIsOrdered] = useState(false);
   const { texts } = useAppSelector(selectTexts);
   const [comments, setComments] = useState({});
+  const [combinationComments, setCombinationComments] = useState<IComment>({});
+  const combinations = useAppSelector(selectCombinations);
+  const [combinationToUpdate, setCombinationToUpdate] = useState<ICombinationItem | null>(null);
 
   useEffect(() => {
     cartItems.forEach((item) => {
@@ -37,6 +46,22 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
       }))
     })
   }, [cartItems]);
+
+  const hundleChangeCombinationMessage = (id: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCombinationComments((curr) => ({
+      ...curr,
+      [id]: e.target.value
+    }))
+  } 
+
+  useEffect(() => {
+    combinations.forEach((item) => {
+      setComments((curr) => ({
+        ...curr,
+        [item.id]: '',
+      }))
+    })
+  }, [combinations]);
   
   useEffect(() => {
     if (mode) {
@@ -169,6 +194,35 @@ export const CartPage: React.FC<IProps> = memo(({ mode = null }) => {
               </div>
             </Box>
           )}
+          <div className={styles.combinationWrapper}>
+            {Boolean(combinations.length) && (
+              <>
+                {combinations.filter((el) => el.id !== combinationToUpdate?.id)
+                  .map((el) => (
+                    <CartItemComponent
+                      combination={el.combination}
+                      dishes={el.orderedDishesForms}
+                      combinationId={el.id}
+                      key={el.id}
+                      price={el.totalPrice}
+                      withComment={true}
+                      value={combinationComments[el.id]}
+                      onChange={() => hundleChangeCombinationMessage(el.id)}
+                      editFn={() => setCombinationToUpdate(el)}
+                    />
+                ))}
+              </>
+            )}
+            {combinationToUpdate && (
+              <CombinationItemComponent
+                combination={combinationToUpdate.combination} 
+                dishes={combinationToUpdate.orderedDishesForms}
+                combinationId={combinationToUpdate.id}
+                editFn={() => setCombinationToUpdate(null)}
+              />
+            )}
+          </div>
+          
           {Boolean(totalSum) && (
             <div className={styles.sumBlock}>
               <span className={styles.sum}>{`${texts['total.sum']} ${totalSum.toFixed(2)}€`}</span>
