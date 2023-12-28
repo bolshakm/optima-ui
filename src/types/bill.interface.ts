@@ -20,7 +20,19 @@ export interface IBillItem {
   volumeDataList: IDishVolumesAndPrice[];
 }
 
+interface IOrderedCombinationDishData {
+  multilingualNameMap: ILanguagesMap;
+}
+
+export interface IBillCombination {
+  name: string;
+  orderedCombinationDishData: IOrderedCombinationDishData[];
+  qty: number;
+  price: number;
+}
+
 export interface IBill {
+  orderedCombinationData: IBillCombination[];
   orderedDish: IBillItem[];
   totalSum: number;
 }

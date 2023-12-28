@@ -5,6 +5,7 @@ import { BillItemComponent } from '../dish/bill-item.component';
 import styles from './styles.module.css';
 import { selectTexts } from '../../store/slices/texts.slice';
 import { useAppSelector } from '../../store/app/hooks';
+import { CombinationBillItemComponent } from '../combination-item/cart-item';
 
 interface IProps {
   bill: IBill;
@@ -22,6 +23,11 @@ export const BillComponent: React.FC<IProps> = memo(({ bill }) => {
           {bill.orderedDish.map((item) => (
             <React.Fragment key={item.id + item.selectedVolumeId}>
               <BillItemComponent item={item} />
+            </React.Fragment>
+          ))}
+          {bill.orderedCombinationData.map((item) => (
+            <React.Fragment key={`${Math.random()}-${item.name}`}>
+              <CombinationBillItemComponent billItem={item} />
             </React.Fragment>
           ))}
         </div>

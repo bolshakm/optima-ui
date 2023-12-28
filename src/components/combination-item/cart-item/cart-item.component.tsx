@@ -6,16 +6,23 @@ import { ISelectedDishes } from '../combination-item.component';
 import styles from './styles.module.css'
 import { CounterComponent } from './counter.component';
 import { selectTexts } from '../../../store/slices/texts.slice';
+import { STORAGE_KEYS } from '../../../common/constants';
+import { ModeEnum } from '../../../types/mode.enum';
+
+interface IComment {
+  [key: string]: string;
+}
 
 interface IProps {
   withComment?: boolean;
   combination: ICombination;
   dishes: ISelectedDishes;
   combinationId: string;
+  qty: number;
   price: number;
   editFn: () => void;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setComments?: React.Dispatch<React.SetStateAction<IComment>>;
 }
 
 export const CartItemComponent: React.FC<IProps> = memo(({ 
@@ -23,13 +30,15 @@ export const CartItemComponent: React.FC<IProps> = memo(({
   combination, 
   dishes, 
   combinationId, 
-  editFn, 
+  editFn,
+  qty = 1,
   price, 
   value, 
-  onChange,
+  setComments,
 }) => {
   const laguage = useAppSelector(selectLanguage) || 'EN';
   const { texts } = useAppSelector(selectTexts);
+  const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
 
   const dishesNames = useMemo(() => {
     const names: string[] = Object.values(dishes).reduce((acc: string[], dishList) => {
@@ -40,8 +49,17 @@ export const CartItemComponent: React.FC<IProps> = memo(({
     return names;
   }, [dishes, laguage]);
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!setComments) return;
+
+    setComments((curr) => ({
+      ...curr,
+      [combinationId]: e.target.value
+    }))
+  }
+
   return (
-    <div className={styles.cartItem}>
+    <div className={styles.cartItem} id={combinationId}>
       <h6 className={styles.name}>
         {combination.multilingualNameMap?.[laguage] || combination.name}
       </h6>
@@ -49,14 +67,19 @@ export const CartItemComponent: React.FC<IProps> = memo(({
         <div className={styles.row}>
           <ul className={styles.list}>
             {dishesNames.map((name) => (
-              <li className={styles.listItem}>{name}</li>
+              <li 
+                className={styles.listItem} 
+                key={`${Math.random()}-${name}`}
+              >
+                {name}
+              </li>
             ))}
           </ul>
           <CounterComponent combinationId={combinationId} />
         </div>
         <div className={styles.row}>
           <p className={styles.price}>
-            {price}€
+            {Math.trunc(10 * (price * qty)) / 10}€
           </p>
           <button 
             className={styles.editButton} 
@@ -66,7 +89,7 @@ export const CartItemComponent: React.FC<IProps> = memo(({
           </button>
         </div>
       </div>
-      {withComment && value && onChange && (
+      {withComment && onChange && modeFromStorage !== ModeEnum.readonly && (
         <input 
           type="text" 
           value={value} 

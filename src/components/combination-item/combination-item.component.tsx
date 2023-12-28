@@ -49,12 +49,20 @@ export const CombinationItemComponent: React.FC<IProps> = memo(({
   }, [combination.combinationDishes]);
 
   const hundleAddToCart = useCallback(() => {
+    const id = `${combination.id}-${Date.now()}`;
+    
     dispatch(addCombination({ 
       orderedDishesForms: selectedDishes, 
       combinationId: combination.id, 
       totalPrice: combinationTotalPrice ,
       combination,
+      id,
     }))
+
+    setTimeout(() => {
+      const list = document.getElementById(id);
+      list?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 100)   
   }, [dispatch, selectedDishes, combinationTotalPrice, combination])
 
   const hundleUpdateCartItem = useCallback(() => {

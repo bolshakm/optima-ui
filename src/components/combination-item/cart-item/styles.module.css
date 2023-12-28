@@ -1,7 +1,7 @@
 .cartItem {
   display: flex;
   flex-direction: column;
-  padding: 14px 15px 35px;
+  padding: 15px;
   border-radius: 5px;
   border: 1px solid rgba(183, 180, 180, 0.29);
   background-color: #E5EFEC;
@@ -28,6 +28,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+.row:last-child {
+  margin-bottom: 35px;
 }
 
 .list {
@@ -142,4 +146,21 @@
 
 .input::placeholder {
   color: rgba(0, 0, 0, 0.58);
+}
+
+.favourite {
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.favourite svg {
+  width: 48px;
+  height: 48px;
+}
+
+.favourite path {
+  fill: #d63d3d;
 }

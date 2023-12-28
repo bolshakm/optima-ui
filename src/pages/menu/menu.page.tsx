@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../store/app/hooks'
 import { getMenu, selectLanguage, selectMenu } from '../../store/slices/menu/menu.slice'
 import { memo, useEffect, useMemo, useState } from 'react';
 import { MenuContentComponent } from '../../components/menu-content/menu-content.component';
-import { checkOrder, selectCartItems, selectFavourites } from '../../store/slices/cart/cart.slice';
+import { checkOrder, selectCartItems, selectCombinations, selectFavourites } from '../../store/slices/cart/cart.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTER_KEYS, STORAGE_KEYS } from '../../common/constants';
 import { getCafe, selectCafe, setCafeId, setTableId } from '../../store/slices/cafe/cafe.slice';
@@ -23,6 +23,7 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
   const { texts } = useAppSelector(selectTexts);
   const cartItems = useAppSelector(selectCartItems);
   const favourites = useAppSelector(selectFavourites);
+  const combinations = useAppSelector(selectCombinations);
   const navigate = useNavigate();
   const { cafeId = "1", tableId = "1" } = useParams();
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
@@ -79,11 +80,11 @@ export const MenuPage: React.FC<IProps> = memo(({ mode = null }) => {
 
   const isVisibleButton = useMemo(() => {
     if (mode === ModeEnum.readonly) {
-      return favourites.length > 0
+      return favourites.length > 0 || combinations.length > 0
     } else {
-      return cartItems.length > 0
+      return cartItems.length > 0 || combinations.length > 0
     }
-  }, [mode, favourites.length, cartItems.length])
+  }, [mode, favourites.length, cartItems.length, combinations.length])
 
   return (
     <div className={styles.menu}>

@@ -24,9 +24,11 @@ export const CombinationComponent: React.FC<IProps> = memo(({
   const { menu } = useAppSelector(selectMenu);
   const laguage = useAppSelector(selectLanguage) || 'EN';
   const itemContainerRef = useRef<HTMLDivElement>(null);
-  const [isTransform, setIsTransform] = useState(false);
+  const itemBoxRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(1);
   const [combinationToUpdate, setCombinationToUpdate] = useState<ICombinationFromSlice | null>(null);
+
+  let isTransform = false;
 
   const relatedCombinations = useMemo(() => (
     combinations.filter((el) => el.combinationId === combination.id)
@@ -49,8 +51,8 @@ export const CombinationComponent: React.FC<IProps> = memo(({
     }, 200);
 
     const handleScroll = () => {
-      if (isTransform && timeout) {
-        setIsTransform(false);
+      if (itemBoxRef.current?.classList.contains('transform') && timeout) {
+        itemBoxRef.current?.classList.remove('transform')
       }
     };
   
@@ -68,7 +70,7 @@ export const CombinationComponent: React.FC<IProps> = memo(({
       itemContainerRef.current.scrollIntoView({ behavior: 'auto', block: 'start' })
     }
 
-    setIsTransform(true);
+    itemBoxRef.current?.classList.add('transform')
   }, [isOpen])
 
   if (!menu) {
@@ -91,7 +93,7 @@ export const CombinationComponent: React.FC<IProps> = memo(({
         </Grid>
         <span className={`${styles.icon} ${isOpen ? styles.iconReverted : ''}`}><ExpandMoreIcon /></span>
       </button>
-      <div className={`${styles.list} ${isOpen ? styles.listExpanded : ''} ${isTransform ? styles.transform : ''}`}>
+      <div ref={itemBoxRef} className={`${styles.list} ${isOpen ? styles.listExpanded : ''}`}>
         <div className={styles.combinationInner}>
           <div className={styles.combinationHeader}>
             <div className={styles.combinationWarning}>
@@ -107,7 +109,7 @@ export const CombinationComponent: React.FC<IProps> = memo(({
               {combination.multilingualDescriptionMap?.[laguage] || combination.description}
             </div>
           </div>
-          <div className={styles.combinationList}>
+          <div className={styles.combinationList} id='combinationList'>
             {Boolean(relatedCombinations.length) && (
               <>
                 {relatedCombinations.filter((el) => el.id !== combinationToUpdate?.id)
@@ -117,6 +119,7 @@ export const CombinationComponent: React.FC<IProps> = memo(({
                       dishes={el.orderedDishesForms}
                       combinationId={el.id}
                       key={el.id}
+                      qty={el.qty}
                       price={el.totalPrice}
                       withComment={false}
                       editFn={() => setCombinationToUpdate(el)}

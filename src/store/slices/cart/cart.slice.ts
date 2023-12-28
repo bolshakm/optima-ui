@@ -163,6 +163,7 @@ export const cartSlice = createSlice({
     },
     clearCart: (state: ICartState) => {
       state.cartItems = [];
+      state.combinationsItems = [];
 
       sessionStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.cartItems));
     },
@@ -182,12 +183,13 @@ export const cartSlice = createSlice({
         combinationId: number, 
         totalPrice: number,
         combination: ICombination,
+        id: string,
       }>
       ) => {
-      const { orderedDishesForms, combinationId, totalPrice, combination } = action.payload;
+      const { orderedDishesForms, combinationId, totalPrice, combination, id } = action.payload;
   
       state.combinationsItems.push({
-        id: `${combinationId}-${Date.now()}`,
+        id,
         combinationId,
         combination,
         orderedDishesForms,
