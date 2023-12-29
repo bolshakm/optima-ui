@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ui/optima-ui/static/css/main.68251def.css",
-    "main.js": "/ui/optima-ui/static/js/main.374c0720.js",
+    "main.js": "/ui/optima-ui/static/js/main.e8f2f6f8.js",
     "static/media/tripadvisor.svg": "/ui/optima-ui/static/media/tripadvisor.08f177af66c46ffd179dd9e0d980fcd8.svg",
     "static/media/favorite.svg": "/ui/optima-ui/static/media/favorite.b6a8cab7b233fa9da6269ff17631fb39.svg",
     "index.html": "/ui/optima-ui/index.html",
@@ -13,10 +13,10 @@
     "static/media/credit_card.svg": "/ui/optima-ui/static/media/credit_card.68113bfd0b0dd648c19404891f6d9bf0.svg",
     "static/media/expand_more.svg": "/ui/optima-ui/static/media/expand_more.159e280ec27781bd0f984362c4da7721.svg",
     "main.68251def.css.map": "/ui/optima-ui/static/css/main.68251def.css.map",
-    "main.374c0720.js.map": "/ui/optima-ui/static/js/main.374c0720.js.map"
+    "main.e8f2f6f8.js.map": "/ui/optima-ui/static/js/main.e8f2f6f8.js.map"
   },
   "entrypoints": [
     "static/css/main.68251def.css",
-    "static/js/main.374c0720.js"
+    "static/js/main.e8f2f6f8.js"
   ]
 }
