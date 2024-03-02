@@ -55,7 +55,7 @@ export const CategoryItemComponent: React.FC<IProps> = memo(({
 
     setIsTransform(true);
   }, [isExpanded])
-
+  
   return (
     <div className={styles.category} ref={itemContainerRef}>
       <button

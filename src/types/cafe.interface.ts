@@ -9,12 +9,14 @@ export interface IWorkingHours {
 }
 
 export type Language = 'EN' | 'ES' | 'CA' | 'FR' | 'UA' | 'IT' | 'DE';
+export type LanguageLow = 'en' | 'es' | 'ca' | 'fr' | 'ua' | 'it' | 'de';
 
 export interface ICafe {
     name: string;
     languageSet: Language[]
     defLang: string;
     banner: string;
+    bannerUrl: string;
     address: string;
     workingHours: IWorkingHours;
     facebook: string;

@@ -1,5 +1,5 @@
 import { IDish } from './dish.interface'
-import { ILanguagesMap } from './languages.interface';
+import { ILanguagesLow, ILanguagesMap } from './languages.interface';
 
 export interface ICombinationDish {
   active: boolean;
@@ -16,10 +16,11 @@ export interface ICombination {
   id: number;
   name: string;
   description: string;
-  multilingualNameMap: ILanguagesMap | null;
-  multilingualDescriptionMap: ILanguagesMap | null;
+  multilingualName: ILanguagesLow | null;
+  multilingualDescription: ILanguagesLow | null;
   availableTime: string | null;
   price: number;
   combinationDishes: ICombinationDish[]
   active: boolean;
+  enabled: boolean;
 }

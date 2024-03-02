@@ -14,6 +14,7 @@ export interface IBillItem {
   enabled: boolean;
   quantity: number;
   image: string;
+  imageUrl: string;
   selectedVolumeId: number;
   allergens: Allergens[];
   infoDishIcons: DishInfo[];

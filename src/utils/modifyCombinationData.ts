@@ -51,8 +51,6 @@ export const modifyCombinationData = (
       [] as unknown as IOrderedItem[]
     );
 
-    console.log(item, comments, comments[item.id]);
-    
     const combinationItem = {
       combinationId: item.combinationId,
       qty: item.qty,

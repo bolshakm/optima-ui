@@ -8,6 +8,7 @@ import { CounterComponent } from './counter.component';
 import { selectTexts } from '../../../store/slices/texts.slice';
 import { STORAGE_KEYS } from '../../../common/constants';
 import { ModeEnum } from '../../../types/mode.enum';
+import { LanguageLow } from '../../../types';
 
 interface IComment {
   [key: string]: string;
@@ -36,18 +37,18 @@ export const CartItemComponent: React.FC<IProps> = memo(({
   value, 
   setComments,
 }) => {
-  const laguage = useAppSelector(selectLanguage) || 'EN';
+  const lang = useAppSelector(selectLanguage)?.toLowerCase() as LanguageLow || 'en';
   const { texts } = useAppSelector(selectTexts);
   const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
 
   const dishesNames = useMemo(() => {
     const names: string[] = Object.values(dishes).reduce((acc: string[], dishList) => {
-      const dishNames = dishList.map((el) => el.dish.multilingualNameMap?.[laguage] || el.dish.name);
+      const dishNames = dishList.map((el) => el.dish.multilingualName?.[lang] || el.dish.name);
       return [...acc, ...dishNames];
     }, []);
   
     return names;
-  }, [dishes, laguage]);
+  }, [dishes, lang]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!setComments) return;
@@ -58,10 +59,12 @@ export const CartItemComponent: React.FC<IProps> = memo(({
     }))
   }
 
+  console.log(combination);
+
   return (
     <div className={styles.cartItem} id={combinationId}>
       <h6 className={styles.name}>
-        {combination.multilingualNameMap?.[laguage] || combination.name}
+        {combination.multilingualName?.[lang] || combination.name}
       </h6>
       <div className={styles.rows}>
         <div className={styles.row}>

@@ -1,6 +1,6 @@
 import { Allergens, DishInfo } from './allergens.enum';
 import { Language } from './cafe.interface';
-import { ILanguagesMap } from './languages.interface';
+import { ILanguagesLow, ILanguagesMap } from './languages.interface';
 
 export interface IDishVolumesAndPrice {
   id: number; 
@@ -23,8 +23,9 @@ export interface IDish {
   description: string;
   dishVolumesAndPrice: IDishVolumesAndPrice[];
   image?: string;
-  multilingualDescriptionMap: ILanguagesMap | null;
-  multilingualNameMap: ILanguagesMap | null;
+  imageUrl?: string;
+  multilingualDescription: ILanguagesLow | null;
+  multilingualName: ILanguagesLow | null;
   allergens: Allergens[];
   infoDishIcons: DishInfo[];
   extras: IExtra[];

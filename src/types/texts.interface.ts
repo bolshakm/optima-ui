@@ -1,5 +1,7 @@
 export interface ITexts {
   add: string;
+  'add.your.extra': string;
+  'add.more.combination': string;
   'total.sum': string;
   'call.waiter': string;
   'working.hours': string;

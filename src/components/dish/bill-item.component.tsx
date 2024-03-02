@@ -43,7 +43,7 @@ export const BillItemComponent: React.FC<IProps> = memo(({
           <Grid container justifyContent='flex-end' alignItems='flex-end' flexDirection='column'>
             {item?.image && (
               <div className={styles.box}>
-                <img src={`data:image/png;base64,${item.image}`} alt="dish" />
+                <img src={item.imageUrl} alt="dish" />
               </div>
             )}
             <h6 className={styles.count}>x{item.quantity}</h6>

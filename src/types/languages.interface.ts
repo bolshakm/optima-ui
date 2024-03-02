@@ -1,4 +1,4 @@
-import { Language } from './cafe.interface';
+import { Language, LanguageLow } from './cafe.interface';
 
 export interface ILanguages {
   en: string;
@@ -7,4 +7,8 @@ export interface ILanguages {
 
 export type ILanguagesMap = {
   [key in Language]?: string;
+};
+
+export type ILanguagesLow = {
+  [key in LanguageLow]?: string;
 };

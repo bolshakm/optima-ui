@@ -21,7 +21,7 @@ function App() {
     <HashRouter>
       <div className="app">
         <span className="hero">
-          <img src={`data:image/png;base64,${cafe?.banner}`} alt="hero"/>
+          <img src={cafe?.bannerUrl} alt="hero"/>
         </span>
         <div className="content">
           <ThemeProvider theme={theme}>
