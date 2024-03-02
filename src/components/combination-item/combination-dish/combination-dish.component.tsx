@@ -88,10 +88,10 @@ export const CombinationDishComponent: React.FC<IProps> = memo(
           <div className={styles.side}>
             <div
               className={`${styles.right} ${
-                dish?.image ? styles.rightLarge : ''
+                dish?.imageUrl ? styles.rightLarge : ''
               }`}
             >
-              {dish?.image && (
+              {dish?.imageUrl && (
                 <div
                   className={`${styles.box} imageBox`}
                   onClick={toggleIsOpenModal}

@@ -16,8 +16,8 @@ export interface ICombination {
   id: number;
   name: string;
   description: string;
-  multilingualName: ILanguagesLow | null;
-  multilingualDescription: ILanguagesLow | null;
+  multilingualNameMap: ILanguagesMap | null;
+  multilingualDescriptionMap: ILanguagesMap | null;
   availableTime: string | null;
   price: number;
   combinationDishes: ICombinationDish[]

@@ -3,7 +3,7 @@ import { useAppSelector } from '../../../store/app/hooks';
 import { selectLanguage } from '../../../store/slices/menu/menu.slice';
 import { ICombination } from '../../../types/combination.interface';
 import { ISelectedDishes } from '../combination-item.component';
-import styles from './styles.module.css'
+import styles from './styles.module.css';
 import { CounterComponent } from './counter.component';
 import { selectTexts } from '../../../store/slices/texts.slice';
 import { STORAGE_KEYS } from '../../../common/constants';
@@ -26,81 +26,84 @@ interface IProps {
   setComments?: React.Dispatch<React.SetStateAction<IComment>>;
 }
 
-export const CartItemComponent: React.FC<IProps> = memo(({ 
-  withComment, 
-  combination, 
-  dishes, 
-  combinationId, 
-  editFn,
-  qty = 1,
-  price, 
-  value, 
-  setComments,
-}) => {
-  const lang = useAppSelector(selectLanguage)?.toLowerCase() as LanguageLow || 'en';
-  const { texts } = useAppSelector(selectTexts);
-  const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
+export const CartItemComponent: React.FC<IProps> = memo(
+  ({
+    withComment,
+    combination,
+    dishes,
+    combinationId,
+    editFn,
+    qty = 1,
+    price,
+    value,
+    setComments,
+  }) => {
+    const lang = useAppSelector(selectLanguage) || 'EN';
+    const { texts } = useAppSelector(selectTexts);
+    const modeFromStorage = sessionStorage.getItem(STORAGE_KEYS.MODE);
+    const langLow = useMemo(() => lang.toLowerCase() as LanguageLow, [lang]);
 
-  const dishesNames = useMemo(() => {
-    const names: string[] = Object.values(dishes).reduce((acc: string[], dishList) => {
-      const dishNames = dishList.map((el) => el.dish.multilingualName?.[lang] || el.dish.name);
-      return [...acc, ...dishNames];
-    }, []);
-  
-    return names;
-  }, [dishes, lang]);
+    const dishesNames = useMemo(() => {
+      const names: string[] = Object.values(dishes).reduce(
+        (acc: string[], dishList) => {
+          const dishNames = dishList.map(
+            (el) => el.dish.multilingualName?.[langLow] || el.dish.name
+          );
+          return [...acc, ...dishNames];
+        },
+        []
+      );
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!setComments) return;
+      return names;
+    }, [dishes, langLow]);
 
-    setComments((curr) => ({
-      ...curr,
-      [combinationId]: e.target.value
-    }))
-  }
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!setComments) return;
 
-  console.log(combination);
+      setComments((curr) => ({
+        ...curr,
+        [combinationId]: e.target.value,
+      }));
+    };
 
-  return (
-    <div className={styles.cartItem} id={combinationId}>
-      <h6 className={styles.name}>
-        {combination.multilingualName?.[lang] || combination.name}
-      </h6>
-      <div className={styles.rows}>
-        <div className={styles.row}>
-          <ul className={styles.list}>
-            {dishesNames.map((name) => (
-              <li 
-                className={styles.listItem} 
-                key={`${Math.random()}-${name}`}
-              >
-                {name}
-              </li>
-            ))}
-          </ul>
-          <CounterComponent combinationId={combinationId} />
+    return (
+      <div className={styles.cartItem} id={combinationId}>
+        <h6 className={styles.name}>
+          {combination.multilingualNameMap?.[lang] || combination.name}
+        </h6>
+        <div className={styles.rows}>
+          <div className={styles.row}>
+            <ul className={styles.list}>
+              {dishesNames.map((name) => (
+                <li
+                  className={styles.listItem}
+                  key={`${Math.random()}-${name}`}
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
+            <CounterComponent combinationId={combinationId} />
+          </div>
+          <div className={styles.row}>
+            <p className={styles.price}>
+              {Math.trunc(10 * (price * qty)) / 10}€
+            </p>
+            <button className={styles.editButton} onClick={editFn}>
+              {texts.edit}
+            </button>
+          </div>
         </div>
-        <div className={styles.row}>
-          <p className={styles.price}>
-            {Math.trunc(10 * (price * qty)) / 10}€
-          </p>
-          <button 
-            className={styles.editButton} 
-            onClick={editFn}
-          >
-            Edit
-          </button>
-        </div>
+        {withComment && onChange && modeFromStorage !== ModeEnum.readonly && (
+          <input
+            type='text'
+            value={value}
+            onChange={onChange}
+            placeholder={texts['add.comment']}
+            className={styles.input}
+          />
+        )}
       </div>
-      {withComment && onChange && modeFromStorage !== ModeEnum.readonly && (
-        <input 
-          type="text" 
-          value={value} 
-          onChange={onChange} 
-          placeholder={texts['add.comment']}
-          className={styles.input}
-        />
-      )}
-    </div>
-  )
-})
+    );
+  }
+);

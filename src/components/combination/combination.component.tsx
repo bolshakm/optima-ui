@@ -24,8 +24,7 @@ export const CombinationComponent: React.FC<IProps> = memo(
   ({ isOpen = false, combination, toggleOpen }) => {
     const combinations = useAppSelector(selectCombinations);
     const { menu } = useAppSelector(selectMenu);
-    const laguage =
-      (useAppSelector(selectLanguage)?.toLowerCase() as LanguageLow) || 'en';
+    const laguage = useAppSelector(selectLanguage) || 'EN';
     const itemContainerRef = useRef<HTMLDivElement>(null);
     const itemBoxRef = useRef<HTMLDivElement>(null);
     const [count, setCount] = useState(1);
@@ -94,7 +93,7 @@ export const CombinationComponent: React.FC<IProps> = memo(
         >
           <Grid container sx={{ flexDirection: 'column' }}>
             <h6 className={styles.buttonText}>
-              {combination.multilingualName?.[laguage] || combination.name}
+              {combination.multilingualNameMap?.[laguage] || combination.name}
             </h6>
             <p className={styles.buttonSubtext}>{combination.availableTime}</p>
           </Grid>
@@ -111,9 +110,11 @@ export const CombinationComponent: React.FC<IProps> = memo(
           <div className={styles.combinationInner}>
             {!combination.enabled && (
               <div className={styles.combinationWarning}>
-                Sorry, menu del dia is not available now.
+                {texts['menu.not.available'] ||
+                  'Sorry, menu del dia is not available now.'}
                 <br />
-                Available on {combination.availableTime}
+                {texts['available.on'] || 'Available on'}{' '}
+                {combination.availableTime}
               </div>
             )}
             <div className={styles.combinationHeader}>
@@ -121,7 +122,7 @@ export const CombinationComponent: React.FC<IProps> = memo(
                 {combination.price}€
               </div>
               <div className={styles.combinationDescription}>
-                {combination.multilingualDescription?.[laguage] ||
+                {combination.multilingualDescriptionMap?.[laguage] ||
                   combination.description}
               </div>
             </div>

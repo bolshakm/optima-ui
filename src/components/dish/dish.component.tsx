@@ -46,7 +46,7 @@ export const DishComponent: React.FC<IProps> = memo(
     const cartItems = useAppSelector(selectCartItems);
     const favourites = useAppSelector(selectFavourites);
     const lang =
-      (useAppSelector(selectLanguage)?.toLowerCase() as LanguageLow) || 'en';
+      (useAppSelector(selectLanguage)?.toLowerCase() as LanguageLow) || 'EN';
     const { texts } = useAppSelector(selectTexts);
     const [choosenVolumeId, setChoosenVolumeId] = useState(
       volumeId || dish.dishVolumesAndPrice[0].id
@@ -140,10 +140,10 @@ export const DishComponent: React.FC<IProps> = memo(
           <div className={styles.side}>
             <div
               className={`${styles.right} ${
-                dish?.image ? styles.rightLarge : ''
+                dish?.imageUrl ? styles.rightLarge : ''
               }`}
             >
-              {dish?.image && (
+              {dish?.imageUrl && (
                 <div className={styles.box} onClick={toggleIsOpenModal}>
                   <img src={dish.imageUrl} alt='dish' />
                 </div>

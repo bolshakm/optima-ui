@@ -1,6 +1,9 @@
 export interface ITexts {
   add: string;
+  edit: string;
   'add.your.extra': string;
+  'available.on': string;
+  'menu.not.available': string;
   'add.more.combination': string;
   'total.sum': string;
   'call.waiter': string;
