@@ -24,7 +24,11 @@ export const RequestBillPage = () => {
       = await instance.get(`${API_KEYS.BILL}/${cafeId}/${tableId}/?type=${key}`);
 
     if (res.status === 200) {
-      navigate(ROUTER_KEYS.SUCCESS_BILL);
+      if ("cash" === key){
+        navigate(ROUTER_KEYS.SUCCESS_BILL);
+      }else{
+        window.location.href = res.data.redirectUrl
+      }
     } else {
       setError(true);
     }
