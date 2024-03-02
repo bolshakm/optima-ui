@@ -56,12 +56,7 @@ export const CombinationDishComponent: React.FC<IProps> = memo(
             isAddedToSelected={isAddedToSelected}
           />
         </Modal>
-        <div
-          className={`${styles.content} ${
-            isAddedToSelected ? styles.contentSelected : ''
-          }`}
-          onClick={addRemoveDish}
-        >
+        <div className={styles.content}>
           <Grid container flexDirection='column' className={styles.description}>
             <Grid
               container
@@ -69,7 +64,7 @@ export const CombinationDishComponent: React.FC<IProps> = memo(
               justifyContent='space-between'
               height='100%'
             >
-              <div className={styles.textContent}>
+              <div className={styles.textContent} onClick={addRemoveDish}>
                 <div className={styles.titleBlock}>
                   <h6 className={styles.name}>
                     {dish.multilingualName?.[lang] || dish.name}
@@ -97,7 +92,10 @@ export const CombinationDishComponent: React.FC<IProps> = memo(
               }`}
             >
               {dish?.image && (
-                <div className={styles.box} onClick={toggleIsOpenModal}>
+                <div
+                  className={`${styles.box} imageBox`}
+                  onClick={toggleIsOpenModal}
+                >
                   <img src={dish.imageUrl} alt='dish' />
                 </div>
               )}
